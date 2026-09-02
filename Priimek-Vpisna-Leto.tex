@@ -1,0 +1,4753 @@
+\documentclass[mat2, tisk]{fmfdelo}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{dsfont}
+% chktex-file 3
+% chktex-file 9
+% \documentclass[fin2, tisk]{fmfdelo}
+% \documentclass[isrm2, tisk]{fmfdelo}
+% \documentclass[ped, tisk]{fmfdelo}
+% Če pobrišete možnost tisk, bodo povezave obarvane,
+% na začetku pa ne bo praznih strani po naslovu, …
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% METAPODATKI
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% - vaše ime
+\avtor{Tadeja Možina}
+
+% - naslov dela v slovenščini
+\naslov{Lastni problem nelinearnih preslikav na stožcih}
+
+% - naslov dela v angleščini
+\title{The eigenproblem of nonlinear mappings on cones}
+
+% - ime mentorja/mentorice s polnim nazivom:
+%   - doc.~dr.~Ime Priimek
+%   - izr.~prof.~dr.~Ime Priimek
+%   - prof.~dr.~Ime Priimek
+%   za druge variante uporabite ustrezne ukaze
+\mentor{~izr.~prof.~dr.~Aljoša Peperko}
+% \somentor{...}
+% \mentorica{...}
+% \somentorica{...}
+% \mentorja{...}{...}
+% \somentorja{...}{...}
+% \mentorici{...}{...}
+% \somentorici{...}{...}
+
+% - leto magisterija
+\letnica{2026}
+
+% - povzetek v slovenščini
+%   V povzetku na kratko opišite vsebinske rezultate dela. Sem ne sodi razlaga
+%   organizacije dela, torej v katerem razdelku je kaj, pač pa le opis vsebine.
+\povzetek{Tukaj napišemo povzetek vsebine. Sem sodi razlaga vsebine in ne opis tega, kako je delo organizirano.}
+
+% - povzetek v angleščini
+\abstract{An abstract of the work is written here. This includes a short description of
+the content and not the structure of your work.}
+
+% - klasifikacijske oznake, ločene z vejicami
+%   Oznake, ki opisujejo področje dela, so dostopne na strani https://www.ams.org/msc/
+\klasifikacija{15B48, 47L07}
+
+% - ključne besede, ki nastopajo v delu, ločene s \sep
+\kljucnebesede{stožci, lastni problem}
+
+% - angleški prevod ključnih besed
+\keywords{cones, eigenproblem}
+
+% - neobvezna zahvala
+\zahvala{
+  Neobvezno.
+  Zahvaljujem se \dots
+}
+
+% - ime datoteke z viri (vključno s končnico .bib), če uporabljate BibTeX
+\literatura{literatura.bib}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DODATNE DEFINICIJE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% naložite dodatne pakete, ki jih potrebujete
+\usepackage{units}        % fizikalne enote kot \unit[12]{kg} s polovico nedeljivega presledka, glej primer v kodi
+\usepackage{graphicx}     % za slike
+% \usepackage{tikz}
+% VEČ ZANIMIVIH PAKETOV
+% \usepackage{array}      % več možnosti za tabele
+% \usepackage[list=true,listformat=simple]{subcaption}  % več kot ena slika na figure, omogoči slika 1a, slika 1b
+% \usepackage[all]{xy}    % diagrami
+% \usepackage{doi}        % za clickable DOI entrye v bibliografiji
+% \usepackage{enumerate}     % več možnosti za sezname
+
+% Za barvanje source kode
+% \usepackage{minted}
+% \renewcommand\listingscaption{Program}
+
+% Za pisanje psevdokode
+% \usepackage{algpseudocode}  % za psevdokodo
+% \usepackage{algorithm}
+% \floatname{algorithm}{Algoritem}
+% \renewcommand{\listalgorithmname}{Kazalo algoritmov}
+
+% deklarirajte vse matematične operatorje, da jih bo LaTeX pravilno stavil
+% \DeclareMathOperator{\...}{...}
+
+% vstavite svoje definicije ...
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+% Lahko se zgodi, da je ukaz \C definiral že paket hyperref,
+% zato dobite napako: Command \C already defined.
+% V tem primeru namesto ukaza \newcommand uporabite \renewcommand
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Q}{\mathbb{Q}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ZAČETEK VSEBINE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\section{Uvod}
+Napišite kratek zgodovinski in matematični uvod.  Pojasnite motivacijo za problem, kje
+nastopa, kje vse je bil obravnavan. Na koncu opišite tudi organizacijo dela -kaj je v
+katerem razdelku.
+
+Skozi celotno delo bomo gledali samo končno-dimenzionalne realne vektorske prostore. 
+
+\section{Nelinearna Perron-Frobeniusova teorija}
+
+Neki napisati.
+
+\subsection{Klasična Perron-Frobeniusova teorija}
+
+Na začetku se spomnimo nekaj definicij, ki jih že poznamo, in navedimo nekaj pomembnih 
+izrekov, lem in posledic, ki jih bomo kasneje potrebovali.
+
+\begin{definicija}
+  Naj bo $A = (a_{ij})$ matrika velikosti $n \times n$.
+  \begin{itemize}
+    \item $A$ je \emph{nenegativna}, če velja $a_{ij} \geq 0$ za vsak $i$ in $j$,
+    \item $A$ je \emph{pozitivna}, če velja $a_{ij} > 0$ za vsak $i$ in $j$.
+  \end{itemize}
+\end{definicija}
+
+Podobno rečemo, da je vektor $x \in \R^n$ \emph{nenegativen} (oziroma \emph{pozitiven}), 
+če so vse njegove koordinate nenegativne (oziroma pozitivne). 
+
+\begin{definicija}
+  Naj bo $A = (a_{ij})$ matrika velikosti $n \times n$. 
+  
+  \emph{Spekter} matrike $A$ je
+  
+  \begin{center}
+    $\sigma(A) = \{ \lambda \in \C ~|~ Ax = \lambda x \; \text{za neki} \; x \in \C \setminus \{0\} \}$.
+  \end{center}
+  
+  \emph{Spektralni radij} matrike $A$ je 
+
+  \begin{center}
+    $r(A) = \max\{ |\lambda | ~|~ \lambda \in \sigma(A) \}$.
+  \end{center}
+\end{definicija}
+
+\begin{trditev}
+  Za spektralni radij matrike $A \in \C ^ {n \times n}$ velja
+  $r(A) = \lim\limits_{k \rightarrow \infty} || A^k ||^{\frac{1}{k}} $.
+\end{trditev}
+
+\begin{trditev}[Perron]\label{trd:perron}
+  Naj bo $A$ pozitivna matrika. Potem veljajo naslednje trditve:
+  \begin{itemize}
+    \item $r(A) > 0$,
+    \item $r(A)$ je enostavna ničla karakterističnega polinoma matrike $A$. Njen  
+          pripadajoč normiran lastni vektor $v$ je pozitiven,
+    \item Vsak nenegativen lastni vektor od $A$ je večkratnik vektorja $v$,
+    \item Za vsako lastno vrednost $\lambda \in \sigma(A)$, za katero 
+          drži $\lambda \neq r(A)$, velja $|\lambda| < r(A)$.
+  \end{itemize}
+\end{trditev}
+\begin{proof}
+  TODO
+\end{proof}
+
+Vemo že, da so vse pozitivne matrike nerazcepne. 
+
+\begin{definicija}
+  Naj bo $A = (a_{ij})$ nenegativna matrika velikosti $n \times n$. Matrika 
+  $A$ je \emph{razcepna} natanko tedaj, ko obstaja permutacijska matrika $P$, da 
+  velja 
+  \begin{center}
+    $P^T A P = 
+    \begin{bmatrix}
+      B & C \\
+      0 & D
+    \end{bmatrix}$,
+  \end{center}
+
+  kjer sta $B$ in $D$ kvadratni matriki, $0$ pa ničelna matrika.
+
+  Matrika A je \emph{nerazcepna}, če taka permutacijska matrika $P$ ne 
+  obstaja.
+\end{definicija}
+
+Hirto lahko vidimo, da je vsaka nenegativna $1 \times 1$ matrika nerazcepna.
+Poglejmo sedaj, kako bi našo trditev~\ref{trd:perron} razširili tako, da bi veljala 
+ne samo za pozitivne matrike, temveč tudi za nerazcepne matrike. To posplošitev 
+Perronovega izreka je dokazal Frobenius.
+
+\begin{trditev}[Perron-Frobenius]\label{trd:per-fro}
+  Naj bo $A$ nenegativna nerazcepna $n \times n$ matrika. Potem veljajo naslednje trditve:
+  \begin{itemize}
+    \item Če je $A \neq [0]$, potem je $r(A) > 0$,
+    \item $r(A)$ je enostavna ničla karakterističnega polinoma matrike $A$. Njen  
+          pripadajoč normiran lastni vektor $v$ je pozitiven,
+    \item Vsak nenegativen lastni vektor od $A$ je večkratnik vektorja $v$,
+    \item Če ima $A$ natanko $q$ lastnih vrednosti $\lambda$, za katere
+          velja $| \lambda | = r(A)$, potem so te lastne vrednosti 
+          podane z $r(A) e^{2\pi i k / q}$.
+  \end{itemize}
+\end{trditev}
+
+Številu $q$ v Perron-Frobeniusovi trditvi rečemo \emph{indeks cikličnosti matrike A}.
+
+\subsubsection{Osnovne definicije o stožcih}
+
+Poglejmo si sedaj, kaj sploh so stožci. Naj bo $V$ končno-dimenzionalen 
+vektorski prostor.
+
+\begin{definicija}
+  Podmnožica $K$ končno-dimenzionalnega vektorskega prostora $V$ je \emph{stožec},
+  če velja:
+  \begin{enumerate}
+    \item $K$ je konveksna množica,
+    \item $\mu K \subseteq K$ za vsak $\mu \geq 0$,
+    \item $K \cap (-K) = \{ 0 \}$.
+  \end{enumerate}
+\end{definicija}
+
+\begin{definicija}
+  Stožec je \emph{zaprt stožec}, če je zaprta množica v vektorskem prostoru $V$
+  glede na standardno topologijo.
+\end{definicija}
+
+Ponovimo še nekaj oznak. Za podmnožico $S \subseteq V$ označimo \emph{notranjost} kot 
+$\text{int}(S)$, \emph{zaprtje} kot $\text{cl}(S)$ in \emph{rob} kot $\partial S$.
+
+\begin{definicija}
+  Pravimo, da je stožec \emph{strnjen}, če ima neprazno notranjost.
+\end{definicija}
+
+Poglejmo si nekaj primerov polnih zaprtih stožcev.
+
+\begin{zgled}
+  Najbolj osnovna primera sta \emph{standardni pozitivni stožec}, ki ga označimo kot
+  $\R_+ ^n = \{ ( x_1, \ldots, x_n ) \in \R^n ~|~ x_i \geq 0 ~\text{za}~ 1 \leq i \leq n \}$ 
+  in \emph{Lorentzov stožec}, ki ga označimo kot 
+  $\Lambda_{n+1} = \{ ( x_1, \ldots, x_{n+1} ) \in \R^{n+1} ~|~ 
+  x_1^2 - x_2^2 - \ldots - x_{n+1}^2 \geq 0 ~\text{in}~ x_1 \geq 0\}$.% chktex 11
+\end{zgled}
+
+\begin{zgled}
+  Poglejmo si še primer stožcev v prostoru realnih $n \times n$ simetričnih matrik. 
+  Potem so pozitivne semidefinitne matrike, ki jih označimo z $\Pi_n (\R)$, strnjen
+  zaprt stožec. Res, če je $M \in \Pi_n (\R)$, potem očitno za vsak $\mu \geq 0$ velja 
+  $\mu M \in \Pi_n (\R)$ in $\Pi_n (\R) \cap (-\Pi_n (\R)) = \{ 0 \}$.
+\end{zgled}
+
+\begin{definicija}
+  Dualni prostor prostora $V$ označimo z $V^*$, \emph{dualni stožec} $K^*$ pa je definiran kot
+\[ K^* = \{ \varphi \in V^* : \varphi(x) \ge 0 \text{ za vse } x \in K \}.\]
+\end{definicija}
+
+\begin{definicija}
+  \emph{Obraz zaprtega stožca} $K$ v $V$ je neprazen konveksna podmnožica $F \subset K$, 
+  za katero velja: če sta $x, y \in K$ in je $\lambda x + (1-\lambda)y \in F$ 
+  za nek $0 < \lambda < 1$, potem sta $x, y \in F$. 
+\end{definicija}
+
+Stožec $K$ sam in množica $\{0\}$ sta obraza in ju imenujemo \emph{neprava obraza}. 
+Vsi ostali obrazi so pravi. Iz definicije obraza zaprtega stožca hitro opazimo, da 
+vsi pravi obrazi stožca ne vsebujejo notranjih točk stožca, torej za $F$ obraz od $K$ 
+velja $F \cap \operatorname{int}(K) \neq \varnothing$.
+
+\begin{definicija}
+  \emph{Relativna notranjost} konveksne množice $C \subseteq V$, označena z $\mathrm{relint}(C)$, 
+  je notranjost $C$, gledane kot podmnožice afinega ovoja množice $C$ v $V$. 
+\end{definicija}
+
+Pripomnimo (glej~\cite[izrek 6.2]{rockafellar}), da sta $\mathrm{cl}(C)$ in $\mathrm{relint}(C)$ 
+neprazni in konveksni, kadar je $C$ neprazen konveksen del prostora $V$.
+To dejstvo lahko uporabimo, da dokažemo naslednjo trditev.
+\begin{trditev}\label{trditev2.15}
+  Vsak obraz zaprtega stožca je zaprt.
+\end{trditev}
+\begin{dokaz}
+  Naj bo $F$ obraz zaprtega stožca $K$. Želimo $\mathrm{cl}(F) = F$. Vzemimo točko $z$  
+  v relativni notranjosti $F$. Taka točka obstaja, ker je po definiciji obraza $F$ konveksen 
+  in neprazen. Naj bo $x \in \mathrm{cl}(F)$, $x \neq z$. 
+  Ker je $F$ obraz, po~\cite[izrek 6.2]{rockafellar} vemo, da sta $\mathrm{cl}(F)$ in 
+  $\mathrm{relint}(F)$ neprazni in konveksni. Torej obstaja 
+  $y \in \mathrm{cl}(F)$ tako, da je $z$ v relativni notranjosti daljice med $x$ in $y$, 
+  zato je $x \in F$. (I don't understand this?)
+\end{dokaz}
+
+
+\begin{definicija}
+  Obraz $F$ stožca $K$ imenujemo \emph{izpostavljeni obraz}, če obstaja $\varphi \in K^*$, 
+za katerega velja
+\[F = K \cap \{ x \in V : \varphi(x) = 0 \}.\]
+\end{definicija}
+
+\begin{definicija}
+  Stožec $K$ v $V$ je \emph{poliedričen}, če je presečišče končno mnogo zaprtih polprostorov, tj. 
+obstajajo $\varphi_1, \ldots, \varphi_m \in V^*$, tako da
+\[K = \{ x \in V : \varphi_i(x) \ge 0 \text{ za vse } 1 \le i \le m \}.\]
+\end{definicija}
+
+Osnovni primer poliedrskega stožca je standardni pozitivni stožec $\R_+^n$, saj zanj 
+lahko vzamemo funkcionale $\varphi_i(x) = x_i$ za $1 \le i \le n$.
+Vsak obraz stožca ni nujno izpostavljen, vendar pa je vsak obraz poliedrskega stožca izpostavljen.
+
+\begin{definicija}
+  Obraz \( F \) poliedrskega stožca \( K \) imenujemo \emph{ličnica??} (facet), 
+če velja \( \dim(F) = \dim(K) - 1 \). Tukaj \( \dim(F) \) označuje dimenzijo 
+linearnega ovoja ploskve \( F \).
+\end{definicija} 
+Naslednji osnovni rezultat iz poliedrske 
+geometrije~\cite[Poglavje~8.4]{201} bo uporaben v nadaljevanju.
+
+\begin{lema}\label{lema2.19}
+Če je \( K \subseteq V \) poliedrski stožec z \( N \) ličnicami, potem obstaja 
+\( N \) linearnih funkcionalov \( \psi_1, \ldots, \psi_N \) takih, da
+
+\[ K = \{ x \in V : \psi_i(x) \ge 0 \text{ za vse } 1 \le i \le N \}
+    \cap \operatorname{span}(K)\]
+
+in vsak linearni funkcional \( \psi_i \) ustreza natanko eni ličnici stožca \( K \).
+\end{lema}
+
+Funkcionale \( \psi_1, \ldots, \psi_N \) iz Leme~\ref{lema2.19}
+imenujemo \emph{funkcionali, ki določajo ličnice}
+poliedrskega stožca. 
+
+\begin{zgled}\label{zgled2.20}
+  Poglejmo si ličnice od \( \mathbb{R}^n_+ \). Obrazi tega stožca so očitno 
+  \[
+  F_I = \{ x \in \mathbb{R}^n_+ ~|~ x_i > 0 \text{ natanko tedaj, ko } i \in I \}
+  \quad \text{za } I \subseteq \{1, \ldots, n\},
+  \]
+  Ker gledamo po podmnožicah množice z n elementi, je vseh obrazev natanko \( 2^n \).
+  Ličnice stožca so vsi tisti obrazi, katerih dimenzija je 
+  \( \dim(\mathbb{R}^n_+) - 1  = n - 1\), 
+  torej vse podmnožice indeksne množice $I$ moči $n - 1$, teh pa je natanko $n$. 
+  Ličnice so oblike
+  \[
+  F_i = \{ x \in \mathbb{R}^n_+ ~|~ x_i = 0 \text{ in } x_j > 0  \text{ za } j \neq i\}.
+  \]
+\end{zgled}
+
+
+
+\subsubsection{Delna urejenost in invariantnost}
+
+Stožec $K$ v  vektorskem prostoru $V$ inducira delno urejenost \(\leq_K\) na \(V\) z
+
+\[
+x \leq_K y \quad \text{natanko tedaj, ko je } y - x \in K.
+\]
+
+Če ima \(K\) neprazno notranjost, potem pišemo \(x \ll_K y\), kadar je
+\(y - x \in \operatorname{int}(K)\). Prav tako pišemo \(x <_K y\), kadar
+\(x \leq_K y\) in \(x \neq y\). Kadar je stožec \(K\) jasen iz konteksta,
+pišemo samo \(x \leq y\), \(x < y\) in \(x \ll y\).
+
+\begin{zgled}
+  Poglejmo si primer \(K = \mathbb{R}^n_+\). Velja \(x \leq_K y\) natanko tedaj, 
+  ko je $y - x \in \mathbb{R}^n_+$, kar pa pomeni, da je \(y_i - x_i \geq 0\) 
+  za vse \(1 \leq i \leq n\) ali drugače povedano, da je \(x_i \leq y_i\) 
+  za vse \(1 \leq i \leq n\). 
+\end{zgled}
+
+\begin{trditev}
+  Linearni operator \(A : V \to V\) pusti stožec \(K\)
+  invarianten natanko tedaj, ko \(0 \leq_K Ax\) za vse \(0 \leq_K x\) v \(V\).
+\end{trditev}
+\begin{dokaz}
+  Recimo, da $Ax \in K$ za vsak $x \in K$. Če je \(0 \leq_K x\), sledi, 
+  da $ x \in K$. Ker linearni operator $A$ ohranja stožec, vidimo, da 
+  $Ax \in K$, torej velja \(0 \leq_K Ax\).
+
+  V drugo smer: naj velja $0 \leq_K x \Rightarrow 0 \leq_K Ax$. Vzemimo 
+  $x$ v stožcu, $x \in K$. Potem velja \(0 \leq_K x\), torej \(0 \leq_K Ax\), 
+  kar pa pomeni $A(K) \subseteq K$.
+\end{dokaz}
+
+\begin{definicija}
+Linearni operator \(A : V \to V\), ki pusti strnjen zaprt stožec \(K\) 
+invarianten, imenujemo \emph{ireducibilen}, če noben pravi obraz stožca \(K\)
+ni invarianten za \(A\).
+\end{definicija}
+
+\begin{zgled}
+  Poglejmo si zgled ireducibilnosti na primeru stožca \(K = \mathbb{R}^n_+\) 
+  in dokažimo, da je nenegativna matrika $A$ ireducibilna 
+  glede na našo definicijo natanko tedaj, ko je nerazcepna v običajnem smislu. 
+
+  Naj bo $A \geq 0$, saj taka matrika pusti stožec invarianten. Po~\ref{zgled2.20} 
+  vemo, da so obrazi tega stožca oblike 
+  $F_I = \{ x \in \mathbb{R}^n_+ ~|~ x_i > 0 \text{ natanko tedaj, ko } i \in I \}
+  ~ \text{za } I \subseteq \{1, \ldots, n\}$.
+  Obraz $F_I$ je invarianten za matriko $A$, če ima $x \in F_I$ ničle na indeksih $I$, 
+  potem   jih mora imeti tudi $Ax$. Torej 
+  ${(Ax)}_i = 0 ~\text{za vse } i \in I \text{ in vse } x \in F_I$. Če pogledamo 
+  po komponentah, lahko zapišemo kot ${(Ax)}_i = \sum_{j=1}^n a_{ij} x_j = 0$, iz 
+  česar pa sledi, da mora veljati $a_{ij} = 0 ~\text{za vse } i \in I,~ j \notin I$, 
+  saj je $A$ nenegativna. Torej je $A$ po permutaciji indeksov obliko
+  $A \sim
+  \begin{bmatrix}
+  * & * \\
+  0 & *
+  \end{bmatrix}$ in je razcepna.
+
+  V drugo smer, če je $A$ razcepna, je po permutaciji indeksov oblike
+  $A \sim
+  \begin{bmatrix}
+  B & C \\
+  0 & D
+  \end{bmatrix}$. Naj bo $I$ množica indeksov, ki ustreza spodnjemu bloku $D$.
+  Vzemimo ploskev: $F_I = \{ x \in \mathbb{R}^n_+ \mid x_i = 0 \text{ za } i \in I \}$.
+Za \( x \in F_I \) ima \( x \) obliko:
+$x =
+\begin{bmatrix}
+x_1 \\
+0
+\end{bmatrix}$.
+Potem:
+\[
+Ax =
+\begin{bmatrix}
+B & C \\
+0 & D
+\end{bmatrix}
+\begin{bmatrix}
+x_1 \\
+0
+\end{bmatrix}
+=
+\begin{bmatrix}
+Bx_1 \\
+0
+\end{bmatrix}.
+\]
+
+Torej \( Ax \in F_I \), kar pomeni: $A(F_I) \subseteq F_I$, torej ni ireducibilna.
+\end{zgled}
+
+Naslednja trditev daje ekvivalenten način definiranja ireducibilnosti.
+
+\begin{trditev}
+  Linearni operator \(A : V \to V\), ki pusti strnjen zaprt stožec \(K\) invarianten, 
+  je ireducibilen natanko tedaj, ko za nek \(\lambda > r(A)\) velja
+\[
+{(\lambda I - A)}^{-1}(K \setminus \{0\}) \subseteq \operatorname{int}(K).
+\]
+\end{trditev}
+\begin{dokaz}
+Recimo, da to ni res. Naj bo \(A\) ireducibilna in recimo, da obstaja
+\(z \in K \setminus \{0\}\) tak, da za vsak \(\lambda > r(A)\) velja
+\({(\lambda I - A)}^{-1}z \notin \operatorname{int}(K)\).
+Zapišimo \(u = {(\lambda I - A)}^{-1}z\). 
+Spomnimo se: ${(\lambda I - A)}^{-1}$ lahko z uporabo razvoja Neumannove vrste 
+zapišemo kot ${(\lambda (I - \frac{1}{\lambda}A))}^{-1} = \sum_{k=0}^{\infty} \lambda^{-k-1} A^k $.
+Po Hahn-Banachovem ločitvenem izreku~\cite[Theorem 11.6]{rockafellar} obstaja
+\(\varphi \in K^* \setminus \{0\}\) tako, da je \(\varphi(u) = 0\) in
+\(\varphi(x) > 0\) za vse \(x \in \operatorname{int}(K)\).
+Definirajmo funkcional \(\psi \in V^*\) z
+\[
+\psi(x) = \varphi({(\lambda I - A)}^{-1}x)
+        = \sum_{k=0}^{\infty} \lambda^{-k-1} \varphi(A^k x),
+\]
+in opazimo, da velja \(\psi(x) > 0\) za vse \(x \in \operatorname{int}(K)\), 
+saj $A$ preslika $x \in K$ nazaj v notranjost stožca.
+Očitno je \(\psi(z) = 0\), zato je množica
+
+
+\[
+F = \{x \in K : \psi(x) = 0\}
+\]
+
+
+pravi (izpostavljeni) obraz stožca \(K\).
+Poleg tega za vsak \(x \in F\) velja
+
+
+\[
+0 \leq \psi(Ax)
+   = \varphi(({(\lambda I - A)}^{-1})(Ax))
+   = \sum_{k=0}^{\infty} \lambda^{-k-1} \varphi(A^{k+1}x) =
+\]
+
+
+
+
+\[
+= \lambda \sum_{k=1}^{\infty} \lambda^{-k-1} \varphi(A^k x)
+  \leq \lambda \psi(x) = 0.
+\]
+
+
+Od tod sledi, da je \(\psi(Ax) = 0\) za vse \(x \in F\).
+Tako \(A\) pusti pravi obraz \(F\) invarianten, kar je prostislovje s predpostavko.
+
+Za dokaz v drugo smer sedaj predpostavimo, da obstaja \(\lambda > r(A)\)
+tak, da za vsak \(z \in K \setminus \{0\}\) velja
+\({(\lambda I - A)}^{-1}z \in \operatorname{int}(K)\).
+Naj obstaja pravi obraz \(F\) stožca \(K\) z lastnostjo \(A(F) \subseteq F\) 
+in naj bo $z \in F$. Potem iz identitete
+\[
+{(\lambda I - A)}^{-1}
+  = \sum_{k=0}^{\infty} \lambda^{-k-1} A^k
+\]
+sledi, da je 
+\[
+{(\lambda I - A)}^{-1} z = \sum_{k=0}^{\infty} \lambda^{-k-1} A^k z \in \operatorname{int}(K)
+\]
+torej je $z \in F \cap \operatorname{int}(K)$, iz česar pa sledi, da je 
+$F \cap \operatorname{int}(K) \neq \varnothing$, kar pa je protislovje, saj je F 
+pravi obraz.
+\end{dokaz}
+
+Opazimo, da nam ta dokaz pokaže tudi, da je linearni operator
+\(A\) ireducibilen natanko tedaj, ko ne pusti nobenega pravega
+izpostavljenega obraza stožca \(K\) invariantnega (?).
+
+Kot smo omenili že prej, lahko izreka Perrona in Frobeniusa posplošimo
+na linearne preslikave, ki pustijo stožec invarianten. To pomembno
+ugotovitev sta naredila Krein in Rutman, ko sta preučevala linearne 
+operatorje, ki pustijo stožec v (morda neskončnorazsežnem) 
+normiranem prostoru invarianten.
+Ker se v tej knjigi ukvarjamo le s končnorazsežnimi prostori, tukaj
+podamo končnorazsežno različico njunega izreka.
+
+
+\begin{izrek}[Krein-Rutman]\label{Krein-Rutman}
+  Če je \(A : V \to V\) linearni operator, ki pusti strnjen
+zaprt stožec \(K\) invarianten, potem je \(r(A)\) 
+lastna vrednost operatorja \(A\) in
+\(r(A)\) ima lastni vektor v \(K\).
+\end{izrek}
+
+Tako kot pri Perron-Frobeniusovem izreku 1.1.2 imamo tudi tukaj
+enoličnost lastnega vektorja, če je \(A\) ireducibilen.
+
+
+\begin{izrek}
+  Če je \(A : V \to V\) ireducibilen linearni operator, ki pusti
+  strnjen zaprt stožec \(K\) invarianten, potem velja:
+
+  \begin{enumerate}
+  \item \(r(A)\) je algebrajsko enostavna lastna vrednost operatorja
+  \(A\), pripadajoči normirani lastni vektor \(v\) je enoličen in leži v
+  \(\operatorname{int}(K)\). Poleg tega velja \(r(A) > 0\), če \(A \neq [0]\).
+
+  \item Vsak nenegativen lastni vektor operatorja \(A\) je skalarni
+  večkratnik vektorja \(v\).
+  \end{enumerate}
+\end{izrek}
+
+Tretje točke Perron-Frobenius izreka~\ref{trd:per-fro} ni mogoče razširiti na poljubne
+zaprte stožce. Najlažji protiprimer lahko vidimo v primeru Lorentzovega stožca $\Lambda_{3}$ in linearni
+preslikavi $A : \mathbb{R}^{3} \to \mathbb{R}^{3}$, podani z
+
+ 
+
+\[
+A \begin{bmatrix}
+x_{1} \\
+x_{2} \\
+x_{3}
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 & 0 & 0 \\
+0 & \cos\vartheta & -\sin\vartheta \\
+0 & \sin\vartheta & \cos\vartheta
+\end{bmatrix}
+\begin{bmatrix}
+x_{1} \\
+x_{2} \\
+x_{3}
+\end{bmatrix}.
+\]
+
+ 
+
+Očitno velja $A(\Lambda_{3}) \subseteq \Lambda_{3}$ in $\sigma(A)=\{1, e^{\pm i\vartheta}\}$.
+Preslikava $A$ ima tako tri lastne vrednosti in $r(A) = 1$.  Če je $\vartheta$ iracionalni 
+večkratnik $2\pi$, potem $e^{i\vartheta}$ ni koren enote in točka (iii) ne drži.
+
+Tretji del Perron-Frobeniusovega izreka~\ref{trd:per-fro} pa lahko posplošimo na poliedrske
+stožce (glej~\cite{KreinRuthman}).
+
+\begin{izrek}\label{izrek2.28}
+Če je $A : V \to V$ linearna preslikava, ki ohranja strnjen poliedrski
+stožec $K$ z $N$ ploskvami invarianten, potem za vsako $\lambda \in \sigma(A)$ za katero velja
+$|\lambda| = r(A)$ obstaja $1 \le q \le N$ tako, da velja
+
+
+\[
+\lambda^{q} = {r(A)}^{q}.
+\]
+
+
+\end{izrek}
+
+Izrek~\ref{izrek2.28} lahko uporabimo za dokaz naslednjega rezultata o iterativnem
+obnašanju linearnih preslikav, ki ohranjajo poliedrski stožec.
+
+\begin{izrek}
+Če je $A : V \to V$ linearna preslikava, ki ohranja strnjen poliedrski
+stožec $K$ z $N$ ploskvami invarianten, potem obstaja celo število $p \ge 1$ tako, da
+
+
+\[
+\lim_{k \to \infty} A^{kp} x
+\]
+
+
+obstaja za vsak $x \in K$, za katerega je zaporedje ${(\|A^{k}x\|)}_{k}$
+omejeno. Poleg tega je $p$ red permutacije na $N$ elementih.
+\end{izrek}
+
+Za linearna preslikavo $A : V \to V$ je pogoj $A(K) \subseteq K$ ekvivalenten
+trditvi, da iz $x \le_{K} y$ sledi $Ax \le_{K} Ay$ za $x, y \in V$. 
+
+\begin{definicija}
+  Naj bosta $K \subseteq V$ in $K' \subseteq V'$ stožca. 
+  Preslikava $f : X \to X'$, kjer sta 
+  $X \subseteq V$ in $X' \subseteq V'$, 
+  \begin{itemize}
+    \item \emph{ohranja red},
+    če iz $x \le_{K} y$ sledi $f(x) \le_{K'} f(y)$ za $x, y \in X$,
+    \item \emph{strogo ohranja red}, če iz $x \ll_{K} y$ sledi
+    $f(x) \ll_{K'} f(y)$,
+    \item \emph{obrača red}, če iz 
+    $x \le_{K} y$ sledi $f(y) \le_{K'} f(x)$  za $x, y \in X$.
+  \end{itemize}
+\end{definicija}
+
+Nelinearna Perron-Frobeniusova teorija se v prvi vrsti ukvarja 
+preslikavami, ki ohranjajo red, in obravnava vprašanja, kot so:
+
+\begin{itemize}
+    \item Ali obstaja smiselna definicija spektralnega radija za
+    preslikave $f : K \to K$, ki ohranjajo red, in ali obstaja ustrezen lastni
+    vektor?
+    \item Kdaj ima preslikava, ki ohranja red, lastni vektor v notranjosti
+    stožca in kdaj je ta enoličen?
+    \item Kako se dolgoročno obnašajo orbite
+    $x, f(x), f^{2}(x), f^{3}(x), \ldots$ preslikave $f$, ki ohranja red?
+    \item Kdaj ima preslikava, ki ohranja red, lastnost, da vsaka omejena
+    orbita konvergira k periodični orbiti?
+\end{itemize}
+
+Ta vprašanja se pojavljajo v številnih problemih in so v središču
+nelinearne Perron-Frobeniusove teorije. Kot bomo videli, obstajajo presenetljivo
+podrobni odgovori za različne razrede preslikav, ki ohranjajo red.
+
+
+
+\subsection{Stožci in delna urejenost}
+Poglejmo si nekaj osnovnih lastnosti delne urejenosti, ki jo inducira stožec.
+Naj bo $K \subseteq V$ stožec in $x, y \in V$ elementa vektorskega prostora $V$. 
+Naslednja lema nam lahko pomaga določiti, kdaj velja $x \leq_K y$.
+
+\begin{lema}\label{lema2.31}
+Če je $K \subseteq V$ zaprt stožec, potem velja
+\[
+x \leq_K y \quad \Longleftrightarrow \quad \varphi(x) \leq \varphi(y)
+\quad \text{za vse } \varphi \in K^*.
+\]
+\end{lema}
+
+\begin{dokaz}
+Če $x \not\leq_K y$, potem $y - x \notin K$. Ker je $K$ zaprt, 
+konveksen stožec, po Hahn-Banachovem ločitvenem 
+izreku~\cite[Theorem 11.6]{rockafellar} obstajata $\alpha \in \mathbb{R}$ in
+$\psi \in V^*$ tako, da $\psi(y - x) < \alpha$ in
+$\psi(v) > \alpha$ za vse $v \in K$. Ker je $K$ stožec, za vsak $\lambda \ge 0$ in
+$v \in K$ velja $\lambda v \in K$. 
+Če vzamemo $\lambda v$ namesto $v$, dobimo: $\psi(\lambda v) = \lambda \psi(v) > \alpha$.
+Iz tega pa sledi $\psi(v) \ge 0$ za vse
+$v \in K$, torej $\psi \in K^*$. Poleg tega je $\psi(0) = 0$, zato
+$\alpha < 0$. Ker je $\psi$ linearna in $\psi(y-x) < 0$, tako dobimo $\psi(y) < \psi(x)$. 
+
+Poglejmo še obratno implikacijo. Predpostavimo, da obstaja $\varphi \in K^*$, za katero velja
+$\varphi(x) > \varphi(y)$. Tedaj je $\varphi(y - x) = \varphi(y) - \varphi(x) < 0$.
+Ker pa je $\varphi \in K^*$, po definiciji velja $\varphi(v) \ge 0$ za vsak $v \in K$.
+Če bi bilo $y - x \in K$, bi zato morali  $\varphi(y - x) \ge 0$,
+kar je v protislovju z zgornjo strogo negativnostjo.
+Torej $y - x \notin K$, kar pomeni $x \not\le_K y$.
+\end{dokaz}
+
+\begin{definicija}
+  Pravimo, da element $y \in K$ \emph{dominira} element $x \in V$, če
+  obstajata $\alpha, \beta \in \mathbb{R}$ tako, da velja
+  $\alpha y \leq_K x \leq_K \beta y$.
+\end{definicija}
+
+Ta pojem določa ekvivalenčno
+relacijo $\sim_K$ na $K$, kjer definiramo $x \sim_K y$ natanko tedaj,
+ko $x$ dominira $y$ in $y$ dominira $x$. Zlahka preverimo, da
+$x \sim_K y$ natanko tedaj, ko obstajata $0 < \alpha \le \beta$ tako,
+da
+\[
+\alpha y \leq_K x \leq_K \beta y.
+\]
+
+\begin{definicija}
+  Ekvivalenčne razrede v $K$ imenujemo \emph{deli} stožca in z
+  $[x]$ označimo del, ki vsebuje $x$. Množico vseh delov stožca $K$
+  označimo z $P(K)$.
+\end{definicija}
+
+\begin{zgled}
+  Deli stožca $\mathbb{R}_+^2$ so
+  $\{0\}$, $\operatorname{int}(\mathbb{R}_+^2)$,
+  $\{(x_1, 0) \in \mathbb{R}_+^2~|~x_1 > 0\}$ in
+  $\{(0, x_2) \in \mathbb{R}_+^2~|~x_2 > 0\}$.  
+\end{zgled}
+
+\begin{zgled}
+  Poglejmo si še primer Lorentzovega stožca $\Lambda_3$. 
+  Podobno kot v prejšnjem zgledu bosta
+  $\{0\}$, $\operatorname{int}(\Lambda_3)$ ponovno dela stožca.
+  Za rob stožca si pa poglejmo natančneje. Za vektor $x = (x_1, x_2, x_3)$ na robu velja 
+  $x_1^2 = x_2^2 + x_3^2$. Če normaliziramo $x$ tako, da je $x_1 = 1$, potem dobimo,
+  $1 = x_2^2 + x_3^2$. Ker pa je $x_2^2 + x_3^2 = 1$ krožnica, ki jo lahko parametriziramo 
+  z enim kotom $\vartheta$, vidimo, da vsak robni vektor določa en kot $\vartheta$. 
+  Hitro opazimo, da sta dva vektorja na robu ekvivalentna natanko tedaj, ko določata 
+  isti kot $\vartheta$.
+  Deli na robu so torej žarki, natančneje množice oblike
+  \[  \{\lambda(1, \cos\vartheta, \sin\vartheta)~|~\lambda > 0\},
+  \quad 0 \le \vartheta \le 2\pi.  \]
+\end{zgled}
+
+
+
+\begin{lema}\label{lema:deli_stozca}  
+Če je $K \subseteq V$ zaprt stožec, potem so deli stožca $K$ natanko relativne notranjosti obrazov stožca $K$.
+\end{lema}
+
+\begin{dokaz}
+Znano je (glej~\cite[Izrek 8.2]{rockafellar}), da relativne notranjosti obrazov stožca $K$ tvorijo razčlenitev $K$. 
+Naj bo $[x]$ del elementa $x$ v $K$ in naj bo $F_x$ obraz stožca $K$, katerega relativna notranjost vsebuje $x$. 
+Po trditvi~\ref{trditev2.15} je $F_x$ zaprt in hitro lahko preverimo, da je tudi stožec.
+
+Predpostavimo, da je $y$ v relativni notranjosti $F_x$ in dokažimo, da je $x \sim_K y$. 
+Ker je v relativni notranjosti, obstaja $\alpha > 0$ tako, da sta 
+$y - \alpha x \in F_x$ in $x - \alpha y \in F_x$. 
+Ker je \( F_x \subseteq K \), to pomeni:
+$y - \alpha x \in K \;\Rightarrow\; \alpha x \le y$
+in
+$x - \alpha y \in K \;\Rightarrow\; \alpha y \le x$.
+Od tod sledi $\alpha x \leq y \leq \frac{1}{\alpha} x$, in zato $x \sim_K y$.
+
+V drugo smer: naj bo $y \in K$ tak, da $x \sim_K y$.
+Naj bo $F_x$ obraz stožca $K$, katerega relativna notranjost vsebuje $x$. Ker je $x$ v relativni notranjosti $F_x$, lahko naredimo majhne 
+premike od $x$ v smeri $y$, ne da bi zapustili $F_x$.
+Za dovolj majhen $\delta > 0$ velja $x - \delta y \sim_K y$ in $y - \delta x \sim_K x$. 
+Hitro lahko preverimo, da iz $x \sim_K y$ sledi tudi $\lambda x \sim_K \mu y$ za vse $\lambda, \mu > 0$.  
+Za dovolj majhen $\varepsilon > 0$ definiramo $x_\varepsilon = (1+\varepsilon)x - \varepsilon y$ in $y_\varepsilon = (1+\varepsilon)y - \varepsilon x$.
+Od tod sledi, da velja
+\[
+x_\varepsilon \sim_K y
+\qquad\text{in}\qquad
+y_\varepsilon \sim_K x.
+\]
+Opazimo, da velja
+\[
+x = a x_\varepsilon + (1-a) y_\varepsilon,
+\qquad
+a = \frac{1+\varepsilon}{1+2\varepsilon}, \text{ kjer je } 0 < a < 1.
+\]
+Ker je $x \in F_x$, iz definicije obraza sledi, da sta $x_\varepsilon$ in $y_\varepsilon$ v $F_x$.
+Ker pa velja
+\[
+y = \lambda y_\varepsilon + (1-\lambda)x,
+\qquad
+\lambda = \frac{1}{1+\varepsilon}, \text{ kjer je } 0 < \lambda < 1,
+\]
+iz definicije obraza enako zaključimo, da je $y$ v relativni notranjosti $F_x$.
+\end{dokaz}
+
+Iz leme~\ref{lema:deli_stozca} sledi, da ima poliedrski stožec končno mnogo delov. 
+\begin{definicija}
+  Naj bo dan poliedrski stožec \(K\) z \(N\) ličnicami in funkcionali
+  \(\psi_1,\ldots,\psi_N\), ki določajo ličnice. Za vsak \(x\in K\) definiramo množico
+  \[
+  I_x=\{\, i : \psi_i(x)>0 \,\}.
+  \]
+  Če je \(P\) del stožca \(K\), definiramo
+  \[
+  I(P)=\{\, i : \psi_i(x)>0 \text{ za nek } x\in P \,\}.
+  \]
+\end{definicija}
+
+
+Množica delov \(\mathcal{P}(K)\) ima naravni delni red \(P \trianglelefteq Q\), podan z
+\[
+P \trianglelefteq Q
+\quad \text{, če obstajata } x\in P \text{ in } y\in Q \text{ takšna, da }
+y \text{ dominira } x.
+\]
+
+Ekvivalentno: \(P \trianglelefteq Q\) če za vsak \(x\in P\) in vsak \(y\in Q\)
+velja, da \(y\) dominira \(x\).
+
+\begin{lema}\label{lema2.38}
+Če je \(K\subseteq V\) poliedrski stožec z \(N\) ličnicami, potem veljajo:
+\begin{enumerate}[label= (\roman*)]
+\item \(I_x=I_y\) natanko tedaj, ko \(x\sim_K y\).
+\item Za vsak \(P\in\mathcal{P}(K)\) velja
+
+\[
+P=\{\, x\in K : \psi_i(x)>0 \text{ natanko tedaj, ko } i\in I(P) \,\}.
+\]
+
+
+\item \(P\trianglelefteq Q\) natanko tedaj, ko \(I(P)\subseteq I(Q)\).
+\item \(|\mathcal{P}(K)|\le 2^N\).
+\end{enumerate}
+\end{lema}
+
+\begin{dokaz}
+Naj bodo \(\psi_1,\ldots,\psi_N\in K^*\) funkcionali, ki določajo ličnice stožca
+\(K\). 
+
+(i) Po lemi~\ref{lema2.19} vemo, da je \(x\le_K y\) ekvivalentno pogoju
+      \(\psi_i(x)\le\psi_i(y)\) za vse \(i\). Iz tega sledi
+      $I_x\subseteq I_y$ natanko tedaj, ko $y$ dominira $x$.
+      Zato je \(x\sim_K y\) ekvivalentno \(I_x=I_y\). 
+
+(ii) Če sta $x$ in $y$ v istem delu stožca $P$, potem velja $x \sim_K y$ in po (i) sledi $I_x = I_y$. 
+      Če pa je $x \in P$ in $y \in K$ z lastnostjo, da velja $\psi_i(x) > 0$ natanko tedaj, ko 
+      $i \in I(P)$, potem je $y \in P$, saj je $y \sim_K x$. Torej $x\in P$ natanko tedaj, ko $I_x=I(P)$.
+
+(iii) 
+      Naj bo sedaj \(P\trianglelefteq Q\). Tedaj obstajata \(x\in P\) in \(y\in Q\), takšna da
+      \(y\) dominira \(x\). Tako dobimo $I(P)=I_x\subseteq I_y=I(Q)$.
+      V obratno smer: če \(I(P)\subseteq I(Q)\), potem za vsak \(x\in P\) in \(y\in Q\) obstaja
+      \(\beta>0\) tako, da $\psi_i(x)\le \beta\,\psi_i(y)$ za vse $i$.
+      Po lemi~\ref{lema2.19} sledi, da \(y\) dominira \(x\), zato \(P\trianglelefteq Q\). 
+      
+(iv)      
+      Iz točke (iii) sledi, da je vsak del stožca \(P\) določen z množico indeksov \(I(P)\subseteq\{1,\ldots,N\}\).
+      Ker je število podmnožic množice z \(N\) elementi natanko \(2^N\), sledi, da je \(|\mathcal{P}(K)|\le 2^N\).
+\end{dokaz}
+
+Oblika stožca določa številne pomembne lastnosti, ki so ključne v nelinearni
+Perron-Frobeniusovi teoriji. Pomemben razred stožcev so strogo konveksni stožci.
+
+\begin{definicija}
+Zaprt stožec $K\subseteq V$ je \emph{strogo konveksen}, če za vse
+$x,y\in\partial K\setminus\{0\}$, kjer $x\neq \alpha y$ za noben $\alpha>0$,
+velja
+\[
+\{\lambda x+(1-\lambda)y:0<\lambda<1\}\subseteq\operatorname{int}(K).
+\]
+\end{definicija}
+
+\begin{zgled}
+  Lorentzov stožec $\Lambda_{n+1}$ je primer strogo konveksnega stožca.
+\end{zgled}
+
+\begin{zgled}
+  Stožec pozitivno semidefinitnih matrik $\Pi_n(\mathbb{R})$ za $n\ge 3$ je
+  pomemben primer stožca, ki ni strogo konveksen. Poglejmo si na primeru, zakaj $\Pi_3(\mathbb{R})$ ni strogo konveksen.
+  Spomnimo se, da so pozitivno semidefinitne matrike simetrične matrike, za katere velja, da $x^T A x \ge 0$ za vsak vektor $x$.
+  Za tiste na robu stožca to pomeni, da obstaja vektor $x$ tako, da $x^T A x = 0$.
+  Vzemimo matriki
+  \[
+  A =
+  \begin{pmatrix}
+  1 & 0 & 0\\
+  0 & 0 & 0\\
+  0 & 0 & 0
+  \end{pmatrix},
+  \qquad
+  B =
+  \begin{pmatrix}
+  0 & 0 & 0\\
+  0 & 1 & 0\\
+  0 & 0 & 0
+  \end{pmatrix}.
+  \]
+  Obe sta očitno pozitivno semidefinitni in ker velja
+  $\det A = 0$ in $\det B = 0$,
+  sta singularni, zato ležita na robu:
+  $A,B \in \partial \Pi_3(\mathbb{R})$.
+  Poleg tega $A$ in $B$ očitno nista skalarni večkratnici.
+  Za $0<\lambda<1$ poglejmo konveksno kombinacijo
+  \[
+  C_\lambda = (1-\lambda)A + \lambda B
+  =
+  \begin{pmatrix}
+  1-\lambda & 0 & 0\\
+  0 & \lambda & 0\\
+  0 & 0 & 0
+  \end{pmatrix}.
+  \]
+  Za poljuben $x = (x_1,x_2,x_3)^\top$ dobimo
+  \[
+  x^\top C_\lambda x
+  = (1-\lambda)x_1^2 + \lambda x_2^2 \ge 0,
+  \]
+  torej $C_\lambda$ je pozitivno semidefinitna matrika, $C_\lambda \in \Pi_3(\mathbb{R})$.  
+  Po drugi strani pa za vektor $x = (0,0,x_3)^\top$ velja
+  \[
+  x^\top C_\lambda x = 0,
+  \]
+  torej je $C_\lambda$ singularna in zato leži na robu stožca: $C_\lambda \in \partial \Pi_3(\mathbb{R})$.
+  Po definiciji to pomeni, da stožec $\Pi_3(\mathbb{R})$ ni strogo konveksen.
+\end{zgled}
+
+\begin{definicija}
+  Naj bo $K$ stožec v vektorskem prostoru $V$ in $S\subseteq V$. Če je $u$ tak, da za vse $s\in S$ velja $s\le_K u$, 
+  pravimo, da je $u$ \emph{zgornja meja} množice $S$. 
+  Če ima vsaka zgornja meja $v \in V$ množice $S$ lastnost $u\le_K v$, $u$ imenujemo \emph{supremum} množice $S$ in
+  označimo $u=\sup(S)$.
+
+  Podobno definiramo \emph{spodnjo mejo} in \emph{infimum} množice $S$.
+\end{definicija}
+
+Označimo $x\wedge y=\inf(x,y)$ in $x\vee y=\sup(x,y)$.
+
+\begin{zgled}
+  Če je $K=\mathbb{R}^n_+$, potem je
+  $\sup(x,y)_i=\max\{x_i,y_i\}$ in $\inf(x,y)_i=\min\{x_i,y_i\}$ za vsak $i = 1,\ldots,n$.
+\end{zgled}
+
+V splošnem pa supremum $\sup(x,y)$ in infimum $\inf(x,y)$ za poljubna $x,y \in V$ 
+nista nujno definirana. 
+
+\begin{definicija}
+  Stožci, za katere $\sup(x,y)$ in $\inf(x,y)$ obstajata za vse 
+  $x,y \in V$, se imenujejo \emph{miniedrski}.
+\end{definicija}
+
+Kot dejstvo bomo prevzeli, da je strnjen zaprt miniedrski stožec enak 
+$\mathbb{R}_{+}^{n}$. V~\cite{KreinRuthman,deSzNagy1945} je bilo pokazano, 
+da je strnjen zaprt stožec $K$ v $n$-dimenzionalnem realnem vektorskem prostoru $V$ 
+miniedrski natanko tedaj, ko je $K$ \emph{simplicialen}, tj.\ obstajajo linearno 
+neodvisni vektorji $x^{1},\dots,x^{n} \in V$ tako, da je
+\[
+K = \left\{ x \in V~\Big|~x = \sum_{i=1}^{n} \alpha_{i} x^{i},\ \alpha_{i} \ge 0 
+\text{ za } 1 \le i \le n \right\}.
+\]
+Poglejmo si sedaj nekaj osnovnih dejstev o dualnih stožcih in normalnosti. 
+
+\begin{definicija}
+  \emph{Dualni stožec} stožca $K \subseteq V$ je definiran kot
+  \[
+  K^{*} = \{ \varphi \in V^{*}~|~\varphi(x) \ge 0 \text{ za vse } x \in K \}.
+  \]
+\end{definicija}
+
+Na splošno $K^{*}$ ni nujno stožec, vendar pa velja naslednje.
+
+\begin{lema}\label{lema2.46}
+Če je $K \subseteq V$ strnjen zaprt stožec, potem je $K^{*}$ tudi strnjen zaprt stožec. Poleg tega, 
+če $\varphi \in \operatorname{int}(K^{*})$, potem $\varphi(x) > 0$ za vse $x \in K$ 
+kjer $x \ne 0$, in množica
+\[
+\Sigma_{\varphi} = \{ x \in K : \varphi(x) = 1 \}
+\]
+je kompaktno konveksna podmnožica prostora $V$.
+\end{lema}
+\begin{dokaz}
+  TO DO!
+\end{dokaz}
+
+\begin{definicija}
+Naj bo $K \subseteq V$ stožec in naj bo $V$ opremljen z normo $\|\cdot\|$.  
+Pravimo, da je $K$ \emph{normalen}, če obstaja konstanta $\delta > 0$ taka, da iz $0 \leq x \leq y$ sledi
+\[
+\|x\| \leq \delta \, \|y\|.
+\]
+Infimum vseh takih $\delta > 0$ imenujemo \emph{konstanta normalnosti}.  
+Normo $\|\cdot\|$ imenujemo \emph{monotona norma} za $K$, če je konstanta normalnosti enaka $1$.
+\end{definicija}
+
+\begin{lema}
+Vsak zaprt stožec $K$ v normiranem prostoru $(V, \|\cdot\|)$ je normalen.
+\end{lema}
+\begin{dokaz}
+  Predpostavimo, da $K$ ni normalen. Potem za vsak $ \delta > 0$ obstajata zaporedji 
+  $(x_k)_k$ in $(y_k)_k$ v $K$ tako, da velja $0 \leq x_k \leq y_k$ in  
+  $\|x_k\| > \delta \, \|y_k\|$. Ker to velja za vsak $\delta > 0$, lahko izberemo $\delta = k$ 
+  in dobimo zaporedji $(x_k)_k$ in $(y_k)_k$ v $K$ tako, da velja $0 \leq x_k \leq y_k$ in  
+  $\|x_k\| > k \, \|y_k\|$. Od tod sledi, da $\frac{\|y_k\| }{\|x_k\| } < \frac{1}{k}$, kar 
+  pomeni, da $\lim\limits_{k \to \infty} \frac{\|y_k\| }{\|x_k\| }  = 0$. Brez škode za splošnost 
+  lahko predpostavimo, da je $\|x_k\| = 1$ za vsak $k$. Iz limite torej sledi, da 
+  $\lim\limits_{k \to \infty} \|y_k\| = 0$ in posledično $\lim\limits_{k \to \infty} y_k = 0$. 
+  Ker so vsi $x_k$ del enotske sfere in je $V$ končnorazsežen, iz Bolzano-Weierstrassovega izreka 
+  sledi, da obstaja podzaporedje $(x_{k_j})_j$ tako, 
+  da $\lim\limits_{j \to \infty} x_{k_j} = x$ za nek $x \in K$. Ker je $K$ zaprt, sledi, da je 
+  $x \in K$. Dalje velja $x_{k_j} \leq y_{k_j}$, 
+  torej je $y_{k_j} - x_{k_j} \in K$. Iz $\lim\limits_{k \to \infty} y_k = 0$ in $\lim\limits_{j \to \infty} x_{k_j} = x$
+  sledi, da je $\lim\limits_{j \to \infty} (y_{k_j} - x_{k_j}) = -x$. Ker je $K$ zaprt, sledi, da je $-x \in K$. 
+  Po definiciji stožca je $ K \cap (-K) = \{0\}$, zato je $x = 0$. To pa je v protislovju z dejstvom, da je $\|x\| = 1$.
+\end{dokaz}
+
+
+
+\subsection{Preslikave, ki ohranjajo red}
+
+Eden izmed najpomembnejših pojmov v nelinearni Perron-Frobeniusovi teoriji so preslikave, ki ohranjajo red,
+$f : K \to K$, kjer je $K$ strnjen zaprt stožec v končnorazsežnem vektorskem prostoru $V$.
+Poleg same definicije lahko za ugotavljanje, ali preslikava
+$f : K \to K$
+ohranja red glede na stožec $K$, uporabimo tudi Fréchetov odvod
+$Df(x)$ v točki $x \in \operatorname{int}(K)$.
+Spomnimo se sedaj definicije Fréchetovega odvoda.
+\begin{definicija}
+  Naj bo  $U \subseteq V$ odprta množica. Pravimo, da je preslikava
+  $f : U \to V$ \emph{Fréchetovo odvedljiva} v točki $x \in U$, če obstaja linearna preslikava
+  $L : V \to V$, za katero velja
+  \[
+  \lim_{h \to 0}
+  \frac{\|f(x+h)-f(x)-Lh\|}{\|h\|}
+  =0.
+  \]
+  Fréchetov odvod preslikave $f$ v točki $x$ označimo z
+  \[
+  Df(x)=L.
+  \]
+\end{definicija}
+
+Spomnimo se sedaj nekaterih definicij.~\cite{Evans}
+\begin{definicija}
+Naj bo $A \subseteq \mathbb{R}^n$. Preslikava $f \colon A \to \mathbb{R}^m$
+je \emph{Lipschitzevo zvezna}, če obstaja konstanta $C \geq 0$, da za vsak par točk $x, y \in A$ velja
+\[
+\|f(x)-f(y)\| \leq C\,\|x-y\|.
+\]
+\end{definicija}
+
+Za dokaz naslednjega izreka bomo uporabili nekoliko naprednejše rezultate iz realne analize.
+Natančneje, uporabili bomo Rademacherjev izrek~\cite{Rademacher}.
+\begin{izrek}[Rademacherjev izrek]
+  Vsaka lokalno Lipschitzeva preslikava
+  $f : U \to V$ je 
+  Fréchetovo odvedljiva za skoraj vse točke $x \in U$ glede na Lebesgueovo mero, norma odvoda
+  $\|Df(x)\|$
+  pa je enakomerno omejena na kompaktnih podmnožicah množice $U$.
+\end{izrek}
+
+Iz Radamacherjevega izreka sledi, da je preslikava $x \mapsto Df(x)$ Lebesgueovo merljiva. 
+Zaradi poenostavitve naslednjega dokaza predpostavimo, da je preslikava
+$f$ Fréchetovo odvedljiva na celotnem $K$.
+
+\begin{izrek}\label{izrLipFreLeb}
+Naj bo $K \subseteq V$ poln zaprt stožec in naj bo $U \subseteq \operatorname{int}(K)$ odprta konveksna množica.
+Če je preslikava
+$f : U \to K$
+lokalno Lipschitzeva, potem Fréchetov odvod $Df(x)$ obstaja za skoraj vse
+$x \in U$
+glede na Lebesgueovo mero.
+Poleg tega preslikava $f$ ohranja red glede na stožec $K$
+natanko tedaj, ko za vsak $x \in U$, v katerem odvod obstaja, velja
+\[
+Df(x)(K)\subseteq K.
+\]
+\end{izrek}
+\begin{dokaz}
+  TO DO.
+\end{dokaz}
+
+Sedaj si bomo pogledali subhomogene preslikave, ki so pomemben razred preslikav, 
+ki ohranjajo red. 
+\begin{definicija}
+  Naj bosta $K \subseteq V$ in $K' \subseteq V'$ stožca. Preslikava
+  $f \colon K \to K'$ je 
+  \begin{itemize}
+    \item \emph{subhomogena}, če za vsak $x \in K$ in vsak $0 < \lambda < 1$ velja
+      $\lambda f(x) \leq f(\lambda x)$,
+    \item \emph{strogo subhomogena}, če za vsak
+      $x \in K \setminus \{0\}$ in vsak $0 < \lambda < 1$ velja
+      $\lambda f(x) \ll f(\lambda x)$,
+    \item \emph{homogena stopnje $p$}, če za vsak
+      $x \in K$ in vsak $\lambda > 0$ velja
+      $f(\lambda x)=\lambda^p f(x)$.
+    \item \emph{homogena}, če je homogena stopnje $p=1$.
+  \end{itemize}
+\end{definicija}
+
+
+
+
+
+\section{Neekspanzivnost}
+
+V tem poglavju bomo preučevali neekspanzivnost preslikav, ki ohranjajo red, glede na metriki, 
+ki jih bomo definirali v nadaljevanju. Pokazali bomo, da sta Hilbertova in Thompsonova metrika
+naravni metriki za proučevanje homogenih oziroma subhomogenih
+preslikav, ki ohranjajo red na stožcih. Kot bomo videli, so homogene
+preslikave, ki ohranjajo red, neekspanzivne glede na Hilbertovo in
+Thompsonovo metriko, medtem ko so strogo subhomogene preslikave celo
+skrčitev.
+
+\subsection{Hilbertova in Thompsonova metrika}
+
+V tem razdelku bomo pokazali, kako so homogene in subhomogene preslikave, ki ohranjajo red, povezane s preslikavami, 
+ki niso ekspanzivne glede na Hilbertovo (projektivno) metriko in Thompsonovo (delno) metriko.
+
+\begin{definicija}
+  Naj bo $K$ stožec v vektorskem prostoru $V$. Za elementa
+  $x,y\in K$, za katera velja $x \sim_K y$, $ y\neq0$, definiramo
+  \[
+  M(x/y)=\inf\{\beta>0 \mid x\le_K \beta y\},
+  \]
+  in
+  \[
+  m(x/y)=\sup\{\alpha>0 \mid \alpha y\le_K x\}.
+  \]
+\end{definicija}
+
+Ko je stožec $K$ jasen iz konteksta, bomo enostavno zapisali $M(x/y)$ in $m(x/y)$.
+Na podlagi teh količin definiramo Hilbertovo metriko.
+
+\begin{definicija}
+Naj bo $K$ stožec v vektorskem prostoru $V$.
+\emph{Hilbertova projektivna metrika} je preslikava
+$d_H:K\times K\longrightarrow[0,\infty]$,
+podana z
+\[
+d_H(x,y)=
+\log\!\left(
+\frac{M(x/y)}{m(x/y)}
+\right),
+\]
+za vse $x\sim_K y$ z $y\neq0$.
+
+Poleg tega definiramo še $d_H(0,0)=0$,
+v vseh ostalih primerih pa postavimo $d_H(x,y)=\infty$.
+\end{definicija}
+
+Naslednja trditev povzema osnovne lastnosti Hilbertove metrike.
+
+\begin{trditev}\label{trd3.3}
+Če je $K$ stožec v vektorskem prostoru $V$, potem velja:
+\begin{enumerate}
+\item $d_H(x,y) \ge 0$ in $d_H(x,y)=d_H(y,x)$ za vse $x,y\in K$,
+\item $d_H(x,z) \le d_H(x,y)+d_H(y,z)$ za vse $x\sim_K y\sim_K z$,
+\item Za vse $\alpha,\beta>0$ velja $d_H(\alpha x,\beta y)=d_H(x,y)$.
+\end{enumerate}
+\end{trditev}
+
+\begin{dokaz}
+Za dokaz prve trditve zadostuje obravnavati primer $x\sim_K y$ in $y\neq0$, saj ostali primeri sledijo 
+neposredno iz definicije. V tem primeru je tudi $x\neq0$. Za vsaka $0<\alpha<m(x/y)$ in $0<M(x/y)<\beta$ 
+velja $\alpha y\le_K x\le_K\beta y$, zato sledi $y\le_K(\beta/\alpha)y$. Od tod dobimo $\beta/\alpha\ge1$ 
+za vse $0<\alpha<m(x/y)$ in $0<M(x/y)<\beta$. Torej je $M(x/y)/m(x/y)\ge1$, od koder sledi $d_H(x,y)\ge0$.
+
+Ker je $\alpha$ pozitiven skalar, lahko hitro opazimo še, da z deljenjem z $\alpha$ dobimo 
+$M(x/y)=\inf\{\alpha>0~|~x\le_K \alpha y\}=\inf\{\alpha>0~|~\alpha^{-1}x\le_K y\}=m(y/x)^{-1}$.
+Na podoben način dobimo $m(x/y)=M(y/x)^{-1}$. Od tod sledi $d_H(x,y)= 
+\log\!\left(\frac{M(x/y)}{m(x/y)}\right)=\log\!\left(\frac{m(y/x)^{-1}}{M(y/x)^{-1}}\right)=
+\log\!\left(\frac{M(y/x)}{m(y/x)}\right)=d_H(y,x)$.
+
+Za dokaz trikotniške neenakosti naj velja $x\sim_K y\sim_K z$ v $K$ in $z\neq0$. Za vsaka $0<\alpha<m(x/y)$ 
+in $0<\gamma<m(y/z)$ velja $\alpha y\le_K x$ in $\gamma z\le_K y$, zato $\alpha\gamma z\le_K x$. Od tod 
+sledi $m(x/z)\ge m(x/y)m(y/z)$. Na podoben način dobimo $M(x/z)\le M(x/y)M(y/z)$. Iz teh dveh neenakosti sledi
+\[
+\frac{M(x/z)}{m(x/z)}
+\le
+\frac{M(x/y)M(y/z)}
+{m(x/y)m(y/z)}.
+\]
+Uporabimo dejstvo, da je logaritemska funkcija strogo naraščajoča ter da je logaritem produkta vsota logaritmov 
+in dobimo $d_H(x,z)\le d_H(x,y)+d_H(y,z)$.
+
+Tretja trditev sledi iz dejstva, da
+\[
+M(\alpha x/\beta y)=\frac{\alpha}{\beta}M(x/y)
+\qquad\text{in}\qquad
+m(\alpha x/\beta y)=\frac{\alpha}{\beta}m(x/y)
+\]
+za vse $\alpha,\beta>0$, saj $d_H(\alpha x, \beta y)= 
+\log\!\left(\frac{M(\alpha x/\beta y)}{m(\alpha x/\beta y)}\right) = 
+\log\!\left(\frac{\frac{\alpha}{\beta}M(x/y)}{\frac{\alpha}{\beta}m(x/y)}\right) = d_H(x,y)$.
+\end{dokaz}
+
+Hilbertova projektivna metrika pa ni prava metrika, saj na stožcu $K$ ne velja, da je 
+$d_H(x,y)=0$ natanko tedaj, ko je $x=y$. Lahko pa pokažemo, da je Hilbertova metrika prava metrika 
+na $\Sigma=P\cap X$, kjer je $P$ del stožca $K$, množica $X$ pa vsebuje
+natanko enega predstavnika iz vsakega pozitivnega žarka.
+
+\begin{izrek}\label{izr3.4}
+  Naj bo $K$ zaprt stožec v vektorskem prostoru $V$. Potem velja $d_H(x,y)=0$
+  natanko tedaj, ko obstaja $\lambda>0$, da je $x=\lambda y$.
+  V tem primeru, če je $X\subseteq K$ taka množica, da za vsak
+  $x\in K\setminus\{0\}$ obstaja natanko en $\lambda>0$, za katerega je
+  $\lambda x\in X$ in je $P$ del stožca $K$, potem je $\Sigma=P\cap X$ 
+  pravi metrični prostor glede na Hilbertovo metriko.
+\end{izrek}
+\begin{dokaz}
+  Naj bo $K$ zaprt in naj velja $x\sim_K y$ v $K$, kjer je $y\neq0$. Ker je $K$ zaprt, sta supremum in infimum 
+  v definicijah $M$ in $m$ dosežena, zato velja 
+  \[
+  m(x/y)y\le_K x\le_K M(x/y)y. \tag{2.1}
+  \]
+  Torej iz $d_H(x,y)=0$ sledi $\frac{M(x/y)}{m(x/y)}=1$, zato je
+  \[
+  y\le_K m(x/y)^{-1}x\le_K \frac{M(x/y)}{m(x/y)}y=y. 
+  \]
+  Iz tega sledi, da je $y = m(x/y)^{-1}x$ torej tak $\lambda>0$ obstaja. 
+  
+  Za obratno implikacijo uporabimo točko 3 prejšnje trditve.
+  Ker je $x=\lambda y$ za nek $\lambda>0$, velja $d_H(x,y)=d_H(\lambda y,y)= d_H(y,y)=0$.
+
+  Dokažimo še zadnjo trditev. Naj bosta $x,y\in\Sigma=P\cap X$. Če je $d_H(x,y)=0$, potem po prvem
+  delu izreka obstaja $\lambda>0$, za katerega je $x=\lambda y$.
+  Ker sta $x,y\in X$, velja $1\cdot y=y\in X$ in
+  $\lambda y=x\in X$. Po predpostavki pa za vsak
+  $y\in K\setminus\{0\}$ obstaja natanko en pozitiven skalar $\mu$,
+  za katerega je $\mu y\in X$. Zato je $\lambda=1$ in posledično
+  $x=y$.
+  Obratno, če je $x=y$, potem je $d_H(x,y)=d_H(x,x)=0$.
+  Torej za vse $x,y\in\Sigma$ velja $d_H(x,y)=0 \Longleftrightarrow x=y$.
+\end{dokaz}
+
+Poglejmo si, zakaj je bilo v prejšnjem izreku nujno predpostaviti, da je stožec $K$ zaprt. 
+\begin{zgled}
+  Vzemimo stožec, ki ni zaprt,
+  \[
+  K=\{x\in\mathbb{R}^2~|~x_1>0\}\cup\{(0,0)\}.
+  \]
+  Potem velja $x\sim_K y$ za vse $x,y\in K\setminus\{0\}$. 
+  Naj bosta $x=(x_1,x_2)$ in $y=(y_1,y_2)\in K\setminus\{0\}$.
+  Tedaj sta $x_1,y_1>0$. Označimo $r=\frac{x_1}{y_1}$.
+  Ker je $\beta y-x=(y_1(\beta-r),\,\beta y_2-x_2)$, velja
+  $x\le_K\beta y$ za vsak $\beta>r$. Zato je $M(x/y)=r=x_1/y_1$.
+  Podobno je $x-\alpha y=(y_1(r-\alpha),\,x_2-\alpha y_2)$, zato velja
+  $\alpha y\le_K x$ za vsak $\alpha<r$. Torej je $m(x/y)=r=x_1/y_1$.
+  Sledi $M(x/y)=\frac{x_1}{y_1}=m(x/y)$, zato je
+  $d_H(x,y)=\log\left(\frac{M(x_1/y_1)}{m(x_1/y_1)}\right)=0$ 
+  ne glede na to, ali je $x$ skalarni večkratnik $y$ ali ne.
+\end{zgled}
+
+Pomembno različico Hilbertove metrike na stožcih je uvedel Thompson.
+
+\begin{definicija}
+Naj bo $K$ stožec v vektorskem prostoru $V$.
+\emph{Thompsonova metrika} je preslikava
+$d_T:K\times K\longrightarrow[0,\infty]$, podana z
+\[
+d_T(x,y)=\log\bigl(\max\{M(x/y),M(y/x)\}\bigr)
+\]
+za vse $x\sim_K y$ z $y\neq0$.
+Poleg tega definiramo $d_T(0,0)=0$, v vseh ostalih primerih pa
+postavimo $d_T(x,y)=\infty$.
+\end{definicija}
+
+S podobnimi argumenti kot v dokazih osnovnih lastnosti Hilbertove
+metrike~\ref{trd3.3} in~\ref{izr3.4} lahko pokažemo, da je $d_T$ prava metrika na vsakem delu
+stožca. (TO DO, napisati trditev in dokaz)
+
+Hilbertova in Thompsonova metrika sta posebej uporabni pri preučevanju
+homogenih in subhomogenih preslikav na stožcih, ki ohranjajo red.
+Preden to podrobneje obravnavamo, si poglejmo nekaj osnovnih pojmov.
+
+\begin{definicija}
+Naj bosta $(X,d_X)$ in $(Y,d_Y)$ metrična prostora. Preslikava
+$f:X\longrightarrow Y$ je \emph{neekspanzivna}, če za vse $x,y\in X$
+velja
+\[
+d_Y\bigl(f(x),f(y)\bigr)\leq d_X(x,y).
+\tag{2.4}
+\]
+Preslikava $f$ je \emph{skrčitev}, če je neenakost v~\textup{(2.4)}
+stroga za vse različne $x,y\in X$.
+
+Preslikava $f$ je \emph{Lipschitzeva skrčitev}, če obstaja 
+$c\in[0,1)$, tako da za vse $x,y\in X$ velja
+$d_Y(f(x),f(y))\leq c\,d_X(x,y)$.
+Preslikava $f$ je \emph{izometrija}, če v~\textup{(2.4)} velja enakost
+za vse $x,y\in X$.
+\end{definicija}
+
+\begin{trditev}
+Naj bosta $K\subseteq V$ in $K'\subseteq V'$ zaprta stožca. Če je
+$f:K\longrightarrow K'$ preslikava, ki ohranja red in je homogena
+stopnje $r>0$, potem za vse $x,y\in K$, za katere velja $x\sim_K y$,
+velja
+\[
+m(x/y)^r\leq m\bigl(f(x)/f(y)\bigr)
+\qquad\text{in}\qquad
+M\bigl(f(x)/f(y)\bigr)\leq M(x/y)^r.
+\]
+\end{trditev}
+
+\begin{dokaz}
+Naj bo $x\sim_K y$. Ker je $K$ zaprt stožec, velja
+$m(x/y)y\leq_K x\leq_K M(x/y)y$. Ker $f$ ohranja red, dobimo 
+$f(m(x/y) y)\leq_{K'}f(x)\leq_{K'} f(M(x/y) y)$ in ker je $f$ homogena stopnje $r>0$, velja
+$m(x/y)^r f(y)\leq_{K'} f(x)\leq_{K'} M(x/y)^r f(y)$.
+Po definiciji je $m (f(x)/f(y)) = \sup\{\alpha>0: \alpha f(y)\leq_{K'} f(x)\}$, torej je $m(x/y)^r\leq m(f(x)/f(y))$. Na podoben način je
+dobimo, da je $M(f(x)/f(y))\leq M(x/y)^r$.
+\end{dokaz}
+
+Prejšnja trditev ima naslednjo posledico.
+
+\begin{posledica}\label{posledica3.9}
+Naj bosta $K\subseteq V$ in $K'\subseteq V'$ zaprta stožca. Če je
+$f:K\longrightarrow K'$ preslikava, ki ohranja red in je homogena
+stopnje $r>0$, potem za vse $x,y\in K$, za katere velja $x\sim_K y$,
+velja
+\[
+d_H\bigl(f(x),f(y)\bigr)\leq r\,d_H(x,y)
+\qquad\text{in}\qquad
+d_T\bigl(f(x),f(y)\bigr)\leq r\,d_T(x,y).
+\]
+\end{posledica}
+\begin{dokaz}
+  Po prejšnji trditvi in lastnostih logaritma velja
+  \[
+  d_H(f(x),f(y))=\log\left(\frac{M(f(x/f(y)))}{m(f(x)/f(y))}\right)
+  \leq
+  \log\left(\frac{M(x/y)^r}{m(x/y)^r}\right)
+  =r\,d_H(x,y)
+  \]
+  in
+  \[
+  \begin{aligned}
+    d_T(f(x),f(y))
+    &=
+    \log\left(
+    \max\left\{
+    M\bigl(f(x)/f(y)\bigr),
+    M\bigl(f(y)/f(x)\bigr)
+    \right\}
+    \right)\\
+    &\leq
+    \log\left(
+    \max\left\{
+    M(x/y)^r,
+    M(y/x)^r
+    \right\}
+    \right)\\
+    &=
+    r\,d_T(x,y).
+  \end{aligned}
+  \]
+\end{dokaz}
+
+Posebej je vsaka homogena preslikava $f:K\longrightarrow K'$, ki
+ohranja red, neekspanzivna glede na Hilbertovo in Thompsonovo metriko.
+
+Iz prejšnje posledice sledi, da je bijektivna linearna preslikava
+$f:K\longrightarrow K'$ izometrija glede na Hilbertovo in Thompsonovo
+metriko. Res, če je $f$ linearna, potem velja $f(\lambda x)=\lambda f(x)$, torej je homogena 
+stopnje $r=1$, zato velja $d_H(f(x),f(y))\leq d_H(x,y)$ in $d_T(f(x),f(y))\leq d_T(x,y)$. Ker je $f$ bijektivna, 
+je $f^{-1}$ tudi homogena stopnje $r=1$ in po prejšnji posledicivelja
+$d_H(x,y) = d_H(f^{-1}(f(x)),f^{-1}(f(y))) \leq d_H(f(x),f(y))$ in $d_T(x,y)\leq d_T(f(x),f(y))$. Sledi, da je
+\[d_H(f(x),f(y))=d_H(x,y)
+\qquad\text{in}\qquad
+d_T(f(x),f(y))=d_T(x,y),\]
+torej je $f$ izometrija glede na Hilbertovo in Thompsonovo metriko.
+
+S podobnim argumentom kot v prejšnji trditvi dobimo naslednji
+rezultat.
+
+\begin{posledica}
+Naj bosta $K\subseteq V$ in $K'\subseteq V'$ zaprta stožca. Če je
+$f:K\longrightarrow K'$ preslikava, ki obrača red in je homogena
+stopnje $r<0$, potem za vse $x,y\in K$, za katere velja $x\sim_K y$,
+velja
+\[
+d_H\bigl(f(x),f(y)\bigr)\leq |r|\,d_H(x,y)
+\qquad\text{in}\qquad
+d_T\bigl(f(x),f(y)\bigr)\leq |r|\,d_T(x,y).
+\]
+\end{posledica}
+
+\begin{dokaz}
+Naj bo $x\sim_K y$. Ker je $K$ zaprt, velja
+$m(x/y)y\leq_K x\leq_K M(x/y)y$. Ker $f$ obrača red in je homogena
+stopnje $r<0$, dobimo
+$M(x/y)^r f(y)\leq_{K'}f(x)\leq_{K'}m(x/y)^r f(y)$.
+Zato je $m(f(x)/f(y))\geq M(x/y)^r$ in
+$M(f(x)/f(y))\leq m(x/y)^r$. Sledi
+\[
+d_H\bigl(f(x),f(y)\bigr)
+\leq
+\log\left(\frac{m(x/y)^r}{M(x/y)^r}\right)
+=
+|r|\,d_H(x,y)
+\]
+in
+\[
+d_T\bigl(f(x),f(y)\bigr)
+\leq
+\log\bigl(\max\{M(x/y)^{-r},M(y/x)^{-r}\}\bigr)
+=
+|r|\,d_T(x,y).
+\]
+\end{dokaz}
+
+Posebej je vsaka preslikava, ki obrača red in je homogena stopnje
+$-1$, neekspanzivna glede na $d_H$ in $d_T$.
+
+Hilbertova metrika je posebej uporabna pri preučevanju skaliranih
+homogenih preslikav, ki ohranjajo red, kot kaže naslednja lema.
+
+\begin{lema}
+Naj bo $K\subseteq V$ strnjen zaprt stožec in naj bo
+$f:K\longrightarrow K$ homogena preslikava, ki ohranja red, pri čemer
+je $f(x)\neq0$ za vse $x\in K\setminus\{0\}$. Naj bo
+$\varphi:K\longrightarrow[0,\infty)$ homogena preslikava, za katero
+velja $\varphi(x)\neq0$ za vse $x\in K\setminus\{0\}$. Če je
+$\Sigma=\{x\in K:\varphi(x)=1\}$ in je preslikava
+$g:\Sigma\longrightarrow\Sigma$ podana z
+\[
+g(x)=\frac{f(x)}{\varphi(f(x))},
+\]
+potem je $g$ neekspanzivna glede na Hilbertovo metriko na
+$\Sigma\cap P$ za vsak del $P$ stožca $K$. Če $f$ poleg tega strogo
+ohranja red, potem je $g$ skrčitev.
+\end{lema}
+
+\begin{dokaz}
+Naj bosta $x,y\in\Sigma$, za katera velja $x\sim_K y$, in označimo
+$\alpha=m(x/y)$ ter $\beta=M(x/y)$. Ker je $K$ zaprt, velja
+$\alpha y\leq_K x\leq_K\beta y$. Poleg  tega $f$ ohranja red, zato je
+$f(\alpha y)\leq_K f(x)\leq_K f(\beta y)$, iz pogoja homogenosti pa sledi
+$\alpha f(y)\leq_K f(x)\leq_K\beta f(y)$. Sedaj uporabimo definicijo 
+preslikave $g$ 
+\[
+g(x)=\frac{f(x)}{\varphi(f(x))},
+\qquad
+g(y)=\frac{f(y)}{\varphi(f(y))}
+\]
+in s preureditvijo v $f(x)= \varphi(f(x)) g(x)$ in $f(y)= \varphi(f(y)) g(y)$ dobimo
+\[
+\alpha\frac{\varphi(f(y))}{\varphi(f(x))}g(y)
+\leq_K g(x)
+\leq_K
+\beta\frac{\varphi(f(y))}{\varphi(f(x))}g(y).
+\]
+Iz definicij $m(g(x)/g(y))$ in $M(g(x)/g(y))$ sledi
+\[
+m(g(x)/g(y))\geq \alpha\frac{\varphi(f(y))}{\varphi(f(x))},
+\qquad
+M(g(x)/g(y))\leq \beta\frac{\varphi(f(y))}{\varphi(f(x))}.
+\]
+Zato je $d_H(g(x),g(y))\leq\log(\beta/\alpha)=d_H(x,y)$.
+
+Če $f$ strogo ohranja red in $x\neq\lambda y$ za vsak $\lambda>0$,
+potem iz $\alpha y\leq_K x\leq_K\beta y$ sledi
+$\alpha f(y)\ll_K f(x)\ll_K\beta f(y)$.
+Zato obstajata $\mu>\alpha$ in $\tau<\beta$, za katera velja
+$\mu f(y)\leq_K f(x)\leq_K\tau f(y)$. Posledično
+\[
+d_H(g(x),g(y))
+\leq\log(\tau/\mu)
+<
+\log(\beta/\alpha)
+=
+d_H(x,y).
+\]
+\end{dokaz}
+
+Tipičen primer homogene funkcije
+$\varphi:K\longrightarrow[0,\infty)$ iz prejšnje leme je
+$\varphi(x)=\|x\|$ za neko normo $\|\cdot\|$ na $V$ in
+$\varphi\in\operatorname{int}(K^*)$.
+
+Thompsonova metrika je najbolj uporabna pri preučevanju subhomogenih
+preslikav, ki ohranjajo red, na celotnem stožcu.
+
+\begin{lema}
+Naj bosta $K\subseteq V$ in $K'\subseteq V'$ strnjena zaprta stožca. Če
+je $f:K\longrightarrow K'$ preslikava, ki ohranja red, potem je $f$
+subhomogena natanko tedaj, ko je neekspanzivna glede na Thompsonovo
+metriko na vsakem delu stožca $K$.
+
+Če je
+$f:\operatorname{int}(K)\longrightarrow\operatorname{int}(K')$
+strogo subhomogena preslikava, ki ohranja red, potem je skrčitev.
+\end{lema}
+
+\begin{dokaz}
+Predpostavimo najprej, da je $f$ subhomogena, in naj bosta
+$x,y\in K$, za katera velja $x\sim_K y$. Tedaj je
+$d_T(x,y)=\log\lambda$ za  $\lambda = \max\{M(x/y),M(y/x)\} \geq 1$. Ker je $K$ zaprt,
+velja $y\leq_K M(y/x) \leq_K \lambda x$ in $x\leq_K M(x/y) \leq_K\lambda y$. Ker $f$ ohranja red
+in je subhomogena ter $ 0 < \lambda^{-1} < 1 $, dobimo
+\[
+\lambda^{-1}f(y)
+\leq_{K'}f(\lambda^{-1}y)
+\leq_{K'}f(x),
+\qquad
+\lambda^{-1}f(x)
+\leq_{K'}f(\lambda^{-1}x)
+\leq_{K'}f(y).
+\tag{2.5}
+\]
+Od tod sledi
+$\max\{M(f(y)/f(x)),M(f(x)/f(y))\}\leq\lambda$ in zato
+$d_T(f(x),f(y))\leq\log\lambda=d_T(x,y)$.
+
+Za obratno implikacijo predpostavimo, da je $f$ neekspanzivna glede
+na $d_T$ na vsakem delu stožca $K$. Naj bo $x\in K$ in
+$y=\lambda^{-1}x$, kjer je $\lambda\geq1$. Če je $x\neq0$, velja
+$d_T(x,y)=\log\lambda$, če pa je $x=0$, velja
+$d_T(x,y)=0\leq\log\lambda$. Ker je $f$ neekspanzivna, dobimo
+\[
+\log M(f(x)/f(y))
+\leq d_T(f(x),f(y)) \leq d_T(x,y)
+\leq\log\lambda.
+\]
+Ker je logaritem naraščajoča funkcija, dobimo $M(f(x)/f(y)) \leq \lambda$. 
+Ker je $K'$ zaprt, sledi $f(x) \leq \lambda f(y)$. Upoštevamo, da je 
+$ y = \lambda^{-1} x$ ter obe strani delimo z $\lambda$ in dobimo
+$\lambda^{-1}f(x)\leq_{K'}f(\lambda^{-1}x)$, kar pomeni, da je $f$
+subhomogena.
+
+Naj bo sedaj
+$f:\operatorname{int}(K)\longrightarrow\operatorname{int}(K')$
+strogo subhomogena preslikava, ki ohranja red, in naj bo
+$\lambda = \max{M(x/y),M(y/x)} >1$. Podobno kot v~\textup{(2.5)} dobimo
+\[
+\lambda^{-1}f(y)
+\ll_{K'}f(\lambda^{-1}y)
+\leq_{K'}f(x),
+\qquad
+\lambda^{-1}f(x)
+\ll_{K'}f(\lambda^{-1}x)
+\leq_{K'}f(y)
+\]
+za vse različne $x,y\in\operatorname{int}(K)$. 
+Iz $f(y)\ll_{K'}\lambda f(x)$ po definiciji strogega reda sledi, da je $z:=\lambda f(x)-f(y)\in\operatorname{int}(K')$. Definirajmo preslikavo $h\colon\mathbb{R}\to V'$ s predpisom $h(t)=z-tf(x)$. Preslikava $h$ je zvezna in velja $h(0)=z\in\operatorname{int}(K')$. Ker je $\operatorname{int}(K')$ odprta, je množica $h^{-1}(\operatorname{int}(K'))$ odprta v $\mathbb{R}$ in vsebuje $0$. Zato obstaja $\delta>0$, da za vsak $t\in[0,\delta)$ velja $h(t)=z-tf(x)\in\operatorname{int}(K')$.
+Izberimo $0<\varepsilon<\min\{\delta,\lambda\}$ in postavimo $\mu_1=\lambda-\varepsilon$. Tedaj je $0<\mu_1<\lambda$ in velja $\mu_1f(x)-f(y)=(\lambda-\varepsilon)f(x)-f(y)=z-\varepsilon f(x)=h(\varepsilon)\in\operatorname{int}(K')\subseteq K'$. Zato je $f(y)\leq_{K'}\mu_1f(x)$, od koder po definiciji $M$ sledi $M(f(y)/f(x))\leq\mu_1<\lambda$.
+ Zato velja $\max\{M(f(x)/f(y)),M(f(y)/f(x))\}<\lambda$ in posledično $d_T(f(x),f(y))<\log\lambda=d_T(x,y)$.
+\end{dokaz}
+
+Pri računanju $M(x/y)$ in $m(x/y)$ je včasih uporabna naslednja
+ugotovitev. Naj bo $K\subseteq V$ strnjen zaprt stožec in
+$u\in\operatorname{int}(K)$. Definirajmo
+\[
+\Sigma_u^*=\{\varphi\in K^*:\varphi(u)=1\}.
+\]
+Po lemi o dualnem stožcu~\ref{lema2.46} je $\Sigma_u^*$ kompaktna konveksna množica.
+Poleg tega je $\varphi(u)>0$ za vse
+$\varphi\in K^*\setminus\{0\}$, ker je $u\in\operatorname{int}(K)$.
+
+Če je na primer $K=\mathbb{R}_+^n$ in $u=(1,1, \ldots, 1)$, potem je
+\[
+\Sigma_u^*
+=
+\left\{
+\varphi\in\mathbb{R}_+^n:
+\sum_i\varphi_i=1
+\right\}.
+\]
+
+\begin{definicija}
+Točka $z$ konveksne množice $S\subseteq V$ je \emph{ekstremna točka},
+če ne obstajata različni točki $x,y\in S\setminus\{z\}$ in število
+$0<\lambda<1$, za katere bi veljalo
+$z=\lambda x+(1-\lambda)y$.
+\end{definicija}
+
+Znano je, da je vsaka kompaktna konveksna množica konveksna ogrinjača
+svojih ekstremnih točk; glej~\cite{rockafellar}. (TO DO)
+
+\begin{trditev}\label{konv-ogr}
+Vsaka kompaktna konveksna množica v končnorazsežnem realnem vektorskem
+prostoru je konveksna ogrinjača svojih ekstremnih točk.
+\end{trditev}
+
+\begin{posledica}\label{posledica:ekstremne_tocke_nepoliedrski}
+Naj bo $K\subseteq V$ strnjen zaprt stožec,
+$\varphi\in\operatorname{int}(K^*)$ in
+\begin{align*}
+\Sigma_\varphi=\{x\in K:\varphi(x)=1\}.
+\end{align*}
+Če ima $\Sigma_\varphi$ neskončno mnogo ekstremnih točk, potem
+$K$ ni poliedrski stožec.
+\end{posledica}
+
+\begin{dokaz}
+Pokažimo, da dve različni ekstremni točki množice $\Sigma_\varphi$
+ne moreta pripadati istemu delu stožca $K$. Naj bosta
+$x,y\in\Sigma_\varphi$ ekstremni točki in predpostavimo, da
+$x\sim_K y$. Tedaj obstaja $\beta>0$, tako da $x\leq_K\beta y$.
+Če postavimo $\alpha=1/\beta$, dobimo $\alpha x\leq_K y$, zato je
+$y-\alpha x\in K$.
+Ker je $\varphi$ pozitiven funkcional in
+$\varphi(x)=\varphi(y)=1$, velja
+$0\leq\varphi(y-\alpha x)=1-\alpha$,
+torej $\alpha\leq1$.
+
+Če je $\alpha<1$, postavimo
+\begin{align*}
+z=\frac{y-\alpha x}{1-\alpha}.
+\end{align*}
+Tedaj je $z\in\Sigma_\varphi$ in
+$y=\alpha x+(1-\alpha)z$.
+Ker je $y$ ekstremna točka, sledi $x=y$.
+Če je $\alpha=1$, velja $y-x\in K$ in
+$\varphi(y-x)=0$. Ker je $\varphi\in\operatorname{int}(K^*)$,
+sledi $y-x=0$, torej ponovno $x=y$.
+
+Različne ekstremne točke množice $\Sigma_\varphi$ zato pripadajo
+različnim delom stožca $K$. Če ima $\Sigma_\varphi$ neskončno mnogo
+ekstremnih točk, ima $K$ neskončno mnogo delov. Po točki~(iv)
+leme~\ref{lema2.38} pa ima poliedrski stožec le končno mnogo delov.
+Zato $K$ ni poliedrski.
+\end{dokaz}
+
+Iz leme~\ref{lema2.31} in linearnosti $\varphi$ sledi, da je $x\leq_K\beta y$ natanko tedaj,
+ko je $\varphi(x)\leq\beta\varphi(y)$ za vse
+$\varphi\in\Sigma_u^*$. Ker je $\Sigma_u^*$ konveksna ogrinjača svojih
+ekstremnih točk, je ta pogoj ekvivalenten pogoju
+$\varphi(x)\leq\beta\varphi(y)$ za vse $\varphi\in \varepsilon_u^*$, 
+kjer je $\varepsilon_u^*$ množica ekstremnih točk množice $\Sigma_u^*$.
+Zato
+\begin{align}
+  M(x/y)
+  =
+  \inf\{\beta>0:x\leq_K\beta y\}
+  =
+  \sup_{\varphi\in \varepsilon_u^*}
+  \frac{\varphi(x)}{\varphi(y)}
+  \label{oznaka2.6}
+\end{align}
+in
+\begin{align}
+  m(x/y)
+  =
+  \sup\{\alpha>0:\alpha y\leq_K x\}
+  =
+  \inf_{\varphi\in \varepsilon_u^*}
+  \frac{\varphi(x)}{\varphi(y)}.
+  \label{oznaka2.7}
+\end{align}
+
+V formulah~\eqref{oznaka2.6} in~\eqref{oznaka2.7} lahko množico $\varepsilon_u^*$
+nadomestimo s poljubno podmnožico $S^*$ množice $\Sigma_u^*$, ki
+vsebuje $\varepsilon_u^*$.
+
+
+
+
+
+
+\subsection{Lorentzovi stožci}
+
+Za $n\geq 2$ je eden izmed pomembnih primerov nepoliedrskih stožcev
+Lorentzov stožec. Spomnimo se, da smo ga definirali kot
+\begin{align*}
+\Lambda_{n+1}
+=
+\{(x_1,\ldots,x_{n+1})\in\R^{n+1} ~|~
+x_1^2-x_2^2-\cdots-x_{n+1}^2\geq0,\ x_1\geq0\}.
+\end{align*}
+Če vektor $x\in\R^{n+1}$ zapišemo kot $x=(s,u)$, kjer je
+$s\in\R$ in $u\in\R^n$, lahko Lorentzov stožec pregledneje zapišemo kot
+\begin{align*}
+\Lambda_{n+1}
+=
+\{(s,u)\in\R\times\R^n ~|~ s\geq\|u\|_2\}.
+\end{align*}
+
+Definirajmo kvadratno formo
+$Q:\R^{n+1}\longrightarrow\R$ s predpisom
+\begin{align*}
+Q((s,u))
+=
+s^2-\|u\|_2^2.
+\end{align*}
+Lorentzov stožec lahko tako zapišemo kot
+\begin{align*}
+\Lambda_{n+1}
+=
+\{(s,u)\in\R\times\R^n ~|~
+Q((s,u))\geq0 \text{ in } s\geq0\}.
+\end{align*}
+
+Naj bo
+\begin{align*}
+H^n
+=
+\{(s,u)\in\R\times\R^n ~|~
+Q((s,u))=1 \text{ in } s>0\}.
+\end{align*}
+Ker za $(s,u)\in H^n$ velja
+$s=\sqrt{1+\|u\|_2^2}$,
+je $H^n$ zgornji del dvodelnega hiperboloida
+$\{x\in\R^{n+1} ~|~ Q(x)=1\}$
+in leži v $\operatorname{int}(\Lambda_{n+1})$.
+
+Definirajmo še simetrično bilinearno formo
+$B:\R^{n+1}\times\R^{n+1}\longrightarrow\R$ s predpisom
+\begin{align*}
+B(x,y)
+=
+st-\langle u,v\rangle,
+\end{align*}
+kjer sta $x=(s,u)$ in $y=(t,v)$. Med $Q$ in $B$ velja
+\begin{align*}
+Q(x)=B(x,x).
+\end{align*}
+
+Za nadaljnje izračune Hilbertove metrike na
+$\operatorname{int}(\Lambda_{n+1})$ definirajmo za
+$x,y\in\operatorname{int}(\Lambda_{n+1})$ kvadratni polinom
+\begin{align*}
+p(\lambda)
+=
+\lambda^2-2B(x,y)\lambda+Q(x)Q(y).
+\end{align*}
+Njegovi ničli sta
+\begin{align*}
+\alpha(x,y)
+&=
+B(x,y)
+-
+\sqrt{B(x,y)^2-Q(x)Q(y)},\\
+\beta(x,y)
+&=
+B(x,y)
++
+\sqrt{B(x,y)^2-Q(x)Q(y)}.
+\end{align*}
+Funkciji $\alpha$ in $\beta$ sta pozitivno homogeni v obeh
+spremenljivkah, saj velja 
+$B(\lambda x,\lambda y)=  \lambda s \lambda t - \langle \lambda u, \lambda v \rangle = \lambda^2 B(x,y)$ 
+in $Q(\lambda x)=\lambda^2 Q(x)$ za vse $\lambda>0$ in $x,y\in\R^{n+1}$. 
+V dokazu naslednjega izreka bomo videli tudi, da za
+$x,y\in H^n$ velja
+$B(x,y)^2-Q(x)Q(y)\geq0$.
+
+\begin{izrek}\label{izr:lorentz_M_m_H}
+Za $x,y\in H^n$ velja
+\begin{align*}
+M(x/y;\Lambda_{n+1})
+=
+\beta(x,y)
+\qquad\text{in}\qquad
+m(x/y;\Lambda_{n+1})
+=
+\alpha(x,y).
+\end{align*}
+\end{izrek}
+
+\begin{dokaz}
+Če je $x=y$, sta enakosti očitni, saj sta obe strani enaki $1$. Predpostavimo zato, da sta
+$x=(s,u)$ in $y=(t,v)$ različni točki množice $H^n$.
+
+Velja $x\leq_{\Lambda_{n+1}}\lambda y$ natanko tedaj, ko je
+$\lambda y-x\in\Lambda_{n+1}$, kar je ekvivalentno pogojema
+\begin{align*}
+Q(\lambda y-x)\geq0
+\qquad\text{in}\qquad
+\lambda t-s\geq0.
+\end{align*}
+Ker je $Q(x)=Q(y)=1$, dobimo
+\begin{align*}
+Q(\lambda y-x)
+&=
+Q((\lambda t-s,\lambda v-u))=\\
+&=
+(\lambda t-s)^2
+-
+\langle\lambda v-u,\lambda v-u\rangle=\\
+&=
+\lambda^2(t^2-\|v\|_2^2)
+-2\lambda(st-\langle u,v\rangle)
++(s^2-\|u\|_2^2)=\\
+&=
+\lambda^2-2\lambda B(x,y)+1=\\
+&=
+p(\lambda).
+\end{align*}
+Zato je
+\begin{align}
+M(x/y;\Lambda_{n+1})
+=
+\inf\limits
+\left\{
+\lambda>0 ~|~
+p(\lambda)\geq0
+\text{ in }
+\lambda\geq\frac{s}{t}
+\right\}.
+\label{eq:lorentz_M}
+\end{align}
+
+Po Cauchy-Schwarzovi neenakosti in neenakosti
+$2ab\leq a^2+b^2$ dobimo
+\begin{align*}
+2stB(x,y)
+&=
+2s^2t^2-2st\langle u,v\rangle \geq
+2s^2t^2-2st\|u\|_2\|v\|_2 \geq \\
+&\geq
+2s^2t^2-t^2\|u\|_2^2-s^2\|v\|_2^2=\\
+&=
+2s^2t^2-t^2(s^2-1)-s^2(t^2-1)=\\
+&=
+s^2+t^2.
+\end{align*}
+V drugi neenakosti smo uporabili
+$2ab\leq a^2+b^2$ za $a=t\|u\|_2$ in $b=s\|v\|_2$, v predzadnji enakosti pa dejstvo, da je $Q(x)=Q(y)=1$, 
+torej je $1 = s^2 - \|u\|_2^2 = t^2 - \|v\|_2^2$.
+
+Poglejmo še, kdaj v zgornji neenakosti nastopi enakost.
+Če sta $u=v=0$, iz $Q(x)=Q(y)=1$ in $s,t>0$ sledi
+$s=t=1$, torej je $x=y$. V nasprotnem primeru enakost po
+Cauchy--Schwarzovi neenakosti zahteva
+$u=\mu v$ za neki $\mu>0$, enakost v
+$2ab\leq a^2+b^2$ pa zahteva $t\|u\|_2=s\|v\|_2$.
+Od tod sledi $\mu=s/t$ in zato
+\begin{align*}
+x
+=
+(s,u)
+=
+\left(s,\frac{s}{t}v\right).
+\end{align*}
+Ker je $Q(x)=Q(y)=1$, dobimo
+\begin{align*}
+1
+=
+Q(x)
+&=
+s^2-\left(\frac{s}{t}\right)^2\|v\|_2^2 =
+\frac{s^2}{t^2}
+\left(t^2-\|v\|_2^2\right) =\\
+&=
+\frac{s^2}{t^2}Q(y)\ =
+\frac{s^2}{t^2}.
+\end{align*}
+Ker sta $s,t>0$, sledi $s=t$, zato je tudi $\mu=1$ in $x=y$.
+Enakost torej nastopi natanko tedaj, ko je $x=y$.
+
+Poleg tega iz zgornje neenakosti sledi
+\begin{align*}
+B(x,y)
+\geq
+\frac{s^2+t^2}{2st}
+\geq
+1
+=
+\sqrt{Q(x)Q(y)}.
+\end{align*}
+Zato je
+\begin{align*}
+B(x,y)^2-Q(x)Q(y)\geq0,
+\end{align*}
+torej sta $\alpha(x,y)$ in $\beta(x,y)$ realni ničli polinoma $p$.
+
+Ker smo predpostavili $x\neq y$, je
+\begin{align*}
+2stB(x,y)>s^2+t^2,
+\end{align*}
+zato je
+\begin{align*}
+s^2-2stB(x,y)+t^2<0.
+\end{align*}
+Posledično je
+\begin{align*}
+t^2p(s/t)
+=
+s^2-2stB(x,y)+t^2
+<0,
+\end{align*}
+torej je $p(s/t)<0$.
+
+Ker sta $\alpha(x,y)$ in $\beta(x,y)$ ničli polinoma $p$ in je
+njegov vodilni koeficient pozitiven, je $p(\lambda)<0$ natanko med
+ničlama. Zato
+\begin{align*}
+\frac{s}{t}
+\in
+(\alpha(x,y),\beta(x,y)).
+\end{align*}
+Iz~\eqref{eq:lorentz_M} tako sledi
+$M(x/y;\Lambda_{n+1})=\beta(x,y)$.
+
+Podobno je
+\begin{align*}
+m(x/y;\Lambda_{n+1})
+&=
+\sup\limits
+\{\lambda>0 ~|~
+\lambda y\leq_{\Lambda_{n+1}}x\} =\\
+&=
+\sup\limits
+\left\{
+\lambda>0 ~|~
+p(\lambda)\geq0
+\text{ in }
+\lambda\leq\frac{s}{t}
+\right\}=\\
+&=
+\alpha(x,y).
+\end{align*}
+\end{dokaz}
+
+Prejšnji izrek lahko s pomočjo homogenosti razširimo na celotno
+notranjost Lorentzovega stožca.
+
+\begin{posledica}
+\label{pos:lorentz_M_m}
+Za vse $x,y\in\operatorname{int}(\Lambda_{n+1})$ velja
+\begin{align*}
+M(x/y;\Lambda_{n+1})
+&=
+\frac{\beta(x,y)}{Q(y)},\\
+m(x/y;\Lambda_{n+1})
+&=
+\frac{\alpha(x,y)}{Q(y)}.
+\end{align*}
+Poleg tega velja
+\begin{align*}
+d_H(x,y)
+&=
+\log\left(
+\frac{\beta(x,y)}{\alpha(x,y)}
+\right),\\
+d_T(x,y)
+&=
+\log\left(
+\max\limits
+\left\{
+\frac{\beta(x,y)}{Q(x)},
+\frac{\beta(x,y)}{Q(y)}
+\right\}
+\right).
+\end{align*}
+\end{posledica}
+
+\begin{dokaz}
+Postavimo
+\begin{align*}
+\sigma=\sqrt{Q(x)}
+\qquad\text{in}\qquad
+\tau=\sqrt{Q(y)}.
+\end{align*}
+Ker sta $x,y\in\operatorname{int}(\Lambda_{n+1})$, velja
+$Q(x)>0$ in $Q(y)>0$, zato sta $\sigma,\tau>0$. Poleg tega velja 
+$Q(\sigma^{-1}x)
+=\sigma^{-2}Q(x)=1$
+in podobno $Q(\tau^{-1}y)=1$.
+Ker množimo s pozitivnima skalarjema, ostaneta
+$\sigma^{-1}x$ in $\tau^{-1}y$ v notranjosti Lorentzovega stožca.
+Zato velja $\sigma^{-1}x,\tau^{-1}y\in H^n$.
+
+Po izreku~\ref{izr:lorentz_M_m_H} in pozitivni homogenosti funkcije
+$\beta$ dobimo
+\begin{align*}
+M(x/y;\Lambda_{n+1})
+&=
+\frac{\sigma}{\tau}
+M(\sigma^{-1}x/\tau^{-1}y;\Lambda_{n+1})=\\
+&=
+\frac{\sigma}{\tau}
+\beta(\sigma^{-1}x,\tau^{-1}y)=
+\frac{\sigma}{\tau}\frac{1}{\tau \sigma}
+\beta(x,y)=
+\frac{1}{\tau^2}\beta(x,y)=\\
+&=
+\frac{\beta(x,y)}{Q(y)}.
+\end{align*}
+Podobno dobimo
+\begin{align*}
+m(x/y;\Lambda_{n+1})
+&=
+\frac{\sigma}{\tau}
+m(\sigma^{-1}x/\tau^{-1}y;\Lambda_{n+1})=\\
+&=
+\frac{\sigma}{\tau}
+\alpha(\sigma^{-1}x,\tau^{-1}y)=
+\frac{\sigma}{\tau}\frac{1}{\tau \sigma}
+\alpha(x,\tau y)=
+\frac{1}{\tau^2}\alpha(x,y)=\\
+&=
+\frac{\alpha(x,y)}{Q(y)}.
+\end{align*}
+
+Formula za Hilbertovo metriko sledi neposredno iz njene definicije.
+Ker je $\beta(x,y)=\beta(y,x)$, za Thompsonovo metriko dobimo
+\begin{align*}
+d_T(x,y)
+&=
+\log\left(
+\max\limits\{M(x/y),M(y/x)\}
+\right)=\\
+&=
+\log\left(
+\max\limits
+\left\{
+\frac{\beta(x,y)}{Q(y)},
+\frac{\beta(x,y)}{Q(x)}
+\right\}
+\right).
+\end{align*}
+\end{dokaz}
+
+Na koncu omenimo še povezavo Lorentzovega stožca s hiperbolično
+geometrijo. 
+Poglejmo, kako na množici $H^n$ definiramo hiperbolično metriko.
+Naj bo $x\in H^n$. Naj bo $x=(s,u)\in H^n$ in naj bo
+$z=(t,v)\neq0$ tangentni vektor na $H^n$ v točki $x$.
+
+Ker je $H^n$ del nivojske množice $Q(x)=1$, je tangentni vektor $z$
+pravokoten na gradient funkcije $Q$. Ker je $\nabla Q(x)=(2s,-2u)$,
+velja
+$0 = \langle\nabla Q(x),z\rangle =
+2st-2\langle u,v\rangle$,
+torej
+\begin{align}
+st-\langle u,v\rangle=0.
+\label{eq:tangentni_lorentz}
+\end{align}
+
+Pokažimo, da za vsak tak neničeln tangentni vektor velja
+$B(z,z)<0$. Če je $u=0$, iz $Q(x)=1$ in $s>0$ sledi $s=1$.
+Iz~\eqref{eq:tangentni_lorentz} nato dobimo $t=0$. Ker je $z\neq0$,
+mora biti $v\neq0$, zato
+\begin{align*}
+B(z,z)
+=
+t^2-\|v\|_2^2
+=
+-\|v\|_2^2
+<0.
+\end{align*}
+
+Predpostavimo sedaj, da je $u\neq0$. Iz~\eqref{eq:tangentni_lorentz}
+in Cauchy-Schwarzove neenakosti sledi
+\begin{align*}
+s|t|
+=
+|\langle u,v\rangle|
+\leq
+\|u\|_2\|v\|_2.
+\end{align*}
+Ker je $x\in H^n$, velja
+\begin{align*}
+s^2-\|u\|_2^2=1,
+\end{align*}
+zato je $s>\|u\|_2$. Posledično je 
+\begin{align*}
+|t|
+\leq
+\frac{\|u\|_2}{s}\|v\|_2
+<
+\|v\|_2.
+\end{align*}
+Od tod dobimo
+\begin{align*}
+B(z,z)
+=
+t^2-\|v\|_2^2
+<0.
+\end{align*}
+
+Tako za vsak $x\in H^n$ in vsak neničeln
+$z\in T_x H^n$ velja $-B(z,z)>0$. Forma $-B$ je torej na
+tangentnem prostoru $T_x H^n$ pozitivno določena, zato jo lahko
+uporabimo za definicijo Riemannove metrike na $H^n$.
+
+\begin{definicija}
+Naj bo $\gamma:[a,b]\longrightarrow H^n$ odsekoma $C^1$ pot.
+Njeno dolžino definiramo kot
+\begin{align*}
+L(\gamma)
+=
+\int_a^b
+\sqrt{-B(\gamma'(t),\gamma'(t))}\,dt.
+\end{align*}
+Za $x,y\in H^n$ definiramo \emph{hiperbolično razdaljo}
+\begin{align*}
+d_{\mathrm{hyp}}(x,y)
+=
+\inf\limits_{\gamma}L(\gamma),
+\end{align*}
+kjer infimum vzamemo po vseh odsekoma $C^1$ poteh $\gamma$ v $H^n$,
+ki povezujejo $x$ in $y$.
+
+Metrični prostor $(H^n,d_{\mathrm{hyp}})$ imenujemo
+\emph{hiperboloidni model} $n$-razsežnega hiperboličnega prostora.
+\end{definicija}
+
+Za hiperbolično razdaljo med točkama $x,y\in H^n$ velja
+\begin{align}
+\cosh d_{\mathrm{hyp}}(x,y)
+=
+B(x,y).
+\label{eq:hiperbolicna_razdalja}
+\end{align}
+
+Pokažimo sedaj povezavo med hiperbolično, Hilbertovo in Thompsonovo
+metriko. Za $x,y\in H^n$ velja $Q(x)=Q(y)=1$. Ker sta
+$\alpha(x,y)$ in $\beta(x,y)$ ničli polinoma
+$p(\lambda) =
+\lambda^2-2B(x,y)\lambda+1$,
+po Vietovih formulah velja
+$\alpha(x,y)\beta(x,y)=1$.
+Zato je
+\begin{align*}
+\alpha(x,y)=\beta(x,y)^{-1}.
+\end{align*}
+Po izreku~\ref{izr:lorentz_M_m_H} dobimo
+\begin{align*}
+\frac{1}{2}d_H(x,y)
+&=
+\frac{1}{2}
+\log\left(
+\frac{\beta(x,y)}{\alpha(x,y)}
+\right)\\
+&=
+\frac{1}{2}
+\log\bigl(\beta(x,y)^2\bigr)\\
+&=
+\log\beta(x,y).
+\end{align*}
+
+Ker je $B$ simetrična bilinearna forma in je $Q(x)=Q(y)=1$, velja
+$\beta(x,y)=\beta(y,x)$.
+Zato po izreku~\ref{izr:lorentz_M_m_H}
+$M(x/y;\Lambda_{n+1})
+= M(y/x;\Lambda_{n+1})
+= \beta(x,y)$,
+in posledično
+\begin{align*}
+d_T(x,y)
+=
+\log\beta(x,y).
+\end{align*}
+Torej je 
+\begin{align}
+d_T(x,y)
+=
+\frac{1}{2}d_H(x,y).
+\label{eq:lorentz_H_T}
+\end{align}
+
+Po Vietovih formulah velja tudi
+$\alpha(x,y)+\beta(x,y)
+= 2B(x,y)$.
+Ker je $\alpha(x,y)=\beta(x,y)^{-1}$, dobimo
+\begin{align*}
+B(x,y)
+&=
+\frac{\beta(x,y)+\beta(x,y)^{-1}}{2}=
+\cosh\bigl(\log\beta(x,y)\bigr).
+\end{align*}
+Skupaj z~\eqref{eq:hiperbolicna_razdalja} sledi
+$\cosh d_{\mathrm{hyp}}(x,y) =
+\cosh\bigl(\log\beta(x,y)\bigr)$.
+Ker je $\beta(x,y)\geq1$, sta
+$d_{\mathrm{hyp}}(x,y)$ in $\log\beta(x,y)$ nenegativna. Funkcija
+$\cosh$ je strogo naraščajoča na $[0,\infty)$, zato
+$d_{\mathrm{hyp}}(x,y)
+= \log\beta(x,y)$.
+Za vse $x,y\in H^n$ tako velja
+\begin{align*}
+d_{\mathrm{hyp}}(x,y)
+=
+d_T(x,y)
+=
+\frac{1}{2}d_H(x,y).
+\end{align*}
+
+
+
+
+
+\subsection{Stožec pozitivno semidefinitnih simetričnih matrik}
+
+V tem podpoglavju obravnavamo vektorski prostor
+$\operatorname{Sym}_n$ simetričnih matrik velikosti $n\times n$ in
+strnjen zaprt stožec $\Pi_n(\R)$, ki ga sestavljajo vse pozitivno
+semidefinitne matrike iz $\operatorname{Sym}_n$.
+
+Pri analizi Hilbertove in Thompsonove metrike na $\Pi_n(\R)$ je
+koristno opaziti, da grupa obrnljivih matrik
+$GL_n(\R)$ deluje tranzitivno na
+$\operatorname{int}(\Pi_n(\R))$ s konjugacijo. To pomeni, da za poljubni
+matriki $A,B\in\operatorname{int}(\Pi_n(\R))$ obstaja
+$Q\in GL_n(\R)$, za katero velja
+\begin{align*}
+A=Q^T B Q.
+\end{align*}
+
+Na prostoru $\operatorname{Sym}_n$ definiramo skalarni produkt
+\begin{align*}
+\langle A,B\rangle
+=
+\operatorname{tr}(AB).
+\end{align*}
+Glede na ta skalarni produkt je stožec $\Pi_n(\R)$ sebi dualen, torej 
+$\Pi_n(\R) = \Pi_n(\R)^* =
+\left\{B\in\operatorname{Sym}_n ~|~ 
+\langle A,B\rangle\geq0
+\text{ za vsak } A\in\Pi_n(\R)
+\right\}$.
+Res, če je $B\in\Pi_n(\R)$, potem je tudi
+$B^{1/2}\in\Pi_n(\R)$, saj so tudi njene lastne vrednosti nenegativne. Zato za vsak $A\in\Pi_n(\R)$ velja
+$\langle A,B\rangle =
+\operatorname{tr}(AB)=
+\operatorname{tr}(B^{1/2}AB^{1/2})\geq0$.
+Od tod sledi $B\in\Pi_n(\R)^*$.
+
+Obratno, naj bo $B\in\operatorname{Sym}_n$ in predpostavimo, da
+$\operatorname{tr}(AB)\geq0$
+za vsak $A\in\Pi_n(\R)$. Po spektralnem izreku obstaja ortogonalna
+matrika $U$, za katero je $B =UDU^T$,
+kjer je $D=\operatorname{diag}(\lambda_1,\ldots,\lambda_n)$
+in $\lambda_1\leq\lambda_2\leq\cdots\leq\lambda_n$
+so lastne vrednosti matrike $B$. Tedaj za vsak
+$A\in\Pi_n(\R)$ velja
+\begin{align*}
+\operatorname{tr}(AB)=
+\operatorname{tr}(AU DU^T)=\operatorname{tr}(U^T A U D)\geq0.
+\end{align*}
+Če vzamemo $A=U E_i U^T$, kjer je $E_i$ matrika z $1$ na $i$-tem mestu in ničelami drugod, 
+sledi, da mora biti $\lambda_i\geq0$
+za vsak $i=1,\ldots,n$. Zato je $B\in\Pi_n(\R)$ in posledično $\Pi_n(\R)^* = \Pi_n(\R)$.
+
+V nadaljevanju naj $I$ označuje identično matriko, ki pripada
+$\operatorname{int}(\Pi_n(\R))$, in naj bo
+\begin{align*}
+\Sigma_I^*
+=
+\{A\in\Pi_n(\R) ~|~ \operatorname{tr}(A)=1\}.
+\end{align*}
+
+\begin{lema}\label{lema:ekstremne_tocke_psd}
+Matrika $A\in\Sigma_I^*$ je ekstremna točka množice $\Sigma_I^*$
+natanko tedaj, ko ima natanko eno neničelno lastno vrednost, ki je
+enaka $1$.
+\end{lema}
+
+\begin{dokaz}
+Naj $E_I^*$ označuje množico ekstremnih točk množice $\Sigma_I^*$,
+$\mathcal{D}$ pa množico vseh matrik iz $\Sigma_I^*$, ki imajo natanko
+eno neničelno lastno vrednost, ta pa je enaka $1$.
+
+Naj bo najprej $A\in E_I^*$. Po spektralnem izreku obstaja ortogonalna
+matrika $U$, za katero velja $A=U^T D U$,
+kjer je $D=\operatorname{diag}(\lambda_1,\ldots,\lambda_n)$,
+$0\leq\lambda_1\leq\ldots\leq\lambda_n$.
+Ker je $A\in\Sigma_I^*$, velja $\sum\limits_{i=1}^n\lambda_i=1$.
+Če z $e_i$ označimo $i$-ti standardni bazni vektor, lahko matriko $A$ zapišemo kot
+\begin{align*}
+A
+=
+U^T D U
+=
+\sum\limits_{i=1}^n
+\lambda_i
+U^T\operatorname{diag}(e_i)U.
+\end{align*}
+Vsaka matrika $U^T\operatorname{diag}(e_i)U$
+pripada množici $\Sigma_I^*$. 
+
+Predpostavimo, da sta vsaj dva izmed koeficientov $\lambda_i$
+pozitivna. Izberimo indeks $j$, za katerega je $\lambda_j>0$.
+Ker obstaja še vsaj en drug pozitiven koeficient in velja
+$\sum\limits_{i=1}^n\lambda_i=1$, dobimo $0<\lambda_j<1$.
+Označimo $A_i=U^T\operatorname{diag}(e_i)U$
+in definirajmo matriko $C=\frac{1}{1-\lambda_j}
+\sum\limits_{\substack{i=1\\ i\neq j}}^n
+\lambda_i A_i$.
+Ker velja
+$\sum\limits_{\substack{i=1\\ i\neq j}}^n
+\frac{\lambda_i}{1-\lambda_j}
+=\frac{1-\lambda_j}{1-\lambda_j}=1$,
+je $C$ konveksna kombinacija elementov množice $\Sigma_I^*$, zato
+$C\in\Sigma_I^*$.
+Sedaj lahko $A$ zapišemo kot
+$A=\lambda_j A_j
++
+\sum\limits_{\substack{i=1\\ i\neq j}}^n
+\lambda_i A_i
+=
+\lambda_j A_j
++
+(1-\lambda_j)
+\left(
+\frac{1}{1-\lambda_j}
+\sum\limits_{\substack{i=1\\ i\neq j}}^n
+\lambda_i A_i
+\right)
+=
+\lambda_j A_j+(1-\lambda_j)C$.
+
+Ker je $A$ ekstremna točka in je zgornji
+zapis konveksna kombinacija elementov množice $\Sigma_I^*$ ter smo lastne vrednosti $\lambda_i$ 
+uredili po velikosti, mora veljati
+$\lambda_1=\ldots=\lambda_{n-1}=0$,
+$\lambda_n=1$.
+Zato je
+$E_I^*\subseteq\mathcal{D}$.
+
+Za obratno inkluzijo opazimo, da grupa ortogonalnih matrik $O(n)$
+deluje tranzitivno na $\mathcal{D}$ s konjugacijo, saj imata poljubni matriki iz $\mathcal D$ enake lastne 
+vrednosti $0,\ldots,0,1$, zato ju lahko po spektralnem izreku z ustrezno ortogonalno spremembo baze 
+preslikamo eno v drugo. Poleg tega za vsak fiksen $U\in O(n)$ preslikava
+$A
+\longmapsto
+U^T A U$
+linearno preslika množico $\Sigma_I^*$ nase, zato ekstremne točke
+preslika v ekstremne točke. Ker je $E_I^*\subseteq\mathcal{D}$
+neprazna množica in $O(n)$ deluje tranzitivno na $\mathcal{D}$, sledi
+$E_I^*
+=
+\mathcal{D}$.
+\end{dokaz}
+
+Iz leme~\ref{lema:ekstremne_tocke_psd} sledi, da ima
+$\Sigma_I^*$ za $n\geq2$ neskončno mnogo ekstremnih točk, zato po
+posledici~\ref{posledica:ekstremne_tocke_nepoliedrski}
+stožec $\Pi_n(\R)$ ni poliedrski.
+
+Po drugi strani $\Pi_n(\R)$ za $n\geq3$ ni strogo konveksen. Res, za
+$0\leq\lambda\leq1$ velja
+\begin{align*}
+(1-\lambda)
+\operatorname{diag}(1,0,0,\ldots,0)
++
+\lambda
+\operatorname{diag}(0,1,0,\ldots,0)
+\in
+\partial\Pi_n(\R).
+\end{align*}
+Tako daljica med dvema različnima točkama roba stožca ostane na
+njegovem robu.
+
+Stožec $\Pi_2(\R)$ pa je strogo konveksen in je linearno izomorfen
+Lorentzovemu stožcu $\Lambda_3$. To vidimo s pomočjo bijektivne
+linearne preslikave
+\begin{align*}
+\begin{pmatrix}
+a & b\\
+b & c
+\end{pmatrix}
+\longmapsto
+\left(
+\frac{a+c}{2},
+\frac{a-c}{2},
+b
+\right),
+\end{align*}
+ki stožec $\Pi_2(\R)$ preslika na $\Lambda_3$.
+
+Sedaj izračunajmo funkciji $M$ in $m$ za matriki
+$X,Y\in\operatorname{int}(\Pi_n(\R))$. Pogoj
+\begin{align*}
+X\leq_{\Pi_n(\R)}\beta Y
+\end{align*}
+velja natanko tedaj, ko
+\begin{align*}
+Y^{-1/2}XY^{-1/2}
+\leq_{\Pi_n(\R)}
+\beta I.
+\end{align*}
+To je ekvivalentno pogoju
+\begin{align*}
+\sigma(Y^{-1}X)
+=
+\sigma(Y^{-1/2}XY^{-1/2})
+\subseteq
+(0,\beta],
+\end{align*}
+kjer $\sigma(A)$ označuje spekter matrike $A$. Zato je
+\begin{align*}
+M(X/Y;\Pi_n(\R))
+=
+\max\limits
+\{\lambda:\lambda\in\sigma(Y^{-1}X)\}.
+\end{align*}
+
+Podobno pogoj
+\begin{align*}
+\alpha Y\leq_{\Pi_n(\R)}X
+\end{align*}
+velja natanko tedaj, ko
+\begin{align*}
+\alpha I
+\leq_{\Pi_n(\R)}
+Y^{-1/2}XY^{-1/2},
+\end{align*}
+kar je ekvivalentno pogoju
+\begin{align*}
+\sigma(Y^{-1}X)
+=
+\sigma(Y^{-1/2}XY^{-1/2})
+\subseteq
+[\alpha,\infty).
+\end{align*}
+Zato je
+\begin{align*}
+m(X/Y;\Pi_n(\R))
+=
+\min\limits
+\{\lambda:\lambda\in\sigma(Y^{-1}X)\}.
+\end{align*}
+
+Dobljene rezultate lahko povzamemo v naslednji trditvi.
+
+\begin{trditev}\label{trditev:metriki_psd}
+Naj bosta $X,Y\in\operatorname{int}(\Pi_n(\R))$ in definirajmo
+\begin{align*}
+\lambda_+(X,Y)
+&=
+\max\limits
+\{\lambda:\lambda\in\sigma(Y^{-1}X)\},\\
+\lambda_-(X,Y)
+&=
+\min\limits
+\{\lambda:\lambda\in\sigma(Y^{-1}X)\}.
+\end{align*}
+Tedaj velja
+\begin{align*}
+d_H(X,Y)
+&=
+\log\left(
+\frac{\lambda_+(X,Y)}
+{\lambda_-(X,Y)}
+\right),\\
+d_T(X,Y)
+&=
+\log\left(
+\max\limits
+\left\{
+\lambda_+(X,Y),
+\frac{1}{\lambda_-(X,Y)}
+\right\}
+\right).
+\end{align*}
+\end{trditev}
+
+Enake formule lahko s podobnimi argumenti dobimo tudi za elemente
+notranjosti stožca pozitivno semidefinitnih hermitskih matrik
+$\Pi_n(\C)$.
+
+
+
+
+
+
+
+\subsection{Konveksnost Hilbertovih krogel}
+
+Pri dokazu obstoja lastnega vektorja bomo potrebovali naslednjo lastnost
+zaprtih krogel glede na Hilbertovo metriko.
+
+\begin{lema}\label{lema:konveksnost_hilbertovih_krogel}
+Naj bo $K\subseteq V$ strnjen zaprt stožec,
+$\varphi\in\operatorname{int}(K^*)$ in
+$\Sigma=\{x\in K:\varphi(x)=1\}$. Potem je vsaka zaprta krogla
+$B_r(x)=\{y\in\Sigma:d_H(x,y)\leq r\}$ konveksna podmnožica prostora
+$V$.
+\end{lema}
+
+\begin{dokaz}
+Naj bosta $y_1,y_2\in B_r(x)$. 
+Za vsak $t \in [0,1]$ želimo dokazati, da je $y_t = (1-t)y_1 + t y_2$ element množice $B_r(x)$.
+Označimo
+$\alpha_i=m(y_i/x)$ in $\beta_i=M(y_i/x)$ za $i=1,2$. Ker je $K$
+zaprt, sta infimum in supremum v definicijah količin $M$ in $m$
+dosežena, zato velja
+\begin{equation*}
+\alpha_1x\leq_K y_1\leq_K\beta_1x
+\qquad\text{in}\qquad
+\alpha_2x\leq_K y_2\leq_K\beta_2x.
+\end{equation*}
+Ker sta $y_1,y_2\in B_r(x)$, 
+sledi $d_H (x,y_i) \leq r$, torej velja
+\begin{equation*}
+\frac{\beta_i}{\alpha_i}
+=
+\frac{M(y_i/x)}{m(y_i/x)}
+=
+e^{d_H(y_i,x)}
+\leq e^r
+\end{equation*}
+za $i=1,2$.
+
+Naj bo $0\leq t\leq1$ in definirajmo
+$y_t=(1-t)y_1+ty_2$,
+$\alpha_t=(1-t)\alpha_1+t\alpha_2$ ter
+$\beta_t=(1-t)\beta_1+t\beta_2$. Iz zgornjih neenakosti sledi
+$\alpha_t x
+\leq_K
+y_t
+\leq_K
+\beta_t x$.
+Poleg tega je
+\begin{align*}
+\frac{\beta_t}{\alpha_t}
+&=
+\frac{(1-t)\alpha_1}{\alpha_t}
+\frac{\beta_1}{\alpha_1}
++
+\frac{t\alpha_2}{\alpha_t}
+\frac{\beta_2}{\alpha_2}\\
+&\leq
+\frac{(1-t)\alpha_1}{\alpha_t}e^r
++
+\frac{t\alpha_2}{\alpha_t}e^r
+=
+e^r.
+\end{align*}
+Po definicijah količin $M$ in $m$ zato velja
+$M(y_t/x)\leq\beta_t$ in $m(y_t/x)\geq\alpha_t$. 
+Zato je $\frac{M(y_t/x)}{m(y_t/x)} \leq \frac{\beta_t}{\alpha_t}$.
+Posledično je
+\begin{equation*}
+d_H(x,y_t)
+=
+\log\left(\frac{M(y_t/x)}{m(y_t/x)}\right)
+\leq
+\log\left(\frac{\beta_t}{\alpha_t}\right)
+\leq r.
+\end{equation*}
+
+Ker je $\varphi$ linearna in sta $y_1,y_2\in\Sigma$, velja
+$\varphi(y_t)=(1-t)\varphi(y_1)+t\varphi(y_2)=1$, zato je
+$y_t\in\Sigma$. Torej je $y_t\in B_r(x)$ za vsak $0\leq t\leq1$,
+kar pomeni, da je $B_r(x)$ konveksna.
+\end{dokaz}
+
+
+
+
+
+
+
+\section{Lastni vektorji in lastne vrednosti nelinearnih preslikav na stožcih}
+
+V tem poglavju bomo postavili temelje spektralne teorije zveznih homogenih
+preslikav $f\colon K\longrightarrow K$, ki ohranjajo red, kjer je $K$
+strnjen zaprt stožec v končnorazsežnem vektorskem prostoru $V$.
+Predstavili bomo dve smiselni definiciji stožčnega spektralnega radija 
+$r_K(f)$ in pokazali, da sovpadata. Glavni rezultat, ki posplošuje
+Krein-Rutmanov izrek~\ref{Krein-Rutman}, pove, da obstaja neničeln lastni vektor $x\in K$,
+ki pripada stžčnemu spektralnemu radiju $r_K(f)$, torej
+\begin{equation*}
+f(x)=r_K(f)x.
+\end{equation*}
+
+Pokazali bomo tudi, da za stožčni spektralni radij $r_K(f)$ velja
+minimaksna variacijska formula, podobna Collatz-Wielandtovi formuli za
+spektralni radij nenegativnih matrik. Obravnavali bomo še zveznost
+preslikave $r_K$ in analizirali 
+\begin{definicija}
+  \emph{Stožčni spekter} zvezne homogene
+  preslikave $f\colon K\longrightarrow K$, ki ohranja red, kjer je $K$
+  strnjen zaprt stožec v končnorazsežnem vektorskem prostoru $V$, je
+  \begin{equation*}
+  \sigma_K(f)
+  =
+  \{\lambda\geq 0:f(x)=\lambda x
+  \text{ za neki }x\in K\setminus\{0\}\}.
+  \end{equation*}
+\end{definicija}
+
+
+Preden začnemo razvijati teorijo, moramo razjasniti praktično vprašanje,
+povezano z zveznimi razširitvami preslikav, ki ohranjajo red.
+
+\subsection{Razširitve preslikav, ki ohranjajo red}
+
+Pogosto obravnavamo subhomogeno preslikavo, ki ohranja red in je
+definirana le na notranjosti zaprtega stožca. V takih primerih nas zanima, ali ima preslikava zvezno subhomogeno
+razširitev na rob stožca, ki prav tako ohranja red. V tem podpoglavju
+bomo obravnavali ta problem. Izkazalo se bo, da imajo pri njegovi
+rešitvi pomembno vlogo poliedrski stožci.
+
+\begin{definicija}
+  Naj bo $K\subseteq V$ strnjen zaprt stožec in $x\in\partial K$.
+  Pravimo, da zaporedje $(x_k)_k$ v $\operatorname{int}(K)$
+  \emph{konvergira proti $x$ od zgoraj}, če $x_k\longrightarrow x$ in
+  $x\ll_K x_k$ za vsak $k\geq1$. 
+\end{definicija}
+
+Taka zaporedja vedno obstajajo. Poglejmo si naslednji preprost primer.
+\begin{zgled}\label{zgled4.3}
+  Naj bo $u\in\operatorname{int}(K)$ in definirajmo zaporedje $x_k=x+\frac{u}{k}$.
+  Pokazati želimo, da $(x_k)_k$ proti $x$ od zgoraj.
+  Ker je $x_k-x=\frac{u}{k}$ in velja $u\in\operatorname{int}(K)$ ter je $\frac{1}{k}>0$, 
+  velja tudi $\frac{u}{k}\in\operatorname{int}(K)$, saj je notranjost stožca zaprta za množenje s 
+  pozitivnimi skalarji. Zato je $x_k-x\in\operatorname{int}(K)$, kar po definiciji pomeni $x\ll_K x_k$.
+  Poleg tega velja $\|x_k-x\|=\left\|\frac{u}{k}\right\|=\frac{\|u\|}{k}\longrightarrow0$, zato je 
+  $x_k\longrightarrow x$.
+  Opazimo še, da je vsak $x_k$ v notranjosti stožca, torej velja $x_k=x+\frac{u}{k}\in\operatorname{int}(K)$.
+\end{zgled}
+
+\begin{lema}\label{lema:podzaporedje_od_zgoraj}
+Naj bo $K\subseteq V$ strnjen zaprt stožec, $x\in\partial K$ in naj
+zaporedje $(x_k)_k$ konvergira proti $x$ od zgoraj. Potem obstaja
+podzaporedje $(x_{k_i})_i$, za katero velja
+\begin{equation*}
+x_m\ll_K x_{k_i}
+\qquad\text{za vse }m\geq k_{i+1}.
+\end{equation*}
+\end{lema}
+
+\begin{dokaz}
+Podzaporedje $(x_{k_i})_i$ definiramo induktivno. Postavimo
+$x_{k_1}=x_1$ in predpostavimo, da smo že izbrali indekse
+$k_1<k_2<\cdots<k_i$, ki zadoščajo trditvi. Ker je
+$x_{k_i}-x\in\operatorname{int}(K)$, obstaja okolica $U_i$ točke
+$x_{k_i}-x$, za katero velja
+$U_i\subseteq\operatorname{int}(K)$.
+
+Naj bo $V_i$ odprta simetrična okolica točke $0$, izbrana tako, da
+\begin{equation*}
+x_{k_i}-x-v\in U_i
+\qquad\text{za vsak }v\in V_i.
+\end{equation*}
+Ker $x_k\longrightarrow x$, obstaja $k_{i+1}>k_i$, tako da je
+$x_m-x\in V_i$ za vsak $m\geq k_{i+1}$. Zato je
+\begin{equation*}
+x_{k_i}-x_m
+=
+x_{k_i}-x-(x_m-x)
+\in U_i
+\subseteq\operatorname{int}(K)
+\end{equation*}
+za vse $m\geq k_{i+1}$. Torej je $x_m\ll_K x_{k_i}$.
+\end{dokaz}
+
+Z uporabo prejšnje leme dobimo naslednji izrek o razširitvi.
+
+\begin{izrek}\label{izr:razsiritev_preslikave_na_stozec}
+Naj bosta $K\subseteq V$ in $K'\subseteq V'$ zaprta stožca, pri
+čemer je $K$ strnjen, ter naj bo
+$f\colon\operatorname{int}(K)\longrightarrow K'$ zvezna preslikava,
+ki ohranja red. Potem veljajo naslednje trditve:
+\begin{enumerate}[label= (\roman*)]
+\item Če zaporedje $(x_k)_k$ proti $x\in\partial K$ od zgoraj,
+potem obstaja $y_x\in K'$, za katerega velja
+\begin{equation*}
+\lim_{k\to\infty}f(x_k)=y_x.
+\end{equation*}
+
+\item Preslikava $F\colon K\longrightarrow K'$, ki je na
+$\operatorname{int}(K)$ enaka $f$, za $x\in\partial K$ pa je
+definirana s predpisom $F(x)=y_x$, je dobro definirana razširitev
+preslikave $f$, ki ohranja red.
+
+\item Če je $f$ poleg tega subhomogena oziroma homogena, je tudi
+$F\colon K\longrightarrow K'$ subhomogena oziroma homogena.
+\end{enumerate}
+\end{izrek}
+
+\begin{dokaz}
+(i) Po lemi~\ref{lema:podzaporedje_od_zgoraj} obstaja podzaporedje
+$(x_{k_i})_i$, za katero velja $x_m\ll_K x_{k_i}$ za vse
+$m\geq k_{i+1}$. Posebej je
+$0\leq_K x_{k_{i+1}}\ll_K x_{k_i}$
+za vsak $i\geq1$. Ker $f$ ohranja red, dobimo
+$0\leq_{K'} f(x_{k_{i+1}}) \leq_{K'} f(x_{k_{i}})$.
+Ker je $K'$ zaprt stožec v končnorazsežnem prostoru, je normalen.
+Zaporedje $f(x_{k_{i}})$ je padajoče zaporedje, zato obstaja $y_x\in K'$, za katerega velja
+$\lim\limits_{i\to\infty} f(x_{k_i})=y_x$.
+
+Pokažimo, da k $y_x$ konvergira celotno zaporedje $(f(x_k))_k$.
+Naj bo $\varepsilon>0$ in izberimo $i\geq1$ tako, da je $\|f(x_{k_i})-y_x\|<\varepsilon$.
+Naj bo $m\geq k_{i+1}$. Tedaj je $x_m\ll_K x_{k_i}$. Ker tudi
+$(x_{k_i})_i$ konvergira proti $x$ od zgoraj, obstaja $j\geq i+1$,
+za katerega je $x_{k_j}\leq_K x_m$.
+V nasprotnem primeru bi za vse $j\geq i+1$ veljalo
+$x_m\leq_K x_{k_j}$. Z limito in zaprtostjo stožca $K$
+bi dobili $x_m\leq_K x$, kar je v protislovju z $x\ll_K x_m$.
+Za vse dovolj velike $j$ torej velja $x_{k_j}\leq_K x_m\leq_K x_{k_i}$.
+Ker $f$ ohranja red, sledi $f(x_{k_j})\leq_{K'}f(x_m)\leq_{K'}f(x_{k_i})$.
+Iz normalnosti stožca $K'$ dobimo 
+$\|f(x_m)-f(x_{k_j})\|
+\leq
+M\|f(x_{k_i})-f(x_{k_j})\|$.
+Ko pošljemo $j\to\infty$, dobimo
+$\|f(x_m)-y_x\|
+\leq
+M\|f(x_{k_i})-y_x\|
+<
+M\varepsilon$, kar pomeni $(f(x_k))_k$ konvergira proti $y_x$.
+
+(ii) Preverimo, da je $F$ dobro definirana. Naj bosta $(x_k)_k$ in
+$(\widetilde{x}_k)_k$ zaporedji, ki konvergirata k isti točki
+$x\in\partial K$ od zgoraj. Definirajmo zaporedje $(z_k)_k$ s
+predpisom
+\begin{equation*}
+z_{2k}=x_k,
+\qquad
+z_{2k-1}=\widetilde{x}_k.
+\end{equation*}
+Tudi $(z_k)_k$ konvergira proti $x$ od zgoraj. Po točki (i) zato
+velja
+\begin{equation*}
+\lim_{k\to\infty}f(x_k)
+=
+\lim_{k\to\infty}f(z_k)
+=
+\lim_{k\to\infty}f(\widetilde{x}_k).
+\end{equation*}
+Vrednost $F(x)$ je torej neodvisna od izbire zaporedja, zato je $F$
+dobro definirana razširitev preslikave $f$.
+
+Pokažimo še, da $F$ ohranja red. Naj bosta $x,y\in K$ taka, da velja 
+$x \leq_K y$, in naj bo $u\in\operatorname{int}(K)$. Po zgledu~\ref{zgled4.3} zaporedji
+$(x+\frac{u}{k})_k$ in $(y+\frac{u}{k})_k$ konvergirata proti $x$ oziroma $y$ od
+zgoraj. Za vsak $k\geq1$ velja
+$x+\frac{u}{k}
+\leq_K
+y+\frac{u}{k}$,
+zato je
+$f\left(x+\frac{u}{k}\right)
+\leq_{K'}
+f\left(y+\frac{u}{k}\right)$.
+Iz tega dobimo 
+$\lim\limits_{k\to\infty} f\left(x+\frac{u}{k}\right) \leq_{K'} \lim\limits_{k\to\infty} f\left(y+\frac{u}{k}\right)$, 
+iz česar pa sledi $F(x)\leq_{K'}F(y)$.
+
+(iii) Predpostavimo nazadnje, da je $f$ subhomogena. Naj bo $x\in K$ in
+$0<\lambda<1$. Če $(x_k)_k$ proti $x$ od zgoraj, potem
+$(\lambda x_k)_k$ konvergira proti $\lambda x$ od zgoraj. Zato je
+\begin{equation*}
+\lambda F(x)
+=
+\lim_{k\to\infty}\lambda f(x_k)
+\leq_{K'}
+\lim_{k\to\infty}f(\lambda x_k)
+=
+F(\lambda x),
+\end{equation*}
+torej je $F$ subhomogena. Če je $f$ homogena, z podobnim argumentom
+dobimo $F(\lambda x)=\lambda F(x)$ za vsak $\lambda>0$.
+\end{dokaz}
+
+Razširitev iz izreka~\ref{izr:razsiritev_preslikave_na_stozec} na
+splošno ni nujno zvezna. To pokaže naslednji zgled.
+
+\begin{zgled}\label{zgled:nezvezna_razsiritev}
+Naj bo $\operatorname{Sym}_n (\R)$ realni vektorski prostor simetričnih
+matrik velikosti $n\times n$, $\Pi_n(\R)$ pa stožec pozitivno
+semidefinitnih matrik v $\operatorname{Sym}_n$. Postavimo
+\begin{equation*}
+K=\Pi_n(\R)\times\Pi_n(\R).
+\end{equation*}
+Vemo že, da je stožec
+$\Pi_n(\R)$ strnjen in zaprt v $\operatorname{Sym}_n$. Ker je stožec $K$ produkt zaprtih množic, je zaprt v
+$\operatorname{Sym}_n\times\operatorname{Sym}_n$.
+Definirajmo
+\begin{equation*}
+f\colon\operatorname{int}(K)\longrightarrow\Pi_n(\R),
+\qquad
+f(A,B)=(A^{-1}+B^{-1})^{-1}.
+\end{equation*}
+Na pozitivno definitnih matrikah preslikava $A\mapsto A^{-1}$ očitno obrača
+red. Zato iz $A_1\leq A_2$ in $B_1\leq B_2$ sledi
+$A_2^{-1}+B_2^{-1}
+\leq
+A_1^{-1}+B_1^{-1}$,
+po ponovni uporabi obračanja reda pa
+$f(A_1,B_1)\leq f(A_2,B_2)$. Preslikava $f$ torej ohranja red.
+Poleg tega je tudi očitno homogena stopnje $r = 1$. Zato je po posledici~\ref{posledica3.9} 
+neekspanzivna glede na Thompsonovo metriko in posledično Lishitzeva s konstanto $1$ 
+in zato zvezna na $\operatorname{int}(K)$.
+
+Pokažimo sedaj, da razširitev $F$ iz
+izreka~\ref{izr:razsiritev_preslikave_na_stozec} ni nujno zvezna. Poglejmo si primer 
+za $n=2$. Vzemimo
+\begin{equation*}
+A=B=
+\begin{bmatrix}
+1&0\\
+0&0
+\end{bmatrix}
+\in\partial\Pi_2(\R)
+\end{equation*}
+in za $k\in\N$ postavimo
+\begin{equation*}
+A_k=A+\frac{1}{k}I,
+\qquad
+B_k=B+\frac{1}{k}I.
+\end{equation*}
+Zaporedje $((A_k,B_k))_k$ konvergira proti $(A,B)$ od zgoraj. 
+Ker za vsak $k\in\N$ velja $A_k=B_k =
+\begin{bmatrix}
+1+\frac{1}{k} & 0\\
+0 & \frac{1}{k}
+\end{bmatrix}$, dobimo
+$F(A,B)
+=
+\lim\limits_{k\to\infty} f(A_k,B_k)
+= \lim\limits_{k\to\infty} (2A_k^{-1})^{-1} 
+= \lim\limits_{k\to\infty} 
+\frac{1}{2}\begin{bmatrix}
+1+\frac{1}{k}&0\\
+0&\frac{1}{k}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\frac12&0\\
+0&0
+\end{bmatrix}$.
+
+Po drugi strani za $k,m\in\N$, kjer je $m>1$, definirajmo
+\begin{equation*}
+\widehat{A}_k=
+\begin{bmatrix}
+1&\frac1k\\
+\frac1k&\frac{m}{k^2}
+\end{bmatrix},
+\qquad
+\widehat{B}_k=
+\begin{bmatrix}
+1&\frac2k\\
+\frac2k&\frac{4m}{k^2}
+\end{bmatrix}.
+\end{equation*}
+Zaporedje $((\widehat{A}_k,\widehat{B}_k))_k$ prav tako konvergira proti
+$(A,B)$ od zgoraj, vendar z izračunom lahko preverimo, da velja  
+$\lim\limits_{k\to\infty}
+f(\widehat{A}_k,\widehat{B}_k)
+=
+\begin{bmatrix}
+a&0\\
+0&0
+\end{bmatrix}$,
+$a=\frac{5m-5}{10m-9}<\frac12$.
+Ker se limiti ne ujemata, preslikava $F$ ni zvezna v
+točki $(A,B)$.
+\end{zgled}
+
+Stožec $\Pi_n(\R)$ ni poliedrski (TO DO: cite). Izkazalo se bo, da je razširitev
+$F: K \to K'$ iz izreka~\ref{izr:razsiritev_preslikave_na_stozec} vedno
+zvezna, kadar je domena poliedrski stožec. Razlog je naslednja
+geometrijska lastnost, ki karakterizira poliedrske stožce.
+
+\begin{definicija}\label{def:pogoj_G}
+Naj bo $K\subseteq V$ zaprt stožec in $x\in K$. Pravimo, da $K$
+\emph{zadošča pogoju G v točki $x$}, če za vsako zaporedje
+$(x_k)_k\subseteq K$, za katero velja $\lim\limits_{k\to \infty} x_n = x$, in za
+vsak $0<\lambda<1$ obstaja $m\in\N$ tako, da velja 
+$\lambda x\leq_K x_k~\text{za vse }k\geq m$.
+
+Pravimo, da $K$ \emph{zadošča pogoju G}, če pogoju G zadošča v vsaki
+točki $x\in K$.
+\end{definicija}
+
+Če je $K$ strnjen zaprt stožec, je pogoj G izpolnjen v vsaki točki
+$x\in\operatorname{int}(K)$. 
+Res, naj bo $(x_k)_k \subseteq K$ zaporedje, za katero velja $\lim\limits_{k\to \infty} x_n = x$.
+Pokazati moramo, da za vsak $0<\lambda<1$ obstaja $m\in\mathbb{N}$, tako da za vse $k\geq m$ velja 
+$\lambda x\leq_K x_k$.
+Po definiciji urejenosti, ki jo določa stožec $K$, je to enakovredno pogoju $x_k-\lambda x\in K$.
+Razliko lahko zapišemo kot $x_k-\lambda x=(x_k-x)+(1-\lambda)x$.
+Ker je $x\in\operatorname{int}(K)$ in je $1-\lambda>0$, je tudi $(1-\lambda)x\in\operatorname{int}(K)$, 
+torej po definiciji notranjosti obstaja $U \subseteq K$, da je $x-x_n \in U$. 
+Ker je $U\subseteq K$, za vse $k\geq m$ velja $x_k-\lambda x\in K$. Po definiciji urejenosti od tod sledi 
+$\lambda x\leq_K x_k$. Stožec $K$ torej zadošča pogoju $G$ v točki $x$.
+
+Da bi bil pogoj G izpolnjen tudi v vsaki točki
+roba $\partial K$, pa mora biti stožec poliedrski.
+
+\begin{lema}\label{lema:pogoj_G_poliedrski}
+Strnjen zaprt stožec $K\subseteq V$ je poliedrski natanko tedaj, ko
+zadošča pogoju G.
+\end{lema}
+
+\begin{dokaz}
+Predpostavimo najprej, da je $K$ poliedrski. Potem 
+obstajajo linearni funkcionali $\psi_1,\ldots,\psi_N$, za katere je
+$K = \{x\in V:\psi_i(x)\geq0
+\text{ za }i=1,\ldots,N\}$.
+Naj bo $(x_k)_k$ zaporedje v $K$, ki konvergira proti $x\in K$, in naj
+bo $0<\lambda<1$. Ker so $\psi_i$ linearni funkcionali, za vsak $i$ velja
+$\lim\limits_{k\to\infty}\psi_i(x_k)=\psi_i(x)$.
+Če je $\psi_i(x)>0$, potem
+$\psi_i(x_k)-\psi_i(\lambda x)
+\longrightarrow
+(1-\lambda)\psi_i(x)>0$.
+Zato obstaja $m_i\geq1$, tako da je
+$\psi_i(x_k)\geq\psi_i(\lambda x)$ za vse $k\geq m_i$. Če je
+$\psi_i(x)=0$, pa je
+$0=\psi_i(\lambda x)\leq\psi_i(x_k)$
+za vsak $k\geq1$, zato lahko postavimo $m_i=1$.
+
+Sedaj vzemimo $m=\max\{m_i~|~i=1,\ldots,N\}$.
+Tedaj je $\psi_i(\lambda x)\leq\psi_i(x_k)$ za vsak $i$ in vsak
+$k\geq m$. Zato je $x_k-\lambda x\in K$, oziroma
+$\lambda x\leq_K x_k$, za vse $k\geq m$. Stožec $K$ torej zadošča
+pogoju G.
+
+Dokažimo še obratno implikacijo. Naj $K$ zadošča pogoju G. Izberimo
+$\varphi\in\operatorname{int}(K^*)$ in definirajmo
+$\Sigma_\varphi
+=
+\{x\in K~|~\varphi(x)=1\}$.
+Po Lemi~\ref{lema2.46} je $\Sigma_\varphi$ kompaktna konveksna
+množica in $\varphi$ je pozitiven funkcional. Ker je $\Sigma_\varphi$ prerez stožca $K$ s 
+hiperploskvijo $\{x\in V ~|~ \varphi(x)=1\}$, velja
+$K = \{t x ~|~ t\geq0,\ x\in\Sigma_\varphi\}$.
+Stožec $K$ bo torej poliedrski, če pokažemo, da je $\Sigma_\varphi$
+poliedrska množica (\textit{Tukaj nekaj ni dobro razloženo - TO DO.}). 
+Po trditvi~\ref{konv-ogr} zadostuje pokazati, da ima
+$\Sigma_\varphi$ le končno mnogo ekstremnih točk.
+
+Naj bo $x\in\Sigma_\varphi$ in $0<\lambda<1$. Iz pogoja G sledi, da
+obstaja okolica $U_x$ točke $x$, za katero velja
+$\lambda x\leq_K u$ 
+za vsak $u\in U_x\cap K$.
+Res, če take okolice ne bi bilo, bi lahko izbrali zaporedje
+$(u_k)_k\subseteq K$, ki bi konvergiralo k $x$, vendar za noben $k$
+ne bi veljalo $\lambda x\leq_K u_k$, kar bi bilo v protislovju s
+pogojem G.
+
+Naj bo $y\neq x$ element množice $U_x\cap\Sigma_\varphi$ in izberimo
+$0<\alpha\leq\lambda$. Postavimo
+\begin{equation*}
+z
+=
+\frac{y-\alpha x}{1-\alpha}.
+\end{equation*}
+Ker je $\alpha x\leq_K\lambda x\leq_K y$, je $z\in K$. Poleg tega velja 
+$\varphi(z)
+=
+\frac{\varphi(y)-\alpha\varphi(x)}{1-\alpha}
+=
+1$,
+zato je $z\in\Sigma_\varphi$. Velja
+$y=(1-\alpha)z+\alpha x$.
+Ker je $y\neq x$, sta tudi $z$ in $x$ različna, zato $y$ ni
+ekstremna točka množice $\Sigma_\varphi$. Torej vsaka okolica $U_x$
+vsebuje največ eno ekstremno točko množice $\Sigma_\varphi$ in to je $x$.
+
+Ker je $\Sigma_\varphi$ kompaktna, ima odprto pokritje
+$\{U_x ~|~ x\in\Sigma_\varphi\}$ končno podpokritje. Zato ima
+$\Sigma_\varphi$ le končno mnogo ekstremnih točk. Ker je kompaktna
+in konveksna, je konveksna ogrinjača svojih ekstremnih točk, zato je
+poliedrska množica. Posledično je tudi stožec $K$ poliedrski.
+\end{dokaz}
+
+Z uporabo pogoja G lahko sedaj dokažemo naslednji rezultat.
+
+\begin{izrek}\label{izr:zvezna_razsiritev_poliedrski_stozec}
+Naj bosta $K\subseteq V$ in $K'\subseteq V'$ zaprta stožca, pri
+čemer je $K$ strnjen poliedrski stožec. Če je
+$f\colon\operatorname{int}(K)\longrightarrow K'$ subhomogena oziroma
+homogena preslikava, ki ohranja red, potem ima $f$ zvezno
+subhomogeno oziroma homogeno razširitev
+$F\colon K\longrightarrow K'$, ki ohranja red, definirano v izreku~\ref{izr:razsiritev_preslikave_na_stozec}.
+\end{izrek}
+
+\begin{dokaz}
+Po Izreku~\ref{izr:razsiritev_preslikave_na_stozec} moramo pokazati
+le še, da je $F$ zvezna. Ker je $f$ subhomogena in ohranja red, je po posledici~\ref{posledica3.9} 
+neekspanzivna glede na Thompsonovo metriko na
+$\operatorname{int}(K)$, zato je tam zvezna. Enako velja v
+homogenem primeru. Ker se $F$ na $\operatorname{int}(K)$ ujema s
+$f$, je $F$ zvezna na notranjosti stožca.
+
+Naj bo sedaj $(x_m)_m\subseteq K$ zaporedje, ki konvergira proti
+$x\in\partial K$. Izberimo naraščajoče zaporedje
+$(\lambda_k)_k\subseteq(0,1)$, za katero je
+$\lambda_k\longrightarrow1$. Ker poliedrski stožec $K$ zadošča
+pogoju G, za vsak $k$ obstaja $m_k\geq1$, tako da
+$\lambda_k x\leq_K x_m$ za vse $m\geq m_k$.
+Po drugi strani, obstaja $u\in\operatorname{int}(K)$ in padajoče
+zaporedje pozitivnih števil $(\delta_k)_k$, za katero je
+$\delta_k\longrightarrow0$ in
+\begin{equation*}
+x-\delta_k u
+\leq_K
+x_m
+\leq_K
+x+\delta_k u
+\qquad\text{za vse }m\geq m_k.
+\end{equation*}
+Ker $F$ ohranja red in je subhomogena, za vse $m\geq m_k$ dobimo
+\begin{equation*}
+\lambda_k F(x)
+\leq_{K'}
+F(\lambda_k x)
+\leq_{K'}
+F(x_m)
+\leq_{K'}
+F(x+\delta_k u)
+=
+f(x+\delta_k u).
+\end{equation*}
+Pri tem je v homogenem primeru prva neenakost enakost. Zato velja
+\begin{equation*}
+0
+\leq_{K'}
+F(x_m)-\lambda_k F(x)
+\leq_{K'}
+f(x+\delta_k u)-\lambda_k F(x)
+\end{equation*}
+za vse $m\geq m_k$.
+
+Zaporedje $(x+\delta_k u)_k$ konvergira proti $x$ od zgoraj, zato po
+definiciji razširitve velja
+$f(x+\delta_k u)\longrightarrow F(x)$.
+Ker tudi $\lambda_k F(x)\longrightarrow F(x)$, desna stran prejšnje
+neenakosti konvergira k $0$. Stožec $K'$ je normalen, zato sledi
+$F(x_m)\longrightarrow F(x)$. Preslikava $F$ je torej zvezna tudi
+na robu stožca.
+\end{dokaz}
+
+
+
+
+\subsection{Stožčni spekter}
+
+Analiza lastnih vrednosti in lastnih vektorjev homogenih preslikav, ki
+na zaprtih stožcih v končnorazsežnih vektorskih prostorih ohranjajo red,
+ima številne podobnosti s klasično Perron-Frobeniusovo teorijo, vendar
+se od nje v nekaterih pomembnih pogledih tudi razlikuje. Obstajajo na
+primer zvezne homogene preslikave $f\colon K\longrightarrow K$, ki
+ohranjajo red in imajo neskončno mnogo različnih lastnih vrednosti. To
+je lahko presenetljivo, zlasti ker je stožec $K$ končnorazsežen. V tem
+podpoglavju bomo to vprašanje podrobneje obravnavali.
+
+\begin{definicija}
+  Naj bo $f\colon K\longrightarrow K$ homogena preslikava, ki ohranja red.
+  Število $\lambda\geq0$ imenujemo \emph{lastna vrednost} preslikave $f$,
+  če obstaja $x\in K\setminus\{0\}$, za katerega je $f(x)=\lambda x$.
+  
+  \emph{Stožčni spekter} preslikave $f$ označimo z
+  \[
+  \sigma_K(f)=\{\lambda\geq0:\lambda\text{ je lastna vrednost preslikave }f\}.
+  \]
+\end{definicija}
+
+Naslednji rezultat je elementaren, vendar uporaben.
+
+\begin{lema}\label{lema:primerjava_lastnih_vrednosti}
+Naj bo $f\colon K\longrightarrow K$ homogena preslikava, ki ohranja red,
+na zaprtem stožcu $K\subseteq V$. Naj bosta $x,y\in K\setminus\{0\}$ in
+naj $y$ dominira $x$. Če velja $\lambda x\leq_K f(x)$ in
+$f(y)\leq_K\mu y$, potem je $\lambda\leq\mu$.
+\end{lema}
+
+\begin{dokaz}
+Primer $\lambda=0$ je trivialen, zato predpostavimo, da je $\lambda>0$.
+Ker $y$ dominira $x$, obstaja $\beta>0$, tako da je $x\leq_K\beta y$.
+Na predpostavki $\lambda x\leq_K f(x)$ uporabimo $f$, upoštevamo, da ohranja red in je homogena, in dobimo
+$\lambda f(x)\leq_K f^2(x)$. Ponovno uporabimo predpostavko $\lambda x\leq_K f(x)$ in dobimo
+$\lambda^2 x \leq_K \lambda f(x) \leq_K f^2(x)$.
+Podobno lahko naredimo za predpostavko $f(y)\leq_K\mu y$.
+Od tod za vsak $k\geq1$ sledi
+\[
+\lambda^k x
+\leq_K f^k(x)
+\leq_K \beta f^k(y)
+\leq_K \beta\mu^k y,
+\]
+kjer upoštevamo, da $y$ dominira $x$. Delimo s $\beta\lambda^k$ in dobimo
+\[
+\left(\frac{\mu}{\lambda}\right)^k y-\frac{1}{\beta}x\in K
+\qquad\text{za vsak }k\geq1.
+\]
+Poglejmo, kaj se zgodi, če pošljemo $k\to\infty$. Če bi veljalo $\mu<\lambda$, bi dobili $-x/\beta\in K$, 
+kar ni mogoče, saj je $x\in K$, za stožec pa velja $K\cap(-K)=\{0\}$. Zato je $\lambda\leq\mu$.
+\end{dokaz}
+
+Kot posledico dobimo naslednji rezultat.
+
+\begin{posledica}\label{posledica:isti_del_ista_lastna_vrednost}
+Naj bo $f\colon K\longrightarrow K$ homogena preslikava, ki ohranja red,
+na zaprtem stožcu $K\subseteq V$. Če sta $x$ in $y$ lastna vektorja
+preslikave $f$ in velja $x\sim_K y$, potem pripadata isti lastni
+vrednosti.
+\end{posledica}
+
+\begin{dokaz}
+Naj bo $f(x)=\lambda x$ in $f(y)=\mu y$. Ker je $x\sim_K y$, $x$
+dominira $y$ in $y$ dominira $x$. Iz
+leme~\ref{lema:primerjava_lastnih_vrednosti} zato sledi $\lambda=\mu$.
+\end{dokaz}
+
+Ker je $\{0\}$ del vsakega stožca $K$, iz posledice~\ref{posledica:isti_del_ista_lastna_vrednost} sledi, 
+da je število različnih lastnih
+vrednosti homogene preslikave $f\colon K\longrightarrow K$, ki ohranja
+red, največ $m-1$, kjer je $m$ število delov stožca $K$. Za $K=\R_+^n$ lahko preprosto skonstruiramo primer, 
+ki pokaže, da je ta zgornja meja dosežena.
+
+\begin{zgled}
+  Naj bo $K=\R_+^n$. Za $I\subseteq\{1,\ldots,n\}$ definirajmo $\mathds{1}^I\in\R_+^n$ s
+  predpisom
+  $ (\mathds{1}^I)_i=1$ za $i\in I$ in $(\mathds{1}^I)_i=0$ sicer.
+  Za vsako neprazno množico $I\subseteq\{1,\ldots,n\}$ izberimo še
+  $\lambda_I>0$ tako, da iz $I\subseteq J$ in $I\neq J$ sledi
+  $\lambda_I<\lambda_J$. Definirajmo $f\colon\R_+^n\longrightarrow\R_+^n$ z
+  \[
+  f(x)=
+  \bigvee_{\emptyset\neq I\subseteq\{1,\ldots,n\}}
+  \lambda_I\left(\min_{i\in I}x_i\right)\mathds{1}^I,
+  \qquad x\in\R_+^n.
+  \]
+  Preslikava $f$ je očitno zvezna, homogena in ohranja red. Če je
+  $\emptyset\neq J\subseteq\{1,\ldots,n\}$, potem velja
+  \[
+  f(\mathds{1}^J)
+  =
+  \bigvee_{\emptyset\neq I\subseteq J}\lambda_I\mathds{1}^I
+  =
+  \lambda_J\mathds{1}^J,
+  \]
+  saj je $\lambda_I<\lambda_J$ za vsak $I\subseteq J$ z $I\neq J$.
+  Preslikavo $f$ lahko torej izberemo tako, da ima $2^n-1$ različnih
+  lastnih vrednosti.
+
+  Poglejmo si na primeru $n=2$, torej $K=\R_+^2$. 
+  Stožec $\mathbb{R}_+^2$ ima štiri dele:
+  $\{0\}, \operatorname{int}(\mathbb{R}_+^2), \{(x_1,0):x_1>0\}$ in $\{(0,x_2):x_2>0\}$.
+  Zato je največje možno število različnih lastnih vrednosti enako
+  $4-1=3$.
+  Neprazne podmnožice množice $\{1,2\}$ so
+  $\{1\}$, $\{2\}$ in $\{1,2\}$. Pripadajoči vektorji so:
+  \[
+  \mathds{1}^{\{1\}}=(1,0), \qquad
+  \mathds{1}^{\{2\}}=(0,1), \qquad
+  \mathds{1}^{\{1,2\}}=(1,1).
+  \]
+  Izberimo
+  $\lambda_{\{1\}}=1$, $\lambda_{\{2\}}=2$ in
+  $\lambda_{\{1,2\}}=3$ ter definirajmo
+  $f\colon\mathbb{R}_+^2\longrightarrow\mathbb{R}_+^2$ s predpisom
+  \begin{align*}
+  f(x_1,x_2)
+  &=\bigvee_{\emptyset\neq I\subseteq\{1,2\}}
+  \lambda_I\left(\min_{i\in I}x_i\right)\mathds{1}^I =\\
+  &=
+  x_1(1,0)
+  \vee
+  2x_2(0,1)
+  \vee
+  3\min\{x_1,x_2\}(1,1) =\\
+  &=
+  \bigl(
+  \max\{x_1,3\min\{x_1,x_2\}\},
+  \max\{2x_2,3\min\{x_1,x_2\}\}
+  \bigr).
+  \end{align*}
+  Tedaj velja $f(1,0)=(1,0), f(0,1)=2(0,1), f(1,1)=3(1,1)$.
+  Preslikava $f$ ima torej tri različne lastne vrednosti $1$, $2$ in $3$,
+  zato je zgornja meja dosežena.
+\end{zgled}
+
+Izkazalo se bo, da je zgornja meja $m-1$ dosežena za vsak poliedrski
+stožec. Pred dokazom uvedimo nekaj oznak. 
+
+\begin{definicija}
+  Naj bo $K\subseteq V$ strnjen
+  poliedrski stožec z $N$ ličnicami in naj bodo
+  $\psi_1,\ldots,\psi_N$ funkcionali, ki določajo njegove ličnice. Za
+  $r<0$ in neprazno množico $I\subseteq\{1,\ldots,N\}$ definirajmo
+  $M_r(I)\colon\operatorname{int}(K)\longrightarrow[0,\infty)$ s predpisom
+  \[
+  M_r(I)(x)
+  =
+  \left(\sum_{i\in I}\psi_i(x)^r\right)^{1/r},
+  \qquad x\in\operatorname{int}(K).
+  \]
+\end{definicija}
+
+Preslikava $M_r(I)$ je na $\operatorname{int}(K)$ očitno zvezna in homogena, saj so 
+$\psi_i$ linearni funkcionali, ki pa so na $\operatorname{int}(K)$ pozitivni.
+Preverimo še, da ohranja red. Naj bosta $x,y\in\operatorname{int}(K)$ in naj velja $x\leq_K y$. Potem je $\psi_i(x)\leq\psi_i(y)$ za vsak $i\in I$, zato je
+\[
+M_r(I)(x)
+=
+\left(\sum_{i\in I}\psi_i(x)^r\right)^{ 1/r}
+\leq
+\left(\sum_{i\in I}\psi_i(y)^r\right)^{1/r}
+=
+M_r(I)(y).
+\]
+Po izreku~\ref{izr:razsiritev_preslikave_na_stozec} ima torej $M_r(I)$ zvezno
+homogeno razširitev na $\partial K$, ki ohranja red. 
+Poglejmo na robu: Naj bo $x\in\partial K$ in predpostavimo, da za neki $i\in I$ velja $\psi_i(x)=0$. 
+Vzemimo zaporedje $(x_k)_k\subseteq\operatorname{int}(K)$, ki konvergira proti $x$.
+Tedaj velja $\psi_i(x_k)\longrightarrow\psi_i(x)=0$, pri čemer je $\psi_i(x_k)>0$ za vsak $k\in\N$. Za 
+$(x_k)_k$ je vsota definirana z $\left(\sum_{i\in I}\psi_j(x)^r\right)^{1/r}$. Ker so vsi členi nenegativni, je 
+$\sum_{j\in I}\psi_j(x_k)^r \geq \psi_i(x_k)^r$. Pri potenciranju z $\frac{1}{r}$ pa se neenakost obrne, saj je 
+$r<0$ in dobimo $0 \leq M_r(I)(x_k) \leq \psi_i(x_k)$, torej je $M_r(I)(x)=0$. 
+
+Za $r=-\infty$ definirajmo
+$M_{-\infty}(I)\colon K\longrightarrow[0,\infty)$ s predpisom
+\[
+M_{-\infty}(I)(x)=\min_{i\in I}\psi_i(x),
+\qquad x\in K.
+\]
+
+\begin{izrek}\label{izrek:stevilo_lastnih_vrednosti_poliedrski}
+Naj bo $K\subseteq V$ strnjen poliedrski stožec z $m$ obrazi. Če je
+$f\colon K\longrightarrow K$ homogena preslikava, ki ohranja red, potem
+velja $|\sigma_K(f)|\leq m-1$. Poleg tega na $K$ obstaja zvezna homogena
+preslikava, ki ohranja red in ima $m-1$ različnih lastnih vrednosti.
+\end{izrek}
+
+\begin{dokaz}
+Iz leme~\ref{lema:deli_stozca} sledi, da ima poliedrski stožec z $m$
+obrazi natanko $m$ delov. Če izpustimo trivialni del $\{0\}$ in uporabimo
+posledico~\ref{posledica:isti_del_ista_lastna_vrednost}, dobimo, da je
+$m-1$ zgornja meja za $|\sigma_K(f)|$.
+
+Skonstruirajmo sedaj primer z $m-1$ različnimi lastnimi vrednostmi. Naj bodo 
+$\psi_1,\ldots,\psi_N$ funkcionali, ki določajo ličnice
+stožca $K$, množico vseh delov stožca $K$ pa označimo z
+$\mathcal{P}(K)$. Tedaj je $|\mathcal{P}(K)|=m$. Spomnimo se, da je vsak
+del stožca $K$ relativna notranjost nekega njegovega obraza po lemi~\ref{lema:deli_stozca}. Poleg tega
+po točki (ii) leme~\ref{lema2.38} za vsak del stožca $P\in\mathcal{P}(K)$ velja
+\[
+P
+=
+\{x\in K ~|~ \psi_i(x)>0\text{ natanko tedaj, ko }i\in I(P)\},
+\]
+kjer je
+$I(P)=\{i ~|~ \psi_i(x)>0\text{ za neki }x\in P\}$.
+Za vsak $P\in\mathcal{P}(K)$, $P\neq\{0\}$, izberimo $z^P\in P$.
+Skonstruirali bomo zvezno homogeno preslikavo, ki ohranja red in za
+katero so točke $z^P$ lastni vektorji z med seboj različnimi lastnimi
+vrednostmi.
+
+Naj bo $r\in[-\infty,0)$. Uporabili bomo zvezno homogeno preslikavo
+$f_r\colon K\longrightarrow K$, ki ohranja red in je oblike
+\begin{equation}\label{eq:preslikava_fr}
+f_r(x)
+=
+\sum_{\substack{P\in\mathcal{P}(K)\\P\neq\{0\}}}
+\lambda_P M_r(I(P))(x)u^P,
+\qquad x\in K,
+\end{equation}
+kjer bomo $\lambda_P>0$ in $u^P\in P$ ustrezno izbrali.
+Ker je $M_r(I(P))$ zvezna, homogena in ohranja red ter je $\lambda_P>0$, je tudi $f_r$ zvezna, 
+homogena in ohranja red. Poleg tega je $u^P\in P \subseteq K$, zato je $f_r(x)\in K$ za vsak $x\in K$.
+
+Spomnimo se, da je množica $\mathcal{P}(K)$ delno urejena z relacijo
+$\trianglelefteq$, pri čemer $P\trianglelefteq Q$ pomeni, da za vsak
+$x\in P$ in $y\in Q$ obstaja $\beta>0$, tako da je $x\leq_K\beta y$.
+Po lemi~\ref{lema2.38} velja tudi
+$P\trianglelefteq Q$ natanko tedaj, ko je $I(P)\subseteq I(Q)$.
+Zato za vsak $x\in Q$ in vsak $P\in\mathcal{P}(K)$,
+$P\neq\{0\}$, velja
+$M_r(I(P))(x)>0 \Longleftrightarrow P\trianglelefteq Q$,
+sicer pa je $M_r(I(P))(x)=0$.
+
+Števila $\lambda_P>0$ in vektorje $u^P\in P$ bomo izbrali induktivno
+glede na višino dela $P$ v delno urejeni množici
+$(\mathcal{P}(K),\trianglelefteq)$. Če je $P\in\mathcal{P}(K)$ in
+$\dim P=1$, ima $P$ višino $1$. V tem primeru postavimo $u^P=z^P$ in
+izberemo $\lambda_P>0$ tako, da so pozitivna števila
+\[
+\mu_P=\lambda_P M_r(I(P))(u^P)
+\]
+med seboj različna za vse dele $P$ višine $1$. Za take dele zato velja
+$f_r(z^P)=\mu_P z^P$.
+
+Predpostavimo sedaj, da smo $u^P\in P$ in $\lambda_P>0$ že izbrali za
+vse $P\trianglelefteq Q$, za katere je $P\neq\{0\}$ in $P\neq Q$.
+Tedaj je
+\[
+\begin{aligned}
+f_r(z^Q)
+&=
+\sum_{\substack{P\in\mathcal{P}(K)\\P\neq\{0\}}}
+\lambda_P M_r(I(P))(z^Q)u^P\\
+&=
+\sum_{\substack{P\trianglelefteq Q\\P\neq\{0\}}}
+\lambda_P M_r(I(P))(z^Q)u^P.
+\end{aligned}
+\]
+Označimo
+\[
+w^Q
+=
+\sum_{\substack{P\trianglelefteq Q\\P\neq\{0\},\,P\neq Q}}
+\lambda_P M_r(I(P))(z^Q)u^P.
+\]
+Za vsako dovolj veliko število $\mu_Q>0$ velja
+$\mu_Q z^Q-w^Q\in Q$ (???). Izberimo $\lambda_Q>0$ in $u^Q\in Q$ tako, da
+\[
+\lambda_Q M_r(I(Q))(z^Q)u^Q=\mu_Q z^Q-w^Q.
+\]
+Ker je $M_r(I(Q))(z^Q)>0$, je vektor $u^Q\in Q$ enolično določen, ko
+izberemo $\mu_Q>0$ in $\lambda_Q>0$. Iz konstrukcije sledi
+\[
+f_r(z^Q)=w^Q+\mu_Q z^Q-w^Q=\mu_Q z^Q.
+\]
+Torej števila $\mu_Q>0$ lahko izberemo tako, da ima $f_r$ natanko
+$|\mathcal{P}(K)|-1=m-1$ različnih lastnih vrednosti.
+\end{dokaz}
+
+Če je $-\infty<r<0$, je preslikava $f_r$, skonstruirana v
+izreku~\ref{izrek:stevilo_lastnih_vrednosti_poliedrski}, neskončnokrat
+odvedljiva na $\operatorname{int}(K)$. Vprašamo se lahko, ali obstaja
+zvezna homogena preslikava na $K$, ki ohranja red, ima lastnosti iz
+izreka~\ref{izrek:stevilo_lastnih_vrednosti_poliedrski}, je razreda
+$C^1$ na $\operatorname{int}(K)$ in za katero se $Df(x)$ zvezno razširi
+v točko $0$. Če je $\dim K>1$, je odgovor očitno negativen: če bi namreč
+$L$ označeval limito $Df(x)$ pri $x\to0$, bi moral imeti $L$ kar $m-1$
+različnih lastnih vrednosti, kjer je $m$ število obrazov poliederskega stožca $K$.
+
+Naslednji rezultat pokaže, da stožčni spekter ni nujno končen, kadar
+stožec ni poliedrski. Za njegov dokaz potrebujemo Straszewiczev izrek
+(glej tudi~\cite[str.~167]{rockafellar}), ki pravi, da so ekstremne
+točke zaprte konveksne množice $S$ v končnorazsežnem vektorskem prostoru
+$V$ goste v množici ekstremnih točk množice $S$.
+
+\begin{definicija}
+  Točka $x$ zaprte konveksne množice $S\subseteq V$ je 
+  \emph{ekstremna}, če obstaja hiperravnina $H\subseteq V$ z
+  $\dim H=\dim V-1$, za katero velja $H\cap S=\{x\}$.
+\end{definicija}
+
+\begin{izrek}[Straszewiczev izrek]\label{Straszewicz}
+  Za vsako zaprto konveksno množico $S$ je
+  množica ekstremnih točk $S$ gosta podmnožica množice ekstremnih točk
+  množice $S$. Tako je vsaka ekstremna točka limita nekega zaporedja ekstremnih
+  točk.
+\end{izrek}
+\begin{dokaz}
+  TO DO.
+\end{dokaz}
+
+\begin{izrek}\label{izrek:neskoncno_lastnih_vrednosti}
+Naj bo $K\subseteq V$ strnjen zaprt stožec. Tedaj obstaja zvezna
+homogena preslikava $f\colon K\longrightarrow K$, ki ohranja red in ima
+neskončno mnogo različnih lastnih vrednosti, natanko tedaj, ko je $K$
+nepoliedrski.
+\end{izrek}
+
+\begin{dokaz}
+Po izreku~\ref{izrek:stevilo_lastnih_vrednosti_poliedrski} dobimo 
+implikacijo iz leve proti desni, torej zadostuje, da
+za vsak strnjen zaprt nepoliedrski stožec $K\subseteq V$ skonstruiramo
+zvezno homogeno preslikavo $f\colon K\longrightarrow K$, ki ohranja red
+in ima neskončno mnogo različnih lastnih vrednosti.
+
+Izberimo $u\in\operatorname{int}(K)$. Če je $K$ nepoliedrski, je tudi
+$K^*$ nepoliedrski (glej:~\cite[Trditev~19.2.2, Izrek~14.1]{rockafellar}). Definirajmo
+\[
+\Sigma^*=\{\varphi\in K^*:\varphi(u)=1\}.
+\]
+Po lemi~\ref{lema2.46} je $\Sigma^*$ kompaktna konveksna množica v
+$V^*$. Ker je $K^*$ nepoliedrski, tudi $\Sigma^*$ ni poliederska, zato ima
+neskončno mnogo ekstremnih točk. Po Straszewiczevem izreku so
+ekstremne točke množice $\Sigma^*$ goste v njenih ekstremnih
+točkah. Zato obstaja zaporedje $(\varphi_k)_k$ med seboj različnih
+ekstremnih točk množice $\Sigma^*$, tako da
+$\varphi_k\longrightarrow\psi\in\Sigma^*$ in $\varphi_k\neq\psi$ za
+vsak $k\geq1$.
+
+Ker je $\varphi_k$ ekstremna točka množice $\Sigma^*$, je
+$F=\{\lambda\varphi_k ~|~ \lambda\geq0\}$ izpostavljeni obraz stožca $K^*$.
+Ker je $K^{**}=K$, obstaja (?????) $x^k\in K$ z $\|x^k\|=1$, tako da je
+$\varphi_k(x^k)=0$ in
+$\varphi(x^k)>0$ za vsak
+$\varphi\in\Sigma^*\setminus\{\varphi_k\}$. Posebej velja
+\begin{equation}\label{eq:pozitivnost_funkcionalov}
+\psi(x^k)>0
+\qquad\text{in}\qquad
+\varphi_m(x^k)>0\quad\text{za vsak }m\neq k.
+\end{equation}
+
+Definirajmo $f\colon K\longrightarrow K$ s predpisom
+\[
+f(x)
+=
+\sum_{k=1}^{\infty}
+\left(\frac12\right)^k
+\lambda_k
+\inf_{m\neq k}\varphi_m(x)\,x^k,
+\qquad x\in K,
+\]
+kjer je $(\lambda_k)_k$ omejeno zaporedje strogo pozitivnih realnih
+števil. Če je $k\neq q$, potem je
+\[
+\lambda_k\inf_{m\neq k}\varphi_m(x^q)=0,
+\]
+saj je $\varphi_q(x^q)=0$. Če pa je $k=q$, potem po~\eqref{eq:pozitivnost_funkcionalov} in zaradi
+$\varphi_k\longrightarrow\psi$, $\varphi_k\neq\varphi_q$ za vsak
+$k\neq q$ ter $\varphi_q\neq\psi$ velja
+\[
+\lambda_q\inf_{m\neq q}\varphi_m(x^q)>0.
+\]
+Zato za vsak $q\geq1$ dobimo
+\[
+f(x^q)
+=
+\left(\frac12\right)^q
+\lambda_q
+\inf_{m\neq q}\varphi_m(x^q)\,x^q.
+\]
+To pokaže, da je $x^q$ lastni vektor preslikave $f$. Števila
+$0<\lambda_q\leq1$ lahko izberemo tako, da ima $f$ neskončno mnogo
+različnih lastnih vrednosti.
+\end{dokaz}
+
+Stožčni spekter preslikave $f$, skonstruirane v dokazu
+izreka~\ref{izrek:neskoncno_lastnih_vrednosti}, je števno neskončna
+množica. Naslednji zgled pokaže, da lahko stožčni spekter zvezne homogene
+preslikave, ki ohranja red, vsebuje neštevno neskončno množico tudi tedaj, ko je stožec
+končnorazsežen.
+
+\begin{zgled}\label{zgled:kontinuum_stozcnega_spektra}
+Zgled definiramo na stožcu pozitivno semidefinitnih simetričnih matrik
+velikosti $2\times2$, $\Pi_2(\R)$, podobne zglede pa lahko konstruiramo
+tudi na $\Pi_n(\R)$ za $n>2$. Spomnimo se, da je $\Pi_2(\R)$ sebi
+dualen stožec (TO DO: Section 2.4) glede na skalarni produkt
+$\langle R,S\rangle=\operatorname{tr}(RS)$.
+
+Naj bo
+\[
+A=
+\begin{bmatrix}
+1&0\\
+0&0
+\end{bmatrix}
+\in\partial\Pi_2(\R)
+\]
+in definirajmo $f\colon\Pi_2(\R)\longrightarrow\Pi_2(\R)$ s predpisom
+\[
+f(X)=\bigl(\operatorname{tr}(XA)X\bigr)^{1/2},
+\qquad X\in\Pi_2(\R).
+\]
+Če je $X\leq Y$, potem je
+$\operatorname{tr}(XA)\leq\operatorname{tr}(YA)$, saj je
+$A\in\Pi_2(\R)$. Zato velja
+\[
+\operatorname{tr}(XA)X
+\leq
+\operatorname{tr}(YA)X
+\leq
+\operatorname{tr}(YA)Y.
+\]
+Ker poleg tega tudi preslikava $R\longmapsto R^{1/2}$ na $\Pi_2(\R)$ ohranja red, sledi
+$f(X)\leq f(Y)$, torej $f$ ohranja red. Preslikava $f$ je tudi homogena: 
+$f(\alpha X)=\bigl(\operatorname{tr}(\alpha XA)\alpha X\bigr)^{1/2}
+=\alpha\bigl(\operatorname{tr}(XA)X\bigr)^{1/2}=\alpha f(X)$ za vsak $\alpha\geq0$ in $X\in\Pi_2(\R)$.
+
+Za $0\leq\alpha\leq1$ postavimo
+\[
+X_\alpha
+=
+\begin{bmatrix}
+1-\alpha&0\\
+0&\alpha
+\end{bmatrix}
+\in\Pi_2(\R).
+\]
+Tedaj je $\operatorname{tr}(X_\alpha A)=1-\alpha$ in
+\[
+\begin{aligned}
+f(X_\alpha)
+&=
+\begin{bmatrix}
+(1-\alpha)^2&0\\
+0&(1-\alpha)\alpha
+\end{bmatrix}^{1/2}\\
+&=
+\begin{bmatrix}
+1-\alpha&0\\
+0&\sqrt{(1-\alpha)\alpha}
+\end{bmatrix}.
+\end{aligned}
+\]
+Če je $f(X_\alpha)=\lambda X_\alpha$, potem je $\lambda=1$ in
+$\sqrt{(1-\alpha)\alpha}=\alpha$, kar je enakovredno pogoju
+$\alpha=0$ ali $\alpha=1/2$. Zato sta $X_0$ in $X_{1/2}$ lastna vektorja
+preslikave $f$ z lastno vrednostjo $1$. 
+Vemo že: če je $x \in \operatorname{int}(K)$, potem $x$ dominira vsak element stožca. 
+Naj bo $\lambda$ še ena lastna vrednost preslikave $f$, torej $f(X) = \lambda X$. Ker je
+$X_{1/2}\in\operatorname{int}(\Pi_2(\R))$ in $f(X_{1/2}) = 1 X_{1/2}$, iz
+leme~\ref{lema:primerjava_lastnih_vrednosti} sledi, da je največja lastna
+vrednost preslikave $f$ enaka $1$, saj je $X_{1/2}$ dominira vsak element stožca.
+
+Naj bo sedaj $Z\in\partial\Pi_2(\R)$ in $\operatorname{tr}(Z)=1$. 
+Ker je $Z \in \partial \Pi_2(\mathbb{R})$, je matrika $Z$ singularna, zato je vsaj ena
+njena lastna vrednost enaka $0$.
+Ker je sled matrike enaka vsoti njenih lastnih vrednosti, velja
+$\operatorname{tr}(Z)=\lambda_1+\lambda_2=1$.
+Ker je ena izmed lastnih vrednosti enaka $0$, mora biti druga enaka $1$.
+Tedaj
+lahko $Z$ za neki $0\leq\vartheta\leq2\pi$ zapišemo kot
+\[
+\begin{aligned}
+Z
+&=
+\begin{bmatrix}
+\cos\vartheta&-\sin\vartheta\\
+\sin\vartheta&\cos\vartheta
+\end{bmatrix}
+X_0
+\begin{bmatrix}
+\cos\vartheta&\sin\vartheta\\
+-\sin\vartheta&\cos\vartheta
+\end{bmatrix}\\
+&=
+\begin{bmatrix}
+\cos^2\vartheta&\cos\vartheta\sin\vartheta\\
+\cos\vartheta\sin\vartheta&\sin^2\vartheta
+\end{bmatrix}.
+\end{aligned}
+\]
+Hitro lahko preverimo, da velja $Z \cdot Z=Z$, zato je $Z^{1/2}=Z$. Zato je
+\[
+f(Z)
+=
+\bigl(\operatorname{tr}(ZA)Z\bigr)^{1/2}
+=
+|\cos\vartheta|Z^{1/2}
+=
+|\cos\vartheta|Z.
+\]
+Torej je vsak $Z\in\partial\Pi_2(\R)$ z $\operatorname{tr}(Z)=1$
+lastni vektor z lastno vrednostjo $|\cos\vartheta|$. Stožčni spekter
+preslikave $f$ je zato enak intervalu $[0,1]$.
+\end{zgled}
+
+V zvezi z zgledom~\ref{zgled:kontinuum_stozcnega_spektra} omenimo še
+naslednji odprti problem.
+
+\medskip
+\noindent\textbf{Odprti problem.}
+Kateri končnorazsežni zaprti stožci $K$ dopuščajo zvezno homogeno
+preslikavo $f\colon K\longrightarrow K$, ki ohranja red in za katero
+stožčni spekter $\sigma_K(f)$ vsebuje kontinuum?
+
+
+
+
+
+
+
+
+\subsection{Stožčni spektralni radij}
+
+Glavni del Perron-Frobeniusovega izreka se nanaša na spektralni radij
+in pripadajoči lastni vektor. V tem podpoglavju bomo obravnavali
+posplošitve spektralnega radija na nelinearne preslikave stožcev.
+Sprva bomo predpostavili le, da je $f\colon K\longrightarrow K$ zvezna
+homogena preslikava na strnjenem zaprtem stožcu $K$ v
+končnorazsežnem vektorskem prostoru $V$.
+
+Obravnavali bomo dve naravni definiciji stožčnega spektralnega radija,
+ki ga označimo z $r_K(f)$, in pokazali, da sovpadata. Za razliko od
+linearnega primera ni nujno, da obstaja $x\in K\setminus\{0\}$, za
+katerega velja $f(x)=r_K(f)x$. V naslednjem podpoglavju bomo pokazali,
+da je $r_K(f)$ lastna vrednost preslikave $f$, če dodatno
+predpostavimo, da $f$ ohranja red. V linearnem primeru te težave ni,
+saj linearna preslikava $f\colon K\longrightarrow K$ nujno ohranja red.
+
+Naj bo $K\subseteq V$ zaprt stožec in
+$f\colon K\longrightarrow K$ zvezna homogena preslikava. Ker je $f$
+zvezna v $0$ in homogena, lahko definiramo njeno normo na naslednji način.
+
+\begin{definicija}
+  Normo $\|f\|_K$ preslikave $f$ na stožcu $K$ definiramo kot
+  \[\|f\|_K=\sup\{\|f(x)\| ~|~ x\in K,\ \|x\|\leq1\},\] kjer je
+  $\|\cdot\|$ neka fiksna norma na $V$.
+\end{definicija}
+
+Ker je $f$ homogena, vemo že, da velja
+$\|f(x)\|\leq\|f\|_K\|x\|$ za vsak $x\in K$. Zato za vse
+$k,m\geq1$ in $x\in K$ velja
+$\|f^{k+m}(x)\|\leq\|f^k\|_K\|f^m\|_K\|x\|$, od koder sledi
+$\|f^{k+m}\|_K\leq\|f^k\|_K\|f^m\|_K$.
+
+Po Feketejevi subaditivni lemi~\cite{Fekete1923} zato velja
+$\lim\limits_{m\to\infty}\|f^m\|_K^{1/m}
+=\inf\limits_{m\geq1}\|f^m\|_K^{1/m}$.
+Za linearne preslikave je Bonsall to limito imenoval stožčni
+spektralni radij. 
+
+\begin{definicija}
+  Za zvezno homogeno preslikavo
+  $f\colon K\longrightarrow K$ definiramo njen
+  \emph{Bonsallov stožčni spektralni radij} kot
+  \[\widehat r_K(f)=\lim\limits_{m\to\infty}\|f^m\|_K^{1/m}=\inf_{m\geq1}\|f^m\|_K^{1/m}.\]
+\end{definicija}
+
+Vrednost $\widehat r_K(f)$ ni odvisna od izbire norme, saj že vemo, da so vse
+norme na končnorazsežnem vektorskem prostoru ekvivalentne.
+
+Drugo naravno definicijo dobimo z opazovanjem orbit posameznih točk.
+
+\begin{definicija}
+  Za vsak $x\in K\setminus\{0\}$ definiramo
+  \[\mu_K(x,f)=\limsup_{m\to\infty}\|f^m(x)\|^{1/m}\]
+  in nato \emph{stožčni spektralni radij} preslikave $f$ kot
+  \begin{align*}
+  r_K(f)
+  =
+  \sup\{\mu_K(x,f) ~|~ x\in K\setminus\{0\}\}.
+  \end{align*}
+\end{definicija}
+
+
+Za vsak $x\in K\setminus\{0\}$ in $m\geq1$ velja
+$\|f^m(x)\|^{1/m}\leq\|f^m\|_K^{1/m}\|x\|^{1/m}$.
+Ker je $\|x\|^{1/m}\longrightarrow1$, iz definicij sledi
+$\mu_K(x,f)\leq\widehat r_K(f)$ za vsak $x\in K\setminus\{0\}$ in zato
+$r_K(f)\leq\widehat r_K(f)$.
+
+Z uporabo predpostavke, da je $V$ končnorazsežen, bomo pokazali, da
+pravzaprav velja $r_K(f)=\widehat r_K(f)$. V neskončnorazsežnih
+Banachovih prostorih ta enakost ni nujno izpolnjena.
+
+\begin{izrek}\label{izr:enakost_stozcnih_spektralnih_radijev}
+Naj bo $K\subseteq V$ zaprt stožec in
+$f\colon K\longrightarrow K$ zvezna homogena preslikava. Potem velja
+$r_K(f)=\widehat r_K(f)$.
+\end{izrek}
+
+\begin{dokaz}
+Ker že vemo, da je $r_K(f)\leq\widehat r_K(f)$, moramo pokazati samo še
+obratno neenakost. Predpostavimo nasprotno, da je
+$r_K(f)<\widehat r_K(f)$.
+
+Za $\lambda>0$ definirajmo $f_\lambda(x)=f(\lambda x)=\lambda f(x)$.
+Iz homogenosti sledi
+$r_K(f_\lambda)=\lambda r_K(f)$ in
+$\widehat r_K(f_\lambda)=\lambda\widehat r_K(f)$.
+Ker je $r_K(f)<\widehat r_K(f)$, lahko $\lambda>0$ izberemo tako, da po
+zamenjavi $f$ s $f_\lambda$ velja
+$r_K(f)<1<\widehat r_K(f)$.
+
+Za $\alpha>0$ označimo
+$B_\alpha=\{x\in K ~|~ \|x\|\leq\alpha\}$.
+Ker je $r_K(f)<1$, po definiciji velja, da je $\mu_K(x,f)<1$ za vsak $x\in K\setminus\{0\}$, 
+torej obstaja $q$, da je $\limsup\limits_{m\to\infty}\|f^m(x)\|^{1/m} < q < 1$.
+Sledi $\limsup\limits_{m\to\infty}\|f^m(x)\| < q^m < 1$. Ker 
+je $0 < q < 1$, velja $q^m \to 0$, torej 
+za vsak $x\in K$ obstaja $m_x\geq1$, tako da je
+$f^{m_x}(x)\in B_{1/3}$. Zaradi zveznosti preslikave $f^{m_x}$ obstaja
+relativno odprta okolica $V_x$ točke $x$ v $K$, tako da je
+$\|f^{m_x}(y)\|<1/2$ za vsak $y\in V_x$.
+
+Množice $V_x$, kjer je $x\in B_1$, tvorijo odprto pokritje kompaktne
+množice $B_1$, zato obstaja končno podkritje. Sledi, da obstajajo $x_1,\ldots,x_p\in B_1$, tako da
+$B_1\subseteq\bigcup\limits_{j=1}^p V_{x_j}$. Zaradi preglednosti postavimo
+$V_j=B_1\cap V_{x_j}$ in $m_j=m_{x_j}$. Tedaj je
+$B_1=\bigcup\limits_{j=1}^p V_j$ in $\|f^{m_j}(y)\|<1/2$ za vsak $y\in V_j$.
+
+Naj bo $M=\max\limits_{1\leq j\leq p}m_j$ in definirajmo
+$W=\bigcup\limits_{j=0}^{M}f^j(B_1)$. Pokazali bomo, da je $f(W)\subseteq W$.
+Naj bo $w\in W$. Potem je $w=f^j(x)$ za neki $x\in B_1$ in
+$0\leq j\leq M$. Če je $j<M$, je
+$f(w)=f^{j+1}(x)\in W$.
+Če pa je $j=M$, obstaja $1\leq k\leq p$, tako da je $x\in V_k$.
+Tedaj je $\xi:=f^{m_k}(x)\in B_{1/2}\subseteq B_1$. Ker je
+$1\leq m_k\leq M$, sledi $M-m_k+1\leq M$ in zato
+$f(w)=f^{M-m_k+1}(\xi)\in W$. Torej je $f(W)\subseteq W$.
+
+Množica $B_1$ je kompaktna in preslikava $f$ je zvezna. Ker je zvezna slika kompaktne množice kompaktna, 
+je množica $W$ kompaktna in zato omejena. Torej obstaja $R>0$, tako da je
+$\|w\|\leq R$ za vsak $w\in W$. Ker je $B_1\subseteq W$ in
+$f(W)\subseteq W$, za vsak $x\in B_1$ in $m\geq1$ velja
+$\|f^m(x)\|\leq R$. Posledično je $\|f^m\|_K\leq R$ za vsak $m\geq1$,
+zato
+\begin{align*}
+\widehat r_K(f)
+=
+\lim_{m\to\infty}\|f^m\|_K^{1/m}
+\leq
+\lim_{m\to\infty}R^{1/m}
+=
+1.
+\end{align*}
+
+To je v protislovju s predpostavko $\widehat r_K(f)>1$. Zato mora
+veljati $r_K(f)=\widehat r_K(f)$.
+\end{dokaz}
+
+Stožčni spektralni radij ima naslednje osnovne lastnosti.
+
+\begin{trditev}\label{trd:lastnosti_stozcnega_spektralnega_radija}
+Naj bo $K\subseteq V$ zaprt stožec in
+$g\colon K\longrightarrow K$ zvezna homogena preslikava. Potem velja:
+\begin{enumerate}[label=(\roman*)]
+\item Za vsak $k\geq1$ velja $r_K(g^k)=r_K(g)^k$.
+\item Če za neki $x\in K\setminus\{0\}$ in $k\geq1$ velja
+$g^k(x)=\lambda^k x$, potem je $\lambda\leq r_K(g)$.
+\end{enumerate}
+
+Če sta poleg tega $K_1\subseteq V_1$ in $K_2\subseteq V_2$ zaprta
+stožca ter 
+$f_1\colon K_1\longrightarrow K_2$ in
+$f_2\colon K_2\longrightarrow K_1$ zvezni homogeni preslikavi.
+Potem velja
+$r_{K_1}(f_2\circ f_1)=r_{K_2}(f_1\circ f_2)$.
+\end{trditev}
+
+\begin{dokaz}
+Po izreku~\ref{izr:enakost_stozcnih_spektralnih_radijev} zadostuje,
+da trditve dokažemo za Bonsallov stožčni spektralni radij. Za
+$k\geq1$ velja
+
+\begin{align*}
+\widehat r_K(g^k)
+&=
+\lim_{m\to\infty}\|g^{km}\|_K^{1/m}
+=
+\lim_{m\to\infty}
+\left(\|g^{km}\|_K^{1/(mk)}\right)^k
+=
+\widehat r_K(g)^k.
+\end{align*}
+
+Za dokaz točke (ii) naj bo $g^k(x)=\lambda^kx$ za neki
+$x\in K\setminus\{0\}$. Tedaj je $g^{km}(x)=\lambda^{km}x$ za vsak
+$m\geq1$ in zato dobimo 
+\begin{align*}
+\lambda
+=
+\lim_{m\to\infty}\|g^{km}(x)\|^{1/(mk)}
+\leq
+\limsup_{j\to\infty}\|g^j(x)\|^{1/j}
+\leq
+r_K(g).
+\end{align*}
+
+Dokažimo še zadnjo trditev. Naj bo $\|\cdot\|_1$ norma na $V_1$ in
+$\|\cdot\|_2$ norma na $V_2$. Definirajmo
+$\|f_1\|=\sup\{\|f_1(x)\|_2 ~|~ x\in K_1,\ \|x\|_1\leq1\}$ in podobno
+$\|f_2\|=\sup\{\|f_2(y)\|_1 ~|~ y\in K_2,\ \|y\|_2\leq1\}$.
+Za vsak $m\geq1$ in $x\in K_1$ velja
+\begin{align*}
+\|(f_2\circ f_1)^{m+1}(x)\|_1
+&=
+\left\|
+f_2\left((f_1\circ f_2)^m(f_1(x))\right)
+\right\|_1\\
+&\leq
+\|f_2\|\,
+\|(f_1\circ f_2)^m\|_{K_2}\,
+\|f_1\|\,\|x\|_1.
+\end{align*}
+
+Zato je
+$\|(f_2\circ f_1)^{m+1}\|_{K_1}
+\leq\|f_2\|\|(f_1\circ f_2)^m\|_{K_2}\|f_1\|$.
+Če je $\|f_1\|=0$ ali $\|f_2\|=0$, je
+$\widehat r_{K_1}(f_2\circ f_1)=0
+\leq\widehat r_{K_2}(f_1\circ f_2)$.
+
+Če sta $\|f_1\|$ in $\|f_2\|$ neničelni, dobimo
+\begin{align*}
+\widehat r_{K_1}(f_2\circ f_1)
+&\leq
+\lim_{m\to\infty}
+\|f_2\|^{1/(m+1)}
+\left(
+\|(f_1\circ f_2)^m\|_{K_2}^{1/m}
+\right)^{m/(m+1)}
+\|f_1\|^{1/(m+1)}\\
+&=
+\widehat r_{K_2}(f_1\circ f_2).
+\end{align*}
+
+Po izreku~\ref{izr:enakost_stozcnih_spektralnih_radijev} zato velja
+$r_{K_1}(f_2\circ f_1)\leq r_{K_2}(f_1\circ f_2)$.
+Če zamenjamo vlogi $K_1$ in $K_2$, dobimo še obratno neenakost, zato
+je $r_{K_1}(f_2\circ f_1)=r_{K_2}(f_1\circ f_2)$.
+\end{dokaz}
+
+Naravno se je vprašati, ali je stožčni spektralni radij zvezne
+homogene preslikave $f\colon K\longrightarrow K$ vedno njena lastna
+vrednost. Definirajmo
+\begin{equation*}
+  \widetilde r_K(f)=
+  \sup\{\lambda\geq0 ~|~ f(x)=\lambda x
+  \text{ za neki }x\in K\setminus\{0\}\}.
+\end{equation*}
+Po točki (ii) trditve~\ref{trd:lastnosti_stozcnega_spektralnega_radija}
+velja $\widetilde r_K(f)\leq r_K(f)$. Morda bi pričakovali, da vedno
+velja enakost, vendar naslednji zgled pokaže, da je lahko neenakost
+stroga tudi v končnorazsežnem prostoru.
+
+\begin{zgled}\label{zgled:spektralni_radij_ni_lastna_vrednost}
+Poglejmo Lorentzov stožec
+$\Lambda_3=\{(x_1,x_2,x_3)\in\R^3:
+x_1^2-x_2^2-x_3^2\geq0,\ x_1\geq0\}$.
+Naj $U_\vartheta\colon\R^2\longrightarrow\R^2$ označuje rotacijo za
+kot $\vartheta$ okoli izhodišča in predpostavimo, da je
+$\vartheta/\pi$ iracionalno število. Definirajmo
+$f_\vartheta\colon\Lambda_3\longrightarrow\Lambda_3$ s predpisom
+
+\begin{align*}
+f_\vartheta(x)
+=
+\left(
+\frac12x_1+\sqrt{x_2^2+x_3^2},
+U_\vartheta(x_2,x_3)
+\right).
+\end{align*}
+
+Preprosto lahko preverimo, da je $f_\vartheta(\Lambda_3)\subseteq\Lambda_3$
+in da je $f_\vartheta$ zvezna homogena preslikava. 
+Res, označimo $r = \sqrt{x_2^2+x_3^2}$. Očitno je $\frac12x_1+r \geq r \geq 0$ za vse $x\in\Lambda_3$. 
+Ker rotacija ne spremeni dolžine vektorja, je $\|U_\vartheta(x_2,x_3)\|=\|(x_2,x_3)\|=r$ in 
+velja $\left(\frac12x_1+\sqrt{x_2^2+x_3^2}\right)^2 - r^2 \geq \frac14x_1^2 \geq 0$, torej 
+velja $f_\vartheta(x)\in\Lambda_3$ za vsak $x\in\Lambda_3$. Da je $f_\vartheta$ homogena, 
+sledi iz linearnosti rotacije in linearne funkcije $x_1 \mapsto \frac12 x_1 + r$. Zveznost je očitna.
+
+Poglejmo si $f_\vartheta^2$. Računamo $f_\vartheta^2(x_1, x_2, x_3) = f_\vartheta(\frac12x_1+\sqrt{x_2^2+x_3^2}, U_\vartheta(x_2,x_3))=
+f_\vartheta(\frac{1}{2} x_1 + r, U_\vartheta(x_2,x_3)) = (\frac{1}{2} (\frac{1}{2} x_1 + r) + \| U_\vartheta(x_2,x_3) \|,
+U_\vartheta^2(x_2,x_3))$. Ker velja, da je $\| U_\vartheta(x_2,x_3) \| = r$, dobimo
+$f_\vartheta^2(x_1, x_2, x_3) = 
+\left(\frac{1}{4} x_1 + \frac{3}{2} r, U_\vartheta^2(x_2,x_3)\right)$.
+Splošno lahko pokažemo, da za vsak $k\geq1$ velja
+\begin{align*}
+f_\vartheta^k(x)
+=
+\left(
+\left(\frac12\right)^k x_1
++
+\sqrt{x_2^2+x_3^2}
+\sum_{j=0}^{k-1}\left(\frac12\right)^j,
+U_\vartheta^k(x_2,x_3)
+\right).
+\end{align*}
+
+Ker je $\vartheta/\pi$ iracionalno, velja
+$U_\vartheta(x_2,x_3)=\lambda(x_2,x_3)$ za neko $\lambda\geq0$
+natanko tedaj, ko je $(x_2,x_3)=(0,0)$. Zato je
+$x\in\Lambda_3\setminus\{0\}$ lastni vektor preslikave $f_\vartheta$
+natanko tedaj, ko je $x_1>0$ in $x_2=x_3=0$. V tem primeru je
+$f_\vartheta(x)=\frac12x$, zato je
+$\widetilde r_{\Lambda_3}(f_\vartheta)=1/2$.
+
+Izberimo sedaj $x=(x_1,x_2,x_3)$ z $x_1\geq0$ in
+$x_1^2=\frac{1}{2}=x_2^2+x_3^2$. Tedaj je $\|x\|_2=1$ in iz zgornjega izraza
+za $f_\vartheta^k(x)$ sledi
+$\|f_\vartheta^k\|_{\Lambda_3}\geq1$ za vsak $k\geq1$. Zato je
+$r_{\Lambda_3}(f_\vartheta)\geq1$ in posledično
+$\widetilde r_{\Lambda_3}(f_\vartheta) = \frac12
+< 1 \leq
+r_{\Lambda_3}(f_\vartheta)$.
+
+Torej je največja lastna vrednost $\frac{1}{2}$, stožčni spektralni radij pa je vsaj $1$. 
+Zato spektralni radij v splošnem ni nujno lastna vrednost.
+\end{zgled}
+
+Da bi zagotovili, da je stožčni spektralni radij lastna vrednost,
+potrebujemo dodatne predpostavke. V naslednjem podpoglavju bomo
+pokazali, da zadostuje predpostavka, da $f$ ohranja red. Pravzaprav
+zadostuje nekoliko splošnejši pogoj: obstaja zaprt stožec
+$C\subseteq V$ s $K\subseteq C$, tako da je
+$f\colon K\longrightarrow K$ zvezna homogena preslikava, ki ohranja
+red glede na $C$.
+
+Predpostavka, da $f$ ohranja red glede na $C$ namesto glede na $K$,
+se morda zdi umetna. V številnih naravnih primerih $f$ ohranja red
+glede na $K$, lahko pa se zgodi, da je lažje dokazati, da $f$ ohranja
+red glede na večji stožec $C$. To ponazarja naslednji zgled.
+
+\begin{zgled}\label{zgled:harmonicna_preslikava}
+Naj bodo za $1\leq i,j\leq n$ števila $\alpha_{ij}\geq0$, za katera
+velja $\sum\limits_{j=1}^n\alpha_{ij}>0$ za vsak $i$. Definirajmo
+$f\colon\operatorname{int}(\R_+^n)\longrightarrow\R_+^n$ s predpisom
+\[f_i(x)=\left(\sum\limits_{j=1}^n\alpha_{ij} \frac{1}{x_j}\right)^{-1}\] za
+$1\leq i\leq n$. Preslikava $f$ je očitno zvezna, homogena in ohranja red
+glede na $\R_+^n$. Po
+izreku~\ref{izr:zvezna_razsiritev_poliedrski_stozec} ima zvezno
+homogeno razširitev $\R_+^n \to \R_+^n$, ki prav tako ohranja red.
+
+Naj bo
+$K=\{x\in\R^n ~|~ 0\leq x_1\leq x_2\leq\cdots\leq x_n\} \subseteq \R_+^n$. Očitno je to zaprt stožec.
+Trdimo, da je $f(K)\subseteq K$ natanko tedaj, ko za
+$1\leq i<n$ in $1\leq k\leq n$ velja
+\begin{align}
+\sum\limits_{j=1}^k\alpha_{ij}
+\geq
+\sum\limits_{j=1}^k\alpha_{(i+1)j}.
+\label{eq:4.3}
+\end{align}
+
+Dokažimo najprej iz desne proti levi. Zaradi zveznosti preslikave $f$ je $f(K)\subseteq K$ natanko tedaj,
+ko je $f(x)\in K$ za vsak $x\in K$ z
+$0<x_1\leq x_2\leq\cdots\leq x_n$. Za tak $x$ je pogoj
+$f(x)\in K$ ekvivalenten pogoju
+\begin{align}
+\sum\limits_{j=1}^n\alpha_{ij}x_j^{-1}
+\geq
+\sum\limits_{j=1}^n\alpha_{(i+1)j}x_j^{-1}
+\qquad
+\text{za }1\leq i<n.
+\label{eq:4.4}
+\end{align}
+
+Postavimo $y_j=x_j^{-1}$. Tedaj je
+$y_1\geq y_2\geq\cdots\geq y_n>0$, pri čemer je $y_j\to0$, ko
+$x_j\to\infty$. Zgornji pogoj je zato ekvivalenten neenakosti
+$\sum\limits_{j=1}^n\alpha_{ij}y_j
+\geq\sum\limits_{j=1}^n\alpha_{(i+1)j}y_j$
+za vse $y_1\geq y_2\geq\cdots\geq y_n\geq0$ 
+oziroma $\sum\limits_{j=1}^n(\alpha_{ij}-\alpha_{(i+1)j})y_j
+\geq 0$.
+
+Za fiksen $i$ postavimo
+$\beta_j=\alpha_{ij}-\alpha_{(i+1)j}$,
+$S_k=\sum\limits_{j=1}^k\beta_j$ in $S_0=0$.
+Če izrazimo $\beta_j$ v terminih $S_k$, dobimo
+$\beta_1=S_1-S_0 = S_1$, $\beta_2=S_2-\beta_1=S_2-S_1$, 
+$\beta_3= S_3 - \beta_2 - \beta_1 = S_3 - (S_2-S_1) - S_1 = S_3 - S_2$ in 
+splošno $\beta_j=S_j-S_{j-1}$ za $1\leq j\leq n$.
+S sumacijo po delih dobimo
+\begin{align*}
+\sum\limits_{j=1}^n\beta_j y_j
+= \sum\limits_{j=1}^n (S_j-S_{j-1}) y_j
+=\sum\limits_{k=1}^{n-1}S_k(y_k-y_{k+1})+S_n y_n.
+\end{align*}
+
+Ker je $y_1\geq y_2\geq\cdots\geq y_n\geq0$ in po zgornjem pogoju
+$S_k\geq0$ za vsak $1\leq k\leq n$, je desna stran nenegativna.
+Zato velja neenakost~\eqref{eq:4.4}, torej $f(K)\subseteq K$.
+
+Za dokaz trditve iz leve proti desni fiksirajmo $1\leq k\leq n$ in izberimo
+$y_j=1$ za $1\leq j\leq k$ ter $y_j=0$ za $j>k$. Tedaj dobimo
+$\sum\limits_{j=1}^k\alpha_{ij}
+\geq\sum\limits_{j=1}^k\alpha_{(i+1)j}$.
+S tem smo pokazali želeno ekvivalenco $f(K)\subseteq K$ natanko tedaj,
+ko velja~\eqref{eq:4.3}.
+\end{zgled}
+
+Čeprav je $f(K)\subseteq K$, se lahko zgodi, da $f$ ne ohranja reda
+glede na $K$. Na primer lahko uporabimo izrek~\ref{izrLipFreLeb}, da pokažemo, da $f$ ne ohranja reda glede na
+$K$, če velja
+\begin{align*}
+\alpha_{nn}\bigl(\alpha_{(n-1)1}\bigr)^2
+-
+\alpha_{(n-1)n}\bigl(\alpha_{n1}\bigr)^2
+<0.
+\end{align*}
+
+\begin{zgled}
+  Pokažimo, da $f$ ne ohranja reda glede na $K$, če velja
+  $\alpha_{nn}(\alpha_{(n-1)1})^2-\alpha_{(n-1)n}(\alpha_{n1})^2<0$. 
+  Iz prejšnjega zgleda vemo, da je $f(K)\subseteq K$.
+
+  Po izreku~\ref{izrLipFreLeb} bi moralo v primeru, ko bi $f$ ohranjala red glede na $K$, za vsak
+  $x\in\operatorname{int}(K)$ veljati $Df(x)(K)\subseteq K$. Pokazali bomo, da ta
+  pogoj ni izpolnjen.
+
+  Vzemimo $e_n=(0,\ldots,0,1)\in K$. Za $1\leq i\leq n$ označimo
+  $A_i(x)=\sum\limits_{j=1}^n\alpha_{ij}x_j^{-1}$, tako da je
+  $f_i(x)=A_i(x)^{-1}$. Ker je
+  $\frac{\partial A_i}{\partial x_n}(x)=-\alpha_{in}x_n^{-2}$, dobimo
+  \begin{align*}
+  \frac{\partial f_i}{\partial x_n}(x)
+  &=-A_i(x)^{-2}\frac{\partial A_i}{\partial x_n}(x) \\
+  &=\frac{\alpha_{in}}{x_n^2A_i(x)^2}.
+  \end{align*}
+  Ker je $Df(x)e_n$ ravno $n$-ti stolpec matrike $Df(x)$, je njegova $i$-ta
+  koordinata enaka
+  $\frac{\alpha_{in}}{x_n^2A_i(x)^2}$.
+
+  Za $M>1$ izberimo
+  $x=(1,M,M^2,\ldots,M^{n-1})\in\operatorname{int}(K)$. Tedaj pri
+  $M\to\infty$ velja
+  $\sum\limits_{j=1}^n\alpha_{ij}x_j^{-1}\to\alpha_{i1}$. Zato
+  \[\alpha_{(n-1)n}
+  \left(\sum\limits_{j=1}^n\alpha_{nj}x_j^{-1}\right)^2
+  -
+  \alpha_{nn}
+  \left(\sum\limits_{j=1}^n\alpha_{(n-1)j}x_j^{-1}\right)^2
+  \longrightarrow
+  \alpha_{(n-1)n}(\alpha_{n1})^2
+  -
+  \alpha_{nn}(\alpha_{(n-1)1})^2.\]
+
+  Po predpostavki je zadnji izraz pozitiven, zato za dovolj velik $M$ velja
+  \[
+  \alpha_{(n-1)n}
+  \left(\sum\limits_{j=1}^n\alpha_{nj}x_j^{-1}\right)^2
+  >
+  \alpha_{nn}
+  \left(\sum\limits_{j=1}^n\alpha_{(n-1)j}x_j^{-1}\right)^2.
+  \]
+  Od tod sledi
+  $(Df(x)e_n)_{n-1}>(Df(x)e_n)_n$, zato $Df(x)e_n\notin K$.
+
+  Ker je $e_n\in K$, velja $Df(x)(K)\nsubseteq K$. Po izreku~\ref{izrLipFreLeb} zato
+  preslikava $f$ ne ohranja reda glede na $K$.
+\end{zgled}
+
+Podpoglavje zaključimo z nekaj uporabnimi neenakostmi za stožčni
+spektralni radij.
+
+\begin{trditev}\label{trd:monotonost_stozcnega_spektralnega_radija}
+Naj bosta $K\subseteq C$ zaprta stožca v $V$ ter
+$f,g\colon K\longrightarrow K$ zvezni homogeni preslikavi, za kateri
+velja $f(x)\leq_Cg(x)$ za vsak $x\in K$. Če vsaj ena izmed preslikav
+$f$ in $g$ ohranja red glede na $C$, potem je
+$r_K(f)\leq r_K(g)$.
+\end{trditev}
+
+\begin{dokaz}
+Najprej z indukcijo pokažimo, da je
+$f^k(x)\leq_C g^k(x)$ za vsak $x\in K$ in $k\geq1$. Za $k=1$ je to
+ravno predpostavka. Predpostavimo, da trditev velja za $k$.
+
+Če $f$ ohranja red glede na $C$, potem
+\begin{align*}
+f^{k+1}(x)
+=
+f(f^k(x))
+\leq_C
+f(g^k(x))
+\leq_C
+g(g^k(x))
+=
+g^{k+1}(x).
+\end{align*}
+
+Če pa $g$ ohranja red glede na $C$, dobimo
+\begin{align*}
+f^{k+1}(x)=f(f^k(x))
+\leq_Cg(f^k(x))
+\leq_Cg(g^k(x))
+=g^{k+1}(x).
+\end{align*}
+
+Ker je $C$ zaprt stožec v končnorazsežnem vektorskem prostoru, je
+normalen. Iz definicije normalnosti sledi, da obstaja $M>0$, tako da iz $u\leq_C v$ sledi
+$\|u\|\leq M\|v\|$. 
+Ker sta $f^k(x),g^k(x)\in K\subseteq C$, velja
+$0\leq_C f^k(x)\leq_C g^k(x)$, zato velja 
+$\|f^k(x)\|\leq M\|g^k(x)\|$ za vsak $x\in K$ in $k\geq1$.
+Od tod sledi
+\begin{align*}
+\limsup_{k\to\infty}\|f^k(x)\|^{1/k}
+\leq
+\limsup_{k\to\infty} M^{1/k}\|g^k(x)\|^{1/k}
+= \limsup_{k\to\infty}\|g^k(x)\|^{1/k}.
+\end{align*}
+
+Torej je $\mu_K(x,f)\leq\mu_K(x,g)$ za vsak
+$x\in K\setminus\{0\}$. Če vzamemo supremum po vseh takih $x$, dobimo
+$r_K(f)\leq r_K(g)$.
+\end{dokaz}
+
+\begin{trditev}\label{trd:spodnja_meja_stozcnega_spektralnega_radija}
+Naj bosta $K\subseteq C$ zaprta stožca v $V$ in naj bo
+$f\colon K\longrightarrow K$ zvezna homogena preslikava, ki ohranja
+red glede na $C$. Če obstajata $u\in K\setminus\{0\}$ in $\rho>0$,
+tako da je $\rho u\leq_C f(u)$, potem velja $r_K(f)\geq\rho$.
+
+Če ima $K$ poleg tega neprazno notranjost, potem za vsak
+$x\in\operatorname{int}(K)$ velja
+$r_K(f)=\lim\limits_{k\to\infty}\|f^k(x)\|^{1/k}$.
+\end{trditev}
+
+\begin{dokaz}
+Iz predpostavke $\rho u\leq_C f(u)$ ter homogenosti in ohranjanja reda
+preslikave $f$ z indukcijo dobimo
+$\rho^k u\leq_C f^k(u)$ za vsak $k\geq1$.
+Ker je $C$ normalen, obstaja konstanta $M>0$, tako da
+$\rho^k\|u\|\leq M\|f^k(u)\|$. Vzamemo $k$-ti koren in zato sledi
+\begin{align*}
+\rho
+\leq
+\limsup_{k\to\infty}\|f^k(u)\|^{1/k}
+\leq
+r_K(f).
+\end{align*}
+
+Naj bo sedaj $x\in\operatorname{int}(K)$. Ker je $x$ notranja točka, obstaja $\varepsilon>0$, tako da je
+$B(x, \varepsilon) \subseteq\operatorname{int}(K)$. Če je $ y \in K$ z $\|y\|\leq1$, potem obstaja $\delta>0$, 
+tako da je $x-\delta y \in K$, kar pa pomeni $y \leq_K \frac{1}{\delta} x$. Označimo $M' = \frac{1}{\delta}$ in 
+potem velja $y\leq_C M'x$ za vsak $y\in K$ z $\|y\|\leq1$. Ker $f$
+ohranja red glede na $C$ in je homogena, velja
+$f^k(y)\leq_C M'f^k(x)$ za vsak $k\geq1$.
+
+Z normalnostjo stožca $C$ zato dobimo
+$\|f^k(y)\|\leq MM'\|f^k(x)\|$ za vsak $y\in K$ z $\|y\|\leq1$.
+Če vzamemo supremum po vseh takih $y$, sledi
+$\|f^k\|_K\leq MM'\|f^k(x)\|$. Po drugi strani iz definicije
+$\|f^k\|_K$ velja
+$\|f^k(x)\|\leq\|f^k\|_K\|x\|$, torej dobimo
+\begin{align*}
+\|f^k\|_K
+\leq
+M M' \|f^k(x)\|
+\leq
+M M' \|f^k\|_K\|x\|.
+\end{align*}
+
+Ko vse člene potenciramo z $1/k$ in pošljemo $k\to\infty$, konstante
+$M$, $M'$ in $\|x\|$ po korenjenju konvergirajo proti $1$. Ker po
+izreku~\ref{izr:enakost_stozcnih_spektralnih_radijev} velja
+$\lim\limits_{k\to\infty}\|f^k\|_K^{1/k}=r_K(f)$, dobimo
+\begin{align*}
+\lim\limits_{k\to\infty}\|f^k(x)\|^{1/k}
+=
+r_K(f).
+\end{align*}
+\end{dokaz}
+
+
+
+
+
+
+\subsection{Lastni vektorji, ki pripadajo stožčnemu spektralnemu radiju}
+
+Tako kot v klasični Perron-Frobeniusovi teoriji je stožčni spektralni
+radij zvezne homogene preslikave, ki ohranja red, lastna vrednost s
+pripadajočim lastnim vektorjem v stožcu. Dokaz temelji na Brouwerjevem
+izreku o negibni točki~\cite{Ciarlet2025}. Ideja, da lahko teorijo negibnih točk uporabimo
+za dokaz obstoja lastnih vektorjev, je stara in sega do del
+Alexandroffa in Hopfa ter Kreina in Rutmana.
+
+\begin{izrek}[Brouwerjev izrek o negibni točki]\label{Brouwer}
+Naj bo $K$ kompaktna in konveksna podmnožica končnorazsežnega normiranega vektorskega prostora 
+in naj bo $f:K\to K$ zvezna preslikava. Potem ima $f$ vsaj eno negibno točko.
+\end{izrek}
+
+\begin{izrek}\label{izr:obstoj_lastnega_vektorja_perturbacija}
+Naj bosta $K\subseteq C$ zaprta stožca v $V$, pri čemer ima $K$
+neprazno notranjost, in naj bo
+$f\colon\operatorname{int}(K)\longrightarrow K$ zvezna homogena
+preslikava, ki ohranja red glede na $C$. Naj bosta
+$\vartheta\in\operatorname{int}(C^*)$ in
+$u\in\operatorname{int}(K)$. Za $\varepsilon>0$ definirajmo
+$f_\varepsilon\colon\operatorname{int}(K)\longrightarrow
+\operatorname{int}(K)$ s predpisom
+\begin{align*}
+f_\varepsilon(x)
+=
+f(x)+\varepsilon\vartheta(x)u,
+\qquad
+x\in\operatorname{int}(K).
+\end{align*}
+Potem veljajo naslednje trditve:
+\begin{enumerate}[label=(\roman*)]
+\item Preslikava $f_\varepsilon$ je zvezna, homogena in ohranja red
+glede na $C$.
+
+\item Obstaja $x_\varepsilon\in\operatorname{int}(K)$, za katerega je
+$\vartheta(x_\varepsilon)=1$ in
+$f_\varepsilon(x_\varepsilon)
+=r_K(f_\varepsilon)x_\varepsilon$.
+
+\item Če je $0<\eta<\varepsilon$, potem je
+$r_K(f_\eta)<r_K(f_\varepsilon)$, zato obstaja limita
+$r=\lim\limits_{\varepsilon\to0}r_K(f_\varepsilon)$.
+
+\item Obstaja konvergentno zaporedje $(x_{\varepsilon_k})_k$ v množici
+$\{x_\varepsilon ~|~0<\varepsilon\leq1\}$, za katero je
+$x_{\varepsilon_k}\longrightarrow x$ in
+$\varepsilon_k\longrightarrow0$, pri čemer
+$f(x_{\varepsilon_k})\longrightarrow y$ in $y=rx$.
+\end{enumerate}
+\end{izrek}
+
+\begin{dokaz}
+(i) Preslikava $f_\varepsilon$ je očitno zvezna, ker sta $f$ in $\vartheta$ zvezni, in homogena, 
+ker je $f$ homogena in $\vartheta$ linearna. Ker
+$f$ ohranja red glede na $C$ in je $\vartheta\in C^*$, tudi
+$f_\varepsilon$ ohranja red glede na $C$. Poleg tega je
+$f_\varepsilon(\operatorname{int}(K))
+\subseteq\operatorname{int}(K)$.
+
+(ii) Naj bo $\Sigma=\{x\in K ~|~ \vartheta(x)=1\}$. Po
+lemi~\ref{lema2.46} je $\Sigma$ kompaktna konveksna množica.
+Ker je $u\in\operatorname{int}(K)\subseteq\operatorname{int}(C)$, obstaja $\delta>0$, tako da je 
+$B(u,\delta)\subseteq\operatorname{int}(C)$. 
+Množica $\Sigma\subseteq K$ je kompaktna in zato omejena, torej obstaja $R>0$, tako da je $\|x\| \leq R$ 
+za vsak $x\in\Sigma$. Zdaj izberemo $M_1 > \frac{R}{\delta} > 0$. Za poljuben $x\in\Sigma$ velja 
+$\|\frac{x}{M_1}\| \leq \delta$, zato je 
+\begin{align}
+x\leq_C M_1u,
+\qquad
+\text{za vsak }x\in\Sigma.
+\label{eq:dominacija_sigma_u}
+\end{align}
+Za $x\in\Sigma\cap\operatorname{int}(K)$ je
+$\vartheta(x)=1$, zato iz homogenosti in ohranjanja reda preslikave $f$
+sledi
+$f_\varepsilon(x)=f(x)+\varepsilon u
+\leq_C M_1f(u)+\varepsilon u$.
+Ker je $u\in\operatorname{int}(C)$, obstaja tudi $M_2>0$, tako da
+\begin{align}
+M_1f(u)\leq_C M_2u.
+\label{eq:M1fu_M2u}
+\end{align}
+Zato je
+\begin{align}
+f_\varepsilon(x)
+\leq_C
+(M_2+\varepsilon)u,
+\qquad
+\text{za vsak }
+x\in\Sigma\cap\operatorname{int}(K).
+\label{eq:feps_zgornja_meja}
+\end{align}
+Ker je $f(x)\in K\subseteq C$ in $\vartheta\in C^*$, po definiciji dualnega stožca velja
+$\vartheta(f(x))\geq0$. Iz
+$f_\varepsilon(x)=f(x)+\varepsilon u$ in~\eqref{eq:feps_zgornja_meja} tako dobimo
+\begin{align}
+\varepsilon\vartheta(u)
+\leq
+\vartheta(f_\varepsilon(x))
+\leq
+(M_2+\varepsilon)\vartheta(u)
+\qquad
+\text{za vsak }
+x\in\Sigma\cap\operatorname{int}(K).
+\label{eq:vartheta_feps}
+\end{align}
+
+Definirajmo sedaj
+$g_\varepsilon\colon\Sigma\cap\operatorname{int}(K)
+\longrightarrow\Sigma\cap\operatorname{int}(K)$ s predpisom
+\begin{align*}
+g_\varepsilon(x)
+=
+\frac{f_\varepsilon(x)}
+{\vartheta(f_\varepsilon(x))}.
+\end{align*}
+Vemo, da za $x\in\Sigma$ velja $f_\varepsilon(x)=f(x)+\varepsilon u$. Ker je $f(x)\in K$, je 
+$0\leq_K f(x)$, zato $\varepsilon u\leq_K f(x)+\varepsilon u=f_\varepsilon(x)$. Ker je 
+$(M_2+\varepsilon)\vartheta(u)>0$, lahko obe strani delimo in dobimo 
+$\frac{\varepsilon u}{(M_2+\varepsilon)\vartheta(u)}\leq_K\frac{f_\varepsilon(x)}{(M_2+\varepsilon)\vartheta(u)}$.
+Desno neenakost iz~\eqref{eq:vartheta_feps} invertiramo in množimo z $f_\varepsilon(x)$, da dobimo
+$\frac{f_\varepsilon(x)}{(M_2+\varepsilon)\vartheta(u)}\leq_K g_\varepsilon(x)$. S tem dobimo
+\begin{align*}
+\frac{\varepsilon u}
+{(M_2+\varepsilon)\vartheta(u)}
+\leq_K
+\frac{f_\varepsilon(x)}
+{(M_2+\varepsilon)\vartheta(u)}
+\leq_K
+g_\varepsilon(x).
+\end{align*}
+
+Ker je $C$ zaprt stožec v končnorazsežnem vektorskem prostoru, je
+normalen. Iz~\eqref{eq:dominacija_sigma_u} in~\eqref{eq:M1fu_M2u} zato obstaja $M_3>0$, tako da je
+$\|f(x)\|\leq M_3\|u\|$ za vsak
+$x\in\Sigma\cap\operatorname{int}(K)$. Ker je
+$f(x)\in K$ in $u\in\operatorname{int}(K)$, obstaja $M>0$, tako da je
+$f(x)\leq_K Mu$ za vsak
+$x\in\Sigma\cap\operatorname{int}(K)$. Levo neenakost iz~\eqref{eq:vartheta_feps} invertiramo and množimo 
+z $f_\varepsilon(x)$, da dobimo $g_\varepsilon(x) \leq \frac{f_\varepsilon(x)}{\varepsilon\vartheta(u)} = 
+\frac{f(x)+\varepsilon u}{\varepsilon\vartheta(u)}$. Uporabimo prejšnji razmislek in dobimo
+\begin{align*}
+g_\varepsilon(x)
+\leq_K
+\frac{f(x)+\varepsilon u}
+{\varepsilon\vartheta(u)}
+\leq_K
+\frac{(M+\varepsilon)u}
+{\varepsilon\vartheta(u)}
+\end{align*}
+za vsak $x\in\Sigma\cap\operatorname{int}(K)$.
+
+Našli smo zgornjo in spodnjo mejo za $g_\varepsilon (x)$, torej obstajata konstanti $0<A\leq B$, tako da
+\begin{align}
+g_\varepsilon
+\bigl(\Sigma\cap\operatorname{int}(K)\bigr)
+\subseteq
+\{x\in\Sigma\cap\operatorname{int}(K) ~|~ Au\leq_K x\leq_K Bu\}.
+\label{eq:geps_redovni_interval}
+\end{align}
+ 
+Definirajmo
+$\Omega_\varepsilon
+=\{x\in\Sigma\cap\operatorname{int}(K) ~|~ d_H(x,u)\leq\log(B/A)\}$,
+kjer je Hilbertova metrika določena s stožcem $K$.
+Množica $\Omega_\varepsilon$ je kompaktna, ker je zaprta podmnožica kompaktne množice, in po
+lemi~\ref{lema:konveksnost_hilbertovih_krogel} konveksna.
+Iz~\eqref{eq:geps_redovni_interval} sledi
+$g_\varepsilon(\Omega_\varepsilon)\subseteq\Omega_\varepsilon$.
+Po Brouwerjevem izreku o negibni točki~\ref{Brouwer} zato obstaja
+$x_\varepsilon\in\Omega_\varepsilon
+\subseteq\Sigma\cap\operatorname{int}(K)$, tako da je
+$g_\varepsilon(x_\varepsilon)=x_\varepsilon$. Po definiciji preslikave $g_\varepsilon$ dobimo 
+$f_\varepsilon(x_\varepsilon)= \vartheta (f_\varepsilon(x_\varepsilon)) x_\varepsilon$.
+
+Postavimo
+$\lambda_\varepsilon
+=\vartheta(f_\varepsilon(x_\varepsilon))$.
+Tedaj je
+$f_\varepsilon(x_\varepsilon)
+=\lambda_\varepsilon x_\varepsilon$ in
+$\vartheta(x_\varepsilon)=1$.
+Po trditvi~\ref{trd:spodnja_meja_stozcnega_spektralnega_radija} velja
+$r_K(f_\varepsilon)
+=\lim\limits_{k\to\infty} \|f_\varepsilon^k(x_\varepsilon)\|^{1/k} 
+= \lim\limits_{k\to\infty} \| \lambda_\varepsilon^k x_\varepsilon\|^{1/k}
+= \lambda_\varepsilon \lim\limits_{k\to\infty} \| x_\varepsilon\|^{1/k}
+=\lambda_\varepsilon$.
+
+(iii) Naj bo sedaj $0<\eta<\varepsilon$. Po definiciji preslikav $f_\eta$ in $f_\varepsilon$ velja 
+$f_\eta(x)=f_\eta(x)+\eta \vartheta (x) u$ in $f_\varepsilon(x)=f_\varepsilon(x)+\varepsilon \vartheta (x) u$ za vse $x \in \Sigma \cap \operatorname{int}(K)$.
+Ker po točki (ii) velja
+$f_\eta(x_\eta)=r_K(f_\eta)x_\eta$ ter $\vartheta (x_\eta)=1$, sledi
+$f_\varepsilon(x_\eta)
+=r_K(f_\eta)x_\eta+(\varepsilon-\eta)u$.
+Ker je $u\in\operatorname{int}(C)$, obstaja $\delta>0$, tako da je
+$\delta x_\eta\leq_C(\varepsilon-\eta)u$. Zato
+\begin{align}
+\bigl(r_K(f_\eta)+\delta\bigr)x_\eta
+\leq_C
+f_\varepsilon(x_\eta).
+\label{eq:feps_eta_spodnja_meja}
+\end{align}
+
+Ker je $x_\varepsilon\in\operatorname{int}(K)
+\subseteq\operatorname{int}(C)$, obstaja $\alpha>0$, tako da je
+$\alpha x_\eta\leq_Cx_\varepsilon$.
+Z uporabo \eqref{eq:feps_eta_spodnja_meja}, homogenosti in ohranjanja
+reda preslikave $f_\varepsilon$ za vsak $k\geq1$ dobimo
+\begin{align*}
+\alpha\bigl(r_K(f_\eta)+\delta\bigr)^k x_\eta
+\leq_C
+\alpha f_\varepsilon^k(x_\eta)
+\leq_C
+f_\varepsilon^k(x_\varepsilon)
+=
+r_K(f_\varepsilon)^k x_\varepsilon.
+\end{align*}
+Obe strani delimo z $(r_K(f_\eta)+\delta)^k$ in dobimo
+\begin{align}
+\left(
+\frac{r_K(f_\varepsilon)}
+{r_K(f_\eta)+\delta}
+\right)^k
+x_\varepsilon
+-
+\alpha x_\eta
+\in C
+\qquad
+\text{za vsak }k\geq1.
+\label{eq:primerjava_feps_feta}
+\end{align}
+
+Če bi bilo
+$r_K(f_\varepsilon)<r_K(f_\eta)+\delta$, bi pri
+$k\to\infty$ iz \eqref{eq:primerjava_feps_feta} in zaprtosti stožca
+$C$ sledilo $-\alpha x_\eta\in C$. Ker je tudi
+$\alpha x_\eta\in C$ in je $x_\eta\neq0$, je to nemogoče.
+Zato je
+$r_K(f_\varepsilon)\geq r_K(f_\eta)+\delta$, od koder sledi
+$r_K(f_\eta)<r_K(f_\varepsilon)$ za $0<\eta<\varepsilon$.
+Posledično obstaja limita
+$r=\lim\limits_{\varepsilon\to0}r_K(f_\varepsilon)$.
+
+(iv) Množici
+$\{x_\varepsilon ~|~ 0<\varepsilon\leq1\}$ in
+$\{f(x_\varepsilon) ~|~ 0<\varepsilon\leq1\}$ sta omejeni podmnožici
+končnorazsežnega prostora $V$. Prva zato, ker je podmnožica kompaktne množice $\Sigma$ in posledično tudi kompaktna, 
+druga pa zato, ker je $f$ zvezna na $\Sigma$. Ker je prva množica kompaktna, obstaja zaporedje
+$(\varepsilon_k)_k$, za katero je
+$\varepsilon_k\longrightarrow0$,
+$x_{\varepsilon_k}\longrightarrow x$ za neki $x\in\Sigma$ in
+$f(x_{\varepsilon_k})\longrightarrow y$ za neki $y\in K$.
+Ker je
+$f_{\varepsilon_k}(x_{\varepsilon_k})
+=r_K(f_{\varepsilon_k})x_{\varepsilon_k}$ in
+$\vartheta(x_{\varepsilon_k})=1$, velja
+\begin{align*}
+f_{\varepsilon_k}(x_{\varepsilon_k})
+=
+f(x_{\varepsilon_k})+\varepsilon_k u
+\longrightarrow y,
+\end{align*}
+po drugi strani pa po točki (iii) velja
+$r_K(f_{\varepsilon_k})x_{\varepsilon_k}\longrightarrow rx$.
+Zato je $y=rx$.
+\end{dokaz}
+
+Če ima preslikava
+$f\colon\operatorname{int}(K)\longrightarrow K$ iz prejšnjega izreka
+zvezno homogeno razširitev
+$F\colon K\longrightarrow K$, ki ohranja red glede na $C$, potem ima
+$F$ lastni vektor v $K$ z lastno vrednostjo $r$. V tem primeru bomo
+pokazali, da je $r=r_K(F)$. Zgled~\ref{zgled:nezvezna_razsiritev}
+pokaže, da taka zvezna razširitev v splošnem ne obstaja. Če je $K$
+poliedrski, pa lahko z argumenti, podobnimi tistim iz
+podpoglavja o razširitvah preslikav, ki ohranjajo red, pokažemo, da
+$f$ vedno dopušča zvezno homogeno razširitev
+$F\colon K\longrightarrow K$, ki ohranja red glede na $C$.
+
+\begin{posledica}\label{posledica:spektralni_radij_lastna_vrednost}
+Naj bosta $K\subseteq C$ zaprta stožca v $V$, pri čemer ima $K$
+neprazno notranjost. Če je
+$f\colon K\longrightarrow K$ zvezna homogena preslikava, ki ohranja
+red glede na $C$, potem obstaja $x\in K\setminus\{0\}$, za katerega
+velja
+$f(x)=r_K(f)x$.
+\end{posledica}
+
+\begin{dokaz}
+Uporabimo oznake iz
+izreka~\ref{izr:obstoj_lastnega_vektorja_perturbacija}.
+Po definiciji preslikave $f_\varepsilon$ za vsak $x\in K$ velja $f(x)\leq_C f_\varepsilon(x)$, zato po
+trditvi~\ref{trd:monotonost_stozcnega_spektralnega_radija} dobimo
+$r_K(f)\leq r_K(f_\varepsilon)$. Ker je
+$r=\lim\limits_{\varepsilon\to0}r_K(f_\varepsilon)$, sledi
+$r\geq r_K(f)$.
+
+Po točki (iv) izreka~\ref{izr:obstoj_lastnega_vektorja_perturbacija}
+obstaja zaporedje $(x_{\varepsilon_k})_k$ v
+$\Sigma\cap\operatorname{int}(K)$, tako da je
+$x_{\varepsilon_k}\longrightarrow x$,
+$\varepsilon_k\longrightarrow0$ in
+$f(x_{\varepsilon_k})\longrightarrow y$, pri čemer je $y=rx$.
+Ker je $f$ zvezna na $K$, velja
+$f(x_{\varepsilon_k})\longrightarrow f(x)$, zato je
+$f(x)=y=rx$.
+
+Ker je $x\in\Sigma$, je $x\neq0$. Iz
+$f(x)=rx$ zato po definiciji stožčnega spektralnega radija sledi
+$r\leq r_K(f)$. Skupaj z že dokazano neenakostjo
+$r\geq r_K(f)$ dobimo $r=r_K(f)$ in posledično
+$f(x)=r_K(f)x$.
+\end{dokaz}
+
+Posledica~\ref{posledica:spektralni_radij_lastna_vrednost} je tesno
+povezana s klasičnim Krein-Rutmanovim izrekom, ki
+obravnava kompaktne nelinearne preslikave stožcev v Banachovih
+prostorih. Neposredne posplošitve na nekompaktne preslikave stožcev
+sta podala Nussbaum in Mallet-Paret, pri čemer sta uporabila
+zahtevnejše metode teorije negibnih točk, med drugim indeks negibne
+točke.
+
+
+
+
+
+
+\subsection{Zveznost stožčnega spektralnega radija}
+
+Naj bo $K\subseteq V$ strnjen zaprt stožec in
+$f\colon K\longrightarrow K$ zvezna homogena preslikava, ki ohranja red.
+Naj bo $(f_k)_k$ zaporedje zveznih homogenih preslikav na $K$, ki ohranjajo red
+in za katere velja
+\begin{align}
+\lim_{k\to\infty}\sup_{x\in\Sigma}\|f(x)-f_k(x)\|=0,
+\label{eq:enakomerna_konvergenca_fk}
+\end{align}
+kjer je $\Sigma=\{x\in K ~|~ \varphi(x)=1\}$ in
+$\varphi\in\operatorname{int}(K^*)$.
+Naravno se je vprašati, ali tedaj velja
+\begin{align}
+\lim_{k\to\infty}r_K(f_k)=r_K(f).
+\label{eq:zveznost_stozcnega_spektralnega_radija}
+\end{align}
+
+\begin{definicija}
+  Pravimo, da ima preslikava $f\colon K\longrightarrow K$ zvezen stožčni
+  spektralni radij, če~\eqref{eq:zveznost_stozcnega_spektralnega_radija}
+  velja za vsako zaporedje $(f_k)_k$ zveznih homogenih preslikav, ki
+  ohranjajo red in zadoščajo pogoju~\eqref{eq:enakomerna_konvergenca_fk}.
+\end{definicija}
+
+
+V neskončnorazsežnih Banachovih prostorih obstajajo primeri linearnih
+preslikav, ki so kompaktne na zaprtem stožcu, vendar niso kompaktne kot
+linearne preslikave na celotnem prostoru in nimajo zveznega stožčnega
+spektralnega radija. V končnorazsežnem primeru takšni primeri niso znani.
+Tako je problem, ali ima vsaka zvezna homogena preslikava
+$f\colon K\longrightarrow K$, ki ohranja red na strnjenem zaprtem stožcu
+$K$ v končnorazsežnem vektorskem prostoru $V$, zvezen stožčni spektralni
+radij, še vedno odprt.
+
+Stožčni spektralni radij je vedno polzvezen od zgoraj, kar pokaže
+naslednja lema.
+
+\begin{lema}\label{lema:zgornja_polzveznost_stozcnega_spektralnega_radija}
+Naj bo $f\colon K\longrightarrow K$ zvezna homogena preslikava, ki
+ohranja red na strnjenem zaprtem stožcu $K\subseteq V$, in naj bo
+$(f_k)_k$ zaporedje zveznih homogenih preslikav na $K$, ki ohranjajo
+red in zadoščajo pogoju~\eqref{eq:enakomerna_konvergenca_fk}. Potem velja
+\begin{align*}
+\limsup_{k\to\infty}r_K(f_k)\leq r_K(f).
+\end{align*}
+\end{lema}
+
+\begin{dokaz}
+Za $k\geq1$ označimo $\lambda_k=r_K(f_k)$. Po posledici~\ref{posledica:spektralni_radij_lastna_vrednost} za vsak
+$k$ obstaja $u_k\in K\setminus\{0\}$, za katerega velja
+$f_k(u_k)=\lambda_k u_k$. Zaradi homogenosti lahko $u_k$ izberemo tako,
+da je $\varphi(u_k)=1$, torej $u_k\in\Sigma$.
+Res, ker je $\varphi\in\operatorname{int}(K^*)$ in $u_k\in K\setminus\{0\}$, velja $\varphi(u_k)>0$. 
+Zato lahko definiramo nov vektor $\widetilde{u}_k=\frac{u_k}{\varphi(u_k)}$. Potem velja 
+$\varphi(\widetilde{u}_k)=\varphi\left(\frac{u_k}{\varphi(u_k)}\right)=\frac{1}{\varphi(u_k)}\varphi(u_k)=1$.
+
+Obstaja podzaporedje $(\lambda_{k_i})_i$, za katero velja
+\begin{align*}
+\lim_{i\to\infty}\lambda_{k_i}
+=
+\limsup_{k\to\infty}\lambda_k
+=
+\lambda.
+\end{align*}
+Ker je $\Sigma=\{x\in K ~|~ \varphi(x)=1\}$ kompaktna po lemi~\ref{lema2.46}, lahko
+po potrebi izberemo še podzaporedje tako, da $(u_{k_i})_i$ konvergira
+proti nekemu $v\in\Sigma$. Iz
+\eqref{eq:enakomerna_konvergenca_fk}, zveznosti preslikave $f$ in
+enakosti $f_{k_i}(u_{k_i})=\lambda_{k_i}u_{k_i}$ sledi
+$f(v)=\lambda v$. Ker je $v\neq0$, po definiciji stožčnega spektralnega
+radija dobimo $\lambda\leq r_K(f)$. Zato je
+$\limsup\limits_{k\to\infty}r_K(f_k)\leq r_K(f)$.
+\end{dokaz}
+
+Če je stožec poliedrski, je stožčni spektralni radij vedno zvezen.
+To sledi iz naslednjega izreka.
+
+\begin{izrek}\label{izr:zveznost_stozcnega_spektralnega_radija_pogoj_G}
+Naj bo $f\colon K\longrightarrow K$ zvezna homogena preslikava, ki
+ohranja red na strnjenem zaprtem stožcu $K\subseteq V$. Če obstaja
+$u\in K\setminus\{0\}$, tako da $K$ zadošča pogoju G v točki $u$ in
+$f(u)=r_K(f)u$, potem ima $f$ zvezen stožčni spektralni radij.
+\end{izrek}
+
+\begin{dokaz}
+Naj bo $(f_k)_{k\geq1}$ poljubno zaporedje zveznih homogenih preslikav, ki ohranjajo red in 
+zadoščajo pogoju~\eqref{eq:enakomerna_konvergenca_fk}.
+Za vsak $k\geq1$ postavimo $u_k=f_k(u)$. Iz~\eqref{eq:enakomerna_konvergenca_fk} in predpostavke sledi
+$u_k\longrightarrow r_K(f)u$. Ker $K$ zadošča pogoju G v točki $u$,
+obstajajo števila $0<\mu_k<1$, za katera je $\mu_k\longrightarrow1$ in
+\begin{align*}
+\mu_k r_K(f)u\leq_K u_k
+\end{align*}
+za vsak $k\geq1$. Ker je $u_k=f_k(u)$, dobimo
+$\mu_k r_K(f)u\leq_K f_k(u)$. Po trditvi~\ref{trd:spodnja_meja_stozcnega_spektralnega_radija} zato velja
+$\mu_k r_K(f)\leq r_K(f_k)$ za vsak $k\geq1$. Če pošljemo
+$k\to\infty$, dobimo
+\begin{align*}
+r_K(f)\leq\liminf\limits_{k\to\infty}r_K(f_k).
+\end{align*}
+Skupaj z lemo~\ref{lema:zgornja_polzveznost_stozcnega_spektralnega_radija}
+sledi
+$\lim\limits_{k\to\infty}r_K(f_k)=r_K(f)$.
+\end{dokaz}
+
+Spomnimo se, da po lemi~\ref{lema:pogoj_G_poliedrski} poliedrski stožec zadošča pogoju G v vsaki
+svoji točki. Iz prejšnjega izreka zato neposredno sledi naslednja
+posledica.
+
+\begin{posledica}\label{posledica:zveznost_poliedrski_stozec}
+Vsaka zvezna homogena preslikava, ki ohranja red na strnjenem
+poliedrskem stožcu, ima zvezen stožčni spektralni radij.
+\end{posledica}
+
+Za uporabo izreka~\ref{izr:zveznost_stozcnega_spektralnega_radija_pogoj_G}
+ zadošča, da je pogoj G izpolnjen v lastnem vektorju
+$u\in K$, za katerega je $f(u)=r_K(f)u$. Posebej zanimiv je primer,
+ko je $u\in\operatorname{int}(K)$. V tem primeru je pogoj G v točki
+$u$ izpolnjen ne glede na geometrijo stožca $K$, kar smo že pokazali.
+Uporabimo izrek~\ref{izr:zveznost_stozcnega_spektralnega_radija_pogoj_G} in dobimo 
+naslednjo posledico.
+
+\begin{posledica}\label{posledica:zveznost_notranji_lastni_vektor}
+Naj bo $f\colon K\longrightarrow K$ zvezna homogena preslikava, ki
+ohranja red na strnjenem zaprtem stožcu $K$. Če obstaja
+$u\in\operatorname{int}(K)$, za katerega je
+$f(u)=r_K(f)u$, potem ima $f$ zvezen stožčni spektralni radij.
+\end{posledica}
+
+Nadaljnji rezultati glede odprtega problema so bili dobljeni z uporabo
+indeksa negibne točke. Pokazano je bilo, da ima zvezna homogena
+preslikava $f\colon K\longrightarrow K$, ki ohranja red, zvezen
+stožčni spektralni radij, če obstaja zaporedje $(\mu_k)_k$ v
+$(0,r_K(f)]$, za katero je $\mu_k\longrightarrow r_K(f)$ in noben
+$\mu_k$ ni lastna vrednost preslikave $f$. Iz zgleda~\ref{zgled:kontinuum_stozcnega_spektra} vemo, da
+takšno zaporedje ne obstaja vedno, saj je v tem zgledu $\sigma_K(f)=[0,1]$ in $r_K(f) = 1$, 
+zato je vsako število iz intervala $(0,r_K(f)]$ lastna vrednost preslikave $f$. V tem zgledu pa ima homogena
+preslikava, ki ohranja red, lastni vektor v notranjosti stožca, zato
+ima po posledici~\ref{posledica:zveznost_notranji_lastni_vektor}
+zvezen stožčni spektralni radij.
+
+Podpoglavje zaključimo z naslednjo preprosto lemo, ki jo bomo
+potrebovali v nadaljevanju.
+
+\begin{lema}\label{lema:zveznost_stozcnega_spektralnega_radija_dominacija}
+Naj bo $f\colon K\longrightarrow K$ zvezna homogena preslikava, ki
+ohranja red na strnjenem zaprtem stožcu $K$, in naj bo $(f_k)_k$
+zaporedje zveznih homogenih preslikav na $K$, ki ohranjajo red ter
+zadoščajo pogoju~\eqref{eq:enakomerna_konvergenca_fk}. Če poleg tega
+velja $f(x)\leq_K f_k(x)$ za vsak $x\in K$ in vsak $k\geq1$, potem
+\begin{align*}
+\lim\limits_{k\to\infty}r_K(f_k)=r_K(f).
+\end{align*}
+\end{lema}
+
+\begin{dokaz}
+Po posledici~\ref{posledica:spektralni_radij_lastna_vrednost} obstaja $u\in K\setminus\{0\}$, za katerega je
+$f(u)=r_K(f)u$. Ker po predpostavki velja $f(u)\leq_K f_k(u)$, dobimo
+$r_K(f)u\leq_K f_k(u)$. Po trditvi~\ref{trd:spodnja_meja_stozcnega_spektralnega_radija} zato velja
+$r_K(f)\leq r_K(f_k)$ za vsak $k\geq1$, od koder sledi
+$r_K(f)\leq\liminf\limits_{k\to\infty}r_K(f_k)$. Skupaj z
+lemo~\ref{lema:zgornja_polzveznost_stozcnega_spektralnega_radija}
+dobimo
+$\lim\limits_{k\to\infty}r_K(f_k)=r_K(f)$.
+\end{dokaz}
+
+
+
+
+
+
+
+\subsection{Collatz-Wielandtova formula}
+
+Klasični rezultat Collatza in Wielandta pravi, da za vsako nenegativno
+matriko $A$ njen spektralni radij $r(A)$ zadošča formuli
+\begin{align}
+r(A)
+=
+\inf_{x\in\operatorname{int}(\mathbb{R}_+^n)}
+\max_{1\leq i\leq n}
+\frac{(Ax)_i}{x_i}.
+\label{eq:collatz-wielandt-matrike}
+\end{align}
+Podobna minimaksna variacijska formula za stožčni spektralni radij
+obstaja tudi za splošne zvezne homogene preslikave, ki ohranjajo red.
+
+Naj bo $K\subseteq V$ strnjen zaprt stožec in $u\in\operatorname{int}(K)$.
+Spomnimo se oznake
+$\Sigma_u^*=\{\varphi\in K^* ~|~ \varphi(u)=1\}$ in naj bo
+$\varepsilon_u^*$ množica ekstremnih točk množice $\Sigma_u^*$.
+Po formuli~\eqref{oznaka2.6} za $x,y\in K$, kjer je
+$y\in\operatorname{int}(K)$, velja
+\begin{align*}
+M(x/y)
+=
+\sup_{\varphi\in\varepsilon_u^*}
+\frac{\varphi(x)}{\varphi(y)}.
+\end{align*}
+
+\begin{definicija}
+  Za zvezno homogeno preslikavo $f\colon K\longrightarrow K$, ki ohranja
+  red, definiramo \emph{Collatz-Wielandtovo število} s
+  \begin{align}
+  \operatorname{cw}(f)
+  &=
+  \inf_{x\in\operatorname{int}(K)} M(f(x)/x) \notag\\
+  &=
+  \inf_{x\in\operatorname{int}(K)}
+  \max_{\varphi\in\operatorname{cl}(\varepsilon_u^*)}
+  \frac{\varphi(f(x))}{\varphi(x)}.
+  \label{eq:collatz-wielandt-stevilo}
+  \end{align}
+\end{definicija}
+
+
+Če je $K=\R_+^n$ in $u=\mathds{1}$, so ekstremne točke množice
+$\Sigma_u^*=\{\varphi\in\R_+^n ~|~\sum_{i=1}^n\varphi_i=1\}$
+standardni bazni vektorji $e_1,\ldots,e_n$. Ker je
+$e_i(x)=x_i$, sledi
+$M(f(x)/x)=\max\limits_{1\leq i\leq n}\frac{f_i(x)}{x_i}$.
+Zato je
+$\operatorname{cw}(f)=
+\inf\limits_{x\in\operatorname{int}(\R_+^n)}
+\max\limits_{1\leq i\leq n}\frac{f_i(x)}{x_i}$.
+
+\begin{izrek}\label{izr:collatz-wielandt}
+Naj bo $f\colon K\longrightarrow K$ zvezna homogena preslikava, ki
+ohranja red na strnjenem zaprtem stožcu $K\subseteq V$. Potem velja
+\begin{align*}
+r_K(f)=\operatorname{cw}(f).
+\end{align*}
+\end{izrek}
+
+\begin{dokaz}
+Naj bo $x\in\operatorname{int}(K)$. Ker je $K$ zaprt, po definiciji
+$M(f(x)/x)$ velja
+$f(x)\leq_K M(f(x)/x)x$. Po trditvi~\ref{trd:spodnja_meja_stozcnega_spektralnega_radija}
+zato dobimo
+\begin{align*}
+r_K(f)
+=
+\lim\limits_{k\to\infty}\|f^k(x)\|^{1/k}
+\leq
+M(f(x)/x).
+\end{align*}
+Ker to velja za vsak $x\in\operatorname{int}(K)$, sledi
+$r_K(f)\leq\inf\limits_{x\in\operatorname{int}(K)}M(f(x)/x)
+=\operatorname{cw}(f)$.
+
+Za dokaz obratne neenakosti najprej obravnavajmo primer, ko ima $f$
+lastni vektor $x_0\in\operatorname{int}(K)$, za katerega je
+$f(x_0)=r_K(f)x_0$. Tedaj je
+$M(f(x_0)/x_0)=r_K(f)$, zato
+$\operatorname{cw}(f)\leq r_K(f)$. Skupaj s prej dokazano neenakostjo
+dobimo $r_K(f)=\operatorname{cw}(f)$.
+
+Predpostavimo sedaj, da $f$ nima lastnega vektorja v
+$\operatorname{int}(K)$. Izberimo $u\in\operatorname{int}(K)$ in
+$\varphi\in\operatorname{int}(K^*)$. Za vsak $k\geq1$ definirajmo
+zvezno homogeno preslikavo $f_k\colon K\longrightarrow K$, ki ohranja
+red, s predpisom
+\begin{align*}
+f_k(x)=f(x)+\frac{\varphi(x)}{k}u.
+\end{align*}
+Za vsak $x\in K\setminus\{0\}$ je
+$f_k(x)\in\operatorname{int}(K)$, saj velja $K+\operatorname{int}(K)\subseteq\operatorname{int}(K)$. 
+Vzemimo $\Sigma=\{x\in K ~|~ \varphi(x)=1\}$. Ker je $f(x)-f_k(x) = -\frac{\varphi(x)}{k}u$ in $\varphi(x)=1$, velja
+\begin{align*}
+\lim\limits_{k\to\infty}
+\sup_{x\in\Sigma}\|f(x)-f_k(x)\|= \lim\limits_{k\to\infty} \sup_{x\in\Sigma} \frac{\|u\|}{k} = 0.
+\end{align*}
+Poleg tega je očitno tudi 
+$f(x)\leq_K f_k(x)$ za vsak $x\in K$.
+
+Po lemi~\ref{lema:zveznost_stozcnega_spektralnega_radija_dominacija}
+zato velja
+$r_K(f)=\lim\limits_{k\to\infty}r_K(f_k)$.
+Ker $f_k(x)\in\operatorname{int}(K)$ za vsak $x\in K\setminus\{0\}$,
+ima po posledici~\ref{posledica:spektralni_radij_lastna_vrednost} vsaka preslikava $f_k$ lastni vektor v
+$x_k\in K\setminus\{0\}$. Ker je $f_k(x_k)\in\operatorname{int}(K)$, mora biti 
+$r_K(f_k) x_k \in \operatorname{int}(K)$, zato $x_k\in\operatorname{int}(K)$. 
+Po prvem delu dokaza zato velja $\operatorname{cw}(f_k)=r_K(f_k)$.
+
+Ker je $f(x)\leq_K f_k(x)$, velja
+$M(f(x)/x)\leq M(f_k(x)/x)$ za vsak $k\geq1$ in vsak
+$x\in\operatorname{int}(K)$. Zato je
+$\operatorname{cw}(f)\leq\operatorname{cw}(f_k)$ za vsak $k\geq1$.
+Če pošljemo $k\to\infty$, dobimo
+\begin{align*}
+r_K(f)
+=
+\lim\limits_{k\to\infty}r_K(f_k)
+=
+\lim\limits_{k\to\infty}\operatorname{cw}(f_k)
+\geq
+\operatorname{cw}(f).
+\end{align*}
+Skupaj z že dokazano neenakostjo
+$r_K(f)\leq\operatorname{cw}(f)$ sledi
+$r_K(f)=\operatorname{cw}(f)$.
+\end{dokaz}
+
+
+
+\end{document}
