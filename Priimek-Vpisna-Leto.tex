@@ -2341,76 +2341,130 @@ Tako daljica med dvema različnima točkama roba stožca ostane na
 njegovem robu.
 
 Stožec $\Pi_2(\R)$ pa je strogo konveksen in je linearno izomorfen
-Lorentzovemu stožcu $\Lambda_3$. To vidimo s pomočjo bijektivne
-linearne preslikave
-\begin{align*}
-\begin{pmatrix}
+Lorentzovemu stožcu $\Lambda_3$.
+
+\begin{trditev}
+Stožec $\Pi_2(\R)$ je linearno izomorfen Lorentzovemu stožcu $\Lambda_3$.
+Posledično je $\Pi_2(\R)$ strogo konveksen.
+\end{trditev}
+
+\begin{dokaz}
+Definirajmo preslikavo $T:\operatorname{Sym}_2\longrightarrow\R^3$ s predpisom
+\[
+T\left(
+\begin{bmatrix}
 a & b\\
 b & c
-\end{pmatrix}
-\longmapsto
+\end{bmatrix}
+\right)
+=
 \left(
 \frac{a+c}{2},
 \frac{a-c}{2},
 b
-\right),
-\end{align*}
-ki stožec $\Pi_2(\R)$ preslika na $\Lambda_3$.
+\right).
+\]
+Preslikava $T$ je očitno linearna. Poleg tega je bijektivna, saj je njena inverzna
+preslikava podana s
+\[
+T^{-1}(s,x,y)
+=
+\begin{bmatrix}
+s+x & y\\
+y & s-x
+\end{bmatrix}.
+\]
+
+Pokažimo, da $T$ preslika $\Pi_2(\R)$ na $\Lambda_3$. Naj bo
+$A=\begin{bmatrix}a&b\\b&c\end{bmatrix}\in\Pi_2(\R)$. Tedaj velja
+$a\geq0$, $c\geq0$ in $ac-b^2\geq0$. Če označimo
+$T(A)=(s,x,y)$, potem je
+$s=\frac{a+c}{2}\geq0$ in
+\[
+s^2-x^2-y^2
+=
+\left(\frac{a+c}{2}\right)^2
+-
+\left(\frac{a-c}{2}\right)^2
+-b^2
+=
+ac-b^2
+\geq0.
+\]
+Zato je $s^2\geq x^2+y^2$ in ker je $s\geq0$, sledi
+$s\geq\sqrt{x^2+y^2}$. Torej je $T(A)\in\Lambda_3$.
+
+Obratno, naj bo $(s,x,y)\in\Lambda_3$. Za
+$A=T^{-1}(s,x,y)$ velja
+$a=\frac{s+x}{2}$, $c=\frac{s-x}{2}$ in $b=y$. Ker je
+$s\geq\sqrt{x^2+y^2}$, velja $a\geq0$, $c\geq0$ in
+\[
+ac-b^2
+=
+\left(\frac{s+x}{2}\right)\left(\frac{s-x}{2}\right)-y^2
+=
+\frac{(s+x)(s-x)}{4}-y^2
+=
+\frac{s^2-x^2}{4}-y^2
+\geq0.
+\]
+Zato je $A\in\Pi_2(\R)$ in tako $T(\Pi_2(\R))=\Lambda_3$.
+
+Ker je $\Lambda_3$ strogo konveksen in $T$ bijektivna linearna preslikava,
+je tudi $\Pi_2(\R)$ strogo konveksen.
+\end{dokaz}
 
 Sedaj izračunajmo funkciji $M$ in $m$ za matriki
-$X,Y\in\operatorname{int}(\Pi_n(\R))$. Pogoj
-\begin{align*}
-X\leq_{\Pi_n(\R)}\beta Y
-\end{align*}
-velja natanko tedaj, ko
-\begin{align*}
-Y^{-1/2}XY^{-1/2}
-\leq_{\Pi_n(\R)}
-\beta I.
-\end{align*}
-To je ekvivalentno pogoju
-\begin{align*}
-\sigma(Y^{-1}X)
+$X,Y\in\operatorname{int}(\Pi_n(\R))$. Ker je $Y \in \operatorname{int}(\Pi_n(\R))$, 
+obstaja matrika $Y^{-1/2}\in\operatorname{int}(\Pi_n(\R))$. Računamo 
+$Y^{-1/2} (\beta Y - X)Y^{-1/2} = \beta Y^{-1/2} Y Y^{-1/2} - Y^{-1/2}XY^{-1/2} = \beta I - Y^{-1/2}XY^{-1/2}$.
+Torej pogoj
+$X\leq_{\Pi_n(\R)}\beta Y$ velja natanko tedaj, ko
+$Y^{-1/2}XY^{-1/2}\leq_{\Pi_n(\R)}\beta I$.
+Ker je $Y^{-1/2}XY^{-1/2}$ pozitivno definitna, so vse njene lastne
+vrednosti pozitivne. Pogoj
+$Y^{-1/2}XY^{-1/2}\leq_{\Pi_n(\R)}\beta I$ zato pomeni, da so vse njene
+lastne vrednosti manjše ali enake $\beta$. Ker sta
+$Y^{-1}X$ in $Y^{-1/2}XY^{-1/2}$ podobni matriki, imata enak spekter.
+Zato velja
+$\sigma(Y^{-1}X)=\sigma(Y^{-1/2}XY^{-1/2})\subseteq(0,\beta]$.
+Torej je pogoj $X\leq_{\Pi_n(\R)}\beta Y$ ekvivalenten 
+$\sigma(Y^{-1}X)
 =
 \sigma(Y^{-1/2}XY^{-1/2})
-\subseteq
-(0,\beta],
-\end{align*}
+\subseteq(0,\beta]$,
 kjer $\sigma(A)$ označuje spekter matrike $A$. Zato je
 \begin{align*}
 M(X/Y;\Pi_n(\R))
 =
-\max\limits
-\{\lambda:\lambda\in\sigma(Y^{-1}X)\}.
+\max\limits\{\lambda ~|~ \lambda\in\sigma(Y^{-1}X)\}.
 \end{align*}
 
 Podobno pogoj
-\begin{align*}
-\alpha Y\leq_{\Pi_n(\R)}X
-\end{align*}
-velja natanko tedaj, ko
-\begin{align*}
-\alpha I
-\leq_{\Pi_n(\R)}
-Y^{-1/2}XY^{-1/2},
-\end{align*}
+$\alpha Y\leq_{\Pi_n(\R)}X$ velja natanko tedaj, ko
+$\alpha I\leq_{\Pi_n(\R)}Y^{-1/2}XY^{-1/2}$,
 kar je ekvivalentno pogoju
-\begin{align*}
-\sigma(Y^{-1}X)
+$\sigma(Y^{-1}X)
 =
 \sigma(Y^{-1/2}XY^{-1/2})
-\subseteq
-[\alpha,\infty).
-\end{align*}
+\subseteq[\alpha,\infty)$.
 Zato je
 \begin{align*}
 m(X/Y;\Pi_n(\R))
 =
-\min\limits
-\{\lambda:\lambda\in\sigma(Y^{-1}X)\}.
+\min\limits\{\lambda ~|~ \lambda\in\sigma(Y^{-1}X)\}.
 \end{align*}
 
-Dobljene rezultate lahko povzamemo v naslednji trditvi.
+Dobljene rezultate lahko povzamemo v naslednji trditvi, dodajmo pa še, da je
+$M(Y/X;\Pi_n(\R))
+=
+\max\limits\{\lambda ~|~ \lambda\in\sigma(X^{-1}Y)\}
+=
+\frac{1}{\min\limits\{\lambda ~|~ \lambda\in\sigma(Y^{-1}X)\}}
+=
+\frac{1}{\lambda_-(X,Y)}$,
+saj je $X^{-1}Y=(Y^{-1}X)^{-1}$ in so zato njegove lastne vrednosti
+obratne lastnim vrednostim matrike $Y^{-1}X$.
 
 \begin{trditev}\label{trditev:metriki_psd}
 Naj bosta $X,Y\in\operatorname{int}(\Pi_n(\R))$ in definirajmo
@@ -2418,11 +2472,11 @@ Naj bosta $X,Y\in\operatorname{int}(\Pi_n(\R))$ in definirajmo
 \lambda_+(X,Y)
 &=
 \max\limits
-\{\lambda:\lambda\in\sigma(Y^{-1}X)\},\\
+\{\lambda ~|~ \lambda\in\sigma(Y^{-1}X)\},\\
 \lambda_-(X,Y)
 &=
 \min\limits
-\{\lambda:\lambda\in\sigma(Y^{-1}X)\}.
+\{\lambda ~|~ \lambda\in\sigma(Y^{-1}X)\}.
 \end{align*}
 Tedaj velja
 \begin{align*}
@@ -4748,6 +4802,623 @@ $r_K(f)\leq\operatorname{cw}(f)$ sledi
 $r_K(f)=\operatorname{cw}(f)$.
 \end{dokaz}
 
+
+\begin{zgled}\label{zgled:spekter_psd}
+Poglejmo si še primer lastnih vektorjev na stožcu
+$\Pi_n(\R)$ za $n\geq 2$~\cite[zgled 5.1]{LemmensNussbaum2013}.
+Naj bo
+$A=\operatorname{diag}(1,0,\ldots,0)$ in definirajmo preslikavo $f:\Pi_n(\R)\longrightarrow\Pi_n(\R)$ 
+podobno kot smo jo v zgledu~\ref{zgled:kontinuum_stozcnega_spektra} s predpisom
+\begin{align*}
+f(X)=\bigl(\operatorname{tr}(XA)X\bigr)^{1/2}.
+\end{align*}
+Preslikava $f$ je zvezna, homogena in ohranja red.
+Zveznost sledi iz zveznosti preslikav
+$X\mapsto\operatorname{tr}(XA)$, množenja matrik s skalarjem in
+preslikave $X\mapsto X^{1/2}$ na $\Pi_n(\R)$.
+
+Za vsak $\alpha\geq0$ velja
+$f(\alpha X)=
+\bigl(\operatorname{tr}(\alpha XA)\alpha X\bigr)^{1/2}
+=\bigl(\alpha^2\operatorname{tr}(XA)X\bigr)^{1/2}
+=
+\alpha f(X)$,
+zato je $f$ homogena.
+
+Naj bo sedaj $X\leq_{\Pi_n(\R)}Y$. Ker je $A\in\Pi_n(\R)$, velja
+$\operatorname{tr}(XA)\leq\operatorname{tr}(YA)$. Poleg tega sta obe
+vrednosti nenegativni, zato
+\[
+\operatorname{tr}(XA)X
+\leq_{\Pi_n(\R)}
+\operatorname{tr}(YA)X
+\leq_{\Pi_n(\R)}
+\operatorname{tr}(YA)Y.
+\]
+Ker preslikava $R\mapsto R^{1/2}$ ohranja red na $\Pi_n(\R)$, sledi
+$f(X)\leq_{\Pi_n(\R)}f(Y)$. Torej $f$ ohranja red.
+
+Naj bo najprej $0<\alpha\leq 1$ in
+\begin{align*}
+X_\alpha
+=
+\begin{bmatrix}
+1 & 0 & 0\\
+0 & \alpha & 0\\
+0 & 0 & I_{n-2}
+\end{bmatrix}
+\in\operatorname{int}(\Pi_n(\R)).
+\end{align*}
+Ker je $\operatorname{tr}(X_\alpha A)=1$, dobimo
+\begin{align*}
+f(X_\alpha)
+=
+X_\alpha^{1/2}
+=
+\begin{bmatrix}
+1 & 0 & 0\\
+0 & \sqrt{\alpha} & 0\\
+0 & 0 & I_{n-2}
+\end{bmatrix}.
+\end{align*}
+Če je $f(X_\alpha)=\lambda X_\alpha$, iz prve diagonalne komponente sledi
+$\lambda=1$, iz druge pa $\sqrt{\alpha}=\alpha$. Ker je $0<\alpha\leq1$,
+je to mogoče natanko tedaj, ko je $\alpha=1$. Zato je
+$X_1=I$ lastni vektor preslikave $f$ z lastno vrednostjo $1$.
+
+Poglejmo sedaj lastne vektorje na robu stožca. Za
+$0\leq\vartheta\leq2\pi$ definirajmo
+\begin{align*}
+Z_\vartheta
+=
+\begin{bmatrix}
+\cos^2\vartheta &
+\cos\vartheta\sin\vartheta & 0\\
+\cos\vartheta\sin\vartheta &
+\sin^2\vartheta & 0\\
+0 & 0 & 0_{n-2}
+\end{bmatrix}
+\in\partial\Pi_n(\R).
+\end{align*}
+Matriko $Z_\vartheta$ lahko zapišemo kot $Z_\vartheta=vv^T$, kjer je
+$v=(\cos\vartheta,\sin\vartheta,0,\ldots,0)^T$ enotski vektor. Zato velja
+$Z_\vartheta^2=Z_\vartheta$, torej je $Z_\vartheta$ ortogonalna projekcija in
+posledično $Z_\vartheta^{1/2}=Z_\vartheta$.
+Poleg tega je
+$\operatorname{tr}(Z_\vartheta A)=\cos^2\vartheta$. Od tod dobimo
+\begin{align*}
+f(Z_\vartheta)=
+\bigl(\operatorname{tr}(Z_\vartheta A)Z_\vartheta\bigr)^{1/2}=
+|\cos\vartheta|Z_\vartheta.
+\end{align*}
+Torej je $Z_\vartheta$ lastni vektor preslikave $f$ z lastno vrednostjo
+$|\cos\vartheta|$. Ko $\vartheta$ preteče interval $[0,2\pi]$, vrednost
+$|\cos\vartheta|$ preteče celoten interval $[0,1]$.
+
+Ker je $I\in\operatorname{int}(\Pi_n(\R))$, matrika $I$ dominira vsak
+element stožca $\Pi_n(\R)$, kot smo že pokazali v dokazu trditve~\ref{trd:spodnja_meja_stozcnega_spektralnega_radija}. 
+Naj bo $X\in\Pi_n(\R)\setminus\{0\}$ poljuben
+lastni vektor preslikave $f$ z lastno vrednostjo $\lambda$. Ker velja
+$f(X)=\lambda X$ in $f(I)=I$, iz leme~\ref{lema:primerjava_lastnih_vrednosti} sledi $\lambda\leq1$.
+Zato nobena lastna vrednost preslikave $f$ ni večja od $1$. Zato je
+\begin{align*}
+\sigma_{\Pi_n(\R)}(f)=[0,1].
+\end{align*}
+
+Na tem primeru lahko uporabimo tudi Collatz-Wielandtovo formulo.
+Naj bo $X\in\operatorname{int}(\Pi_n(\R))$. Ker je
+$A=\operatorname{diag}(1,0,\ldots,0)$, velja
+$\operatorname{tr}(XA)=x_{11}$, zato je
+$f(X)=\sqrt{x_{11}}\,X^{1/2}$. Po trditvi~\ref{trditev:metriki_psd}
+dobimo
+\begin{align*}
+M(f(X)/X;\Pi_n(\R))
+&=
+\max\limits\sigma(X^{-1}f(X))=\\
+&=
+\sqrt{\frac{x_{11}}{\lambda_{\min}(X)}}.
+\end{align*}
+Po spektralnem izreku lahko enotski vektor $e_1$ zapišemo kot
+$e_1=\sum\limits_{i=1}^n\alpha_i v_i$, kjer so $v_i$ ortonormirani lastni
+vektorji matrike $X$ z lastnimi vrednostmi $\lambda_i$. Zato velja
+$e_1^TXe_1=\sum\limits_{i=1}^n\lambda_i\alpha_i^2
+\geq\lambda_{\min}(X)\sum\limits_{i=1}^n\alpha_i^2
+=\lambda_{\min}(X)$.
+Ker je $e_1^TXe_1=x_{11}$, sledi
+$\lambda_{\min}(X)\leq x_{11}$, torej za poljuben $X\in\operatorname{int}(\Pi_n(\R))$ velja
+$M(f(X)/X;\Pi_n(\R))\geq1$. Za matriko $X=I$ pa velja
+$M(f(I)/I;\Pi_n(\R))=1$. Zato je
+\[
+\inf\limits_{X\in\operatorname{int}(\Pi_n(\R))}
+M(f(X)/X;\Pi_n(\R))=1.
+\]
+Po izreku~\ref{izr:collatz-wielandt} zato velja
+$r_{\Pi_n(\R)}(f)=1$, kar se ujema z rezultatom, ki smo ga dobili z neposrednim iskanjem lastnih vektorjev.
+\end{zgled}
+
+
+
+
+
+
+
+\subsection{Lastni vektorji v notranjosti stožca}
+
+V posledici~\ref{posledica:spektralni_radij_lastna_vrednost} smo
+pokazali, da ima vsaka zvezna homogena preslikava
+$f:K\longrightarrow K$, ki ohranja red na strnjenem zaprtem stožcu
+$K$, lastni vektor $x\in K\setminus\{0\}$, ki pripada stožčnemu
+spektralnemu radiju $r_K(f)$. Ta rezultat pa ne pove, ali se tak lastni
+vektor nahaja v notranjosti stožca ali na njegovem robu.
+
+Zato se naravno pojavi vprašanje, pod katerimi dodatnimi pogoji ima
+preslikava $f$ lastni vektor v notranjosti stožca, torej $u\in\operatorname{int}(K)$. Izkazalo se
+je, da je to vprašanje tudi v končnorazsežnih prostorih precej
+zahtevno in da zanj ni enega samega splošnega kriterija. V tem
+podpoglavju bomo predstavili nekaj osnovnih rezultatov iz~\cite[Poglavje~6]{LemNuss}, ki podajo zadostne 
+pogoje za obstoj in enoličnost lastnega vektorja v notranjosti stožca.
+
+Najprej si poglejmo preprost zadosten pogoj, ki je naravna
+posplošitev ideje ireducibilnosti pri linearnih preslikavah.
+
+\begin{trditev}~\label{trd:vsi_lastni_vektorji_v_notranjosti}
+Naj bo $f:K\longrightarrow K$ zvezna homogena preslikava, ki ohranja
+red na strnjenem zaprtem stožcu $K\subseteq V$. Predpostavimo, da za
+vsak $x\in K\setminus\{0\}$ obstaja celo število $k_x\geq1$, za
+katero velja
+\begin{align*}
+\sum_{k=0}^{k_x}f^k(x)\in\operatorname{int}(K).
+\end{align*}
+Potem vsak lastni vektor preslikave $f$ leži v
+$\operatorname{int}(K)$.
+\end{trditev}
+
+\begin{dokaz}
+Naj bo $u\in K\setminus\{0\}$ lastni vektor preslikave $f$ z lastno
+vrednostjo $\lambda$, torej $f(u)=\lambda u$. Po predpostavki obstaja
+$k_u\geq1$, za katerega je
+$\sum\limits_{k=0}^{k_u}f^k(u)\in\operatorname{int}(K)$. Ker je $u$ lastni
+vektor, velja $f^k(u)=\lambda^k u$ za vsak $k\geq0$, zato je
+\begin{align*}
+\sum_{k=0}^{k_u}f^k(u)
+=
+\left(\sum_{k=0}^{k_u}\lambda^k\right)u
+\in\operatorname{int}(K).
+\end{align*}
+Ker je $\lambda\geq0$, so vsi členi vsote
+$\sum_{k=0}^{k_u}\lambda^k$ nenegativni, njen prvi člen pa je enak
+$\lambda^0=1$. Zato velja
+$\sum_{k=0}^{k_u}\lambda^k\geq1>0$. Ker je notranjost stožca zaprta za množenje s
+pozitivnimi skalarji, od tod sledi $u\in\operatorname{int}(K)$.
+\end{dokaz}
+
+Pogoj v prejšnji trditvi je precej močan, saj imajo homogene
+preslikave, ki ohranjajo red, lahko hkrati lastne vektorje v
+notranjosti in na robu stožca. Za primerjavo lastnih vrednosti na robu
+z ostalimi lastnimi vrednostmi zato uvedemo naslednjo količino.
+
+\begin{definicija}~\label{def:robni_spektralni_radij}
+Naj bo $f:K\longrightarrow K$ zvezna homogena preslikava, ki ohranja
+red na strnjenem zaprtem stožcu $K$. Definiramo
+\emph{robni stožčni spektralni radij} preslikave $f$ kot
+\begin{align*}
+r_{\partial K}(f)
+=
+\sup\{\lambda\geq0 ~|~
+f(x)=\lambda x
+\text{ za neki }
+x\in\partial K\setminus\{0\}\}.
+\end{align*}
+Če preslikava $f$ nima lastnih vektorjev na
+$\partial K\setminus\{0\}$, postavimo $r_{\partial K}(f)=-\infty$.
+\end{definicija}
+
+Število $r_{\partial K}(f)$ nam torej pove, kako velika je lahko
+lastna vrednost, ki pripada lastnemu vektorju na robu stožca.
+Primerjava tega števila s stožčnim spektralnim radijem $r_K(f)$
+omogoča sklepanje o obstoju lastnega vektorja v notranjosti.
+
+\begin{trditev}~\label{trd:obstoj_lastnega_vektorja_v_notranjosti}
+Naj bo $f:K\longrightarrow K$ zvezna homogena preslikava, ki ohranja
+red na strnjenem zaprtem stožcu $K$. Če obstajata
+$u\in K\setminus\{0\}$ in $\rho>0$, za katera velja
+$\rho u\leq_K f(u)$ in
+$r_{\partial K}(f)<\rho$, potem ima $f$ lastni vektor v
+$\operatorname{int}(K)$.
+\end{trditev}
+
+\begin{dokaz}
+Ker je $\rho u\leq_K f(u)$, iz
+trditve~\ref{trd:spodnja_meja_stozcnega_spektralnega_radija} sledi
+$\rho\leq r_K(f)$. Po predpostavki je
+$r_{\partial K}(f)<\rho$, zato dobimo
+$r_{\partial K}(f)<r_K(f)$.
+
+Po posledici~\ref{posledica:spektralni_radij_lastna_vrednost}
+obstaja $x\in K\setminus\{0\}$, za katerega velja
+$f(x)=r_K(f)x$. Če bi bil $x\in\partial K$, bi po definiciji
+$r_{\partial K}(f)$ veljalo $r_K(f)\leq r_{\partial K}(f)$, kar je v
+protislovju z neenakostjo
+$r_{\partial K}(f)<r_K(f)$. Zato mora veljati
+$x\in\operatorname{int}(K)$.
+\end{dokaz}
+
+Prejšnji dokaz pokaže predvsem naslednjo idejo. Če je stožčni
+spektralni radij strogo večji od vseh lastnih vrednosti, ki se lahko
+pojavijo na robu stožca, potem lastni vektor, ki pripada
+$r_K(f)$, ne more ležati na robu in mora zato ležati v notranjosti.
+Pri konkretnih preslikavah je lahko prav dokaz neenakosti
+$r_{\partial K}(f)<r_K(f)$ najtežji del problema.
+
+Opazimo tudi, da obstoj lastnega vektorja v notranjosti še ne pomeni
+njegove enoličnosti. Ker je $\operatorname{int}(K)$ en sam del
+stožca, iz posledice~\ref{posledica:isti_del_ista_lastna_vrednost} že vemo, da
+vsi lastni vektorji v notranjosti pripadajo isti lastni vrednosti.
+Kljub temu lahko obstaja več različnih žarkov lastnih vektorjev v
+notranjosti. Zato nas zanima, pod katerimi dodatnimi pogoji je notranji
+lastni vektor enoličen do pozitivnega skalarnega večkratnika.
+
+V primeru Fréchetovo odvedljive preslikave lahko tak kriterij podamo
+s pomočjo njenega odvoda. 
+
+\begin{trditev}~\label{trd:enolicnost_notranjega_lastnega_vektorja}
+Naj bo $K\subseteq V$ strnjen zaprt stožec in
+$f:\operatorname{int}(K)\longrightarrow\operatorname{int}(K)$
+homogena preslikava, ki ohranja red. Naj bo
+$u\in\operatorname{int}(K)$ lastni vektor preslikave $f$ z lastno
+vrednostjo $r>0$, torej $f(u)=ru$, in predpostavimo, da je $f$
+Fréchetovo odvedljiva v $u$. Potem velja
+\begin{enumerate}[label=(\roman*)]
+\item spektralni radij linearnega operatorja $Df(u)$ je enak $r$;
+\item če je
+$\dim\ker(rI-Df(u))=1$, potem je $u$ do pozitivnega skalarnega
+večkratnika edini lastni vektor preslikave $f$ v
+$\operatorname{int}(K)$.
+\end{enumerate}
+\end{trditev}
+
+Prvi del trditve lahko razumemo neposredno iz homogenosti. Ker za
+$t>0$ velja $f(tu)=tf(u)=tru$, dobimo
+\begin{align*}
+Df(u)u
+=
+\lim_{t\to1}
+\frac{f(tu)-f(u)}{t-1}
+=
+ru.
+\end{align*}
+Torej je $u$ tudi lastni vektor linearnega operatorja $Df(u)$ z
+lastno vrednostjo $r$. Ker $f$ ohranja red, tudi $Df(u)$ pusti
+stožec $K$ invarianten. Ker ima $Df(u)$ lastni vektor
+$u\in\operatorname{int}(K)$ z lastno vrednostjo $r$, je njegov
+spektralni radij enak $r$.
+
+Drugi del je močnejši. Pogoj
+$\dim\ker(rI-Df(u))=1$ pomeni, da so vsi lastni vektorji operatorja
+$Df(u)$, ki pripadajo lastni vrednosti $r$, skalarni večkratniki
+vektorja $u$. Iz rezultatov o neekspanzivnosti glede na Hilbertovo
+metriko nato sledi, da tudi nelinearna preslikava $f$ v notranjosti
+stožca ne more imeti drugega lastnega vektorja, ki ne bi bil
+pozitivni skalarni večkratnik $u$. Celoten dokaz tega dela uporablja
+teorijo semiodvodov in ga tukaj ne bomo potrebovali; glej~\cite[Theorem~6.4.6 in Corollary~6.4.7]{LemNuss}.
+
+Posebej uporaben je primer, ko je $Df(u)$ ireducibilen. V tem primeru
+Perron-Frobeniusova teorija za linearne preslikave zagotovi, da je
+lastni prostor, ki pripada spektralnemu radiju $r$, enorazsežen.
+Zato iz prejšnje trditve sledi, da je $u$ do pozitivnega skalarnega
+večkratnika edini lastni vektor preslikave $f$ v
+$\operatorname{int}(K)$.
+
+Do sedaj smo obravnavali obstoj in enoličnost lastnega vektorja v
+notranjosti stožca. Naravno je še vprašanje, ali lahko tak lastni
+vektor dobimo z zaporedno uporabo preslikave $f$. Natančneje,
+če je $u\in\operatorname{int}(K)$ lastni vektor preslikave $f$, nas
+zanima, pod katerimi pogoji normirane iteracije preslikave $f$
+konvergirajo k $u$.
+
+Za formulacijo glavnega rezultata uvedimo dva pogoja.
+
+\begin{definicija}\label{def:pogoja_L_U}
+Naj bo $K\subseteq V$ strnjen zaprt stožec in
+$f:\operatorname{int}(K)\longrightarrow\operatorname{int}(K)$
+preslikava. Pravimo, da $f$ zadošča \emph{pogoju $L$} v
+$x\in\operatorname{int}(K)$, če obstaja odprta okolica
+$U\subseteq\operatorname{int}(K)$ točke $x$, tako da za vsak
+$y\in U$, za katerega velja $y<_Kx$, obstaja celo število
+$k_y\geq1$, za katero velja
+$f^{k_y}(y)\ll_K f^{k_y}(x)$.
+
+Podobno pravimo, da $f$ zadošča \emph{pogoju $U$} v
+$x\in\operatorname{int}(K)$, če obstaja odprta okolica
+$U\subseteq\operatorname{int}(K)$ točke $x$, tako da za vsak
+$y\in U$, za katerega velja $x<_Ky$, obstaja celo število
+$k_y\geq1$, za katero velja
+$f^{k_y}(x)\ll_K f^{k_y}(y)$.
+\end{definicija}
+
+Pogoj $L$ torej zahteva, da se točke, ki so strogo pod $x$, po
+končnem številu iteracij strogo ločijo od $x$ tudi glede na
+$\ll_K$. Pogoj $U$ zahteva analogno lastnost za točke, ki ležijo
+strogo nad $x$.
+
+Če preslikava ohranja red, ni pomembno, da sta pogoja v definiciji
+zahtevana samo v neki okolici točke $x$. Velja namreč naslednja
+lema.
+
+\begin{lema}\label{lema:pogoja_L_U_globalno}
+Naj bo $K\subseteq V$ strnjen zaprt stožec in
+$f:\operatorname{int}(K)\longrightarrow\operatorname{int}(K)$
+preslikava, ki ohranja red.
+\begin{enumerate}[label=(\roman*)]
+  \item Če $f$ zadošča pogoju $L$ v $x\in\operatorname{int}(K)$, potem za
+        vsak $y\in\operatorname{int}(K)$, za katerega velja $y<_Kx$,
+        obstaja celo število $k_y\geq1$, tako da je
+        $f^{k_y}(y)\ll_Kf^{k_y}(x)$.
+  \item Če $f$ zadošča pogoju $U$ v $x\in\operatorname{int}(K)$, potem za
+        vsak $y\in\operatorname{int}(K)$, za katerega velja $x<_Ky$, obstaja celo število $k_y\geq1$, tako da je
+        $f^{k_y}(x)\ll_Kf^{k_y}(y)$.
+\end{enumerate}
+\end{lema}
+
+\begin{dokaz}
+Dokažimo prvo trditev. Naj bo $y\in\operatorname{int}(K)$ in
+$y<_Kx$. Za $0<t<1$ postavimo
+$y_t=(1-t)x+ty$. Tedaj je
+$x-y_t=t(x-y)\in K\setminus\{0\}$ in
+$y_t-y=(1-t)(x-y)\in K\setminus\{0\}$, zato velja
+$y<_Ky_t<_Kx$.
+
+Naj bo $U$ okolica iz definicije pogoja $L$. Za dovolj majhen
+$t>0$ je $y_t\in U$, zato obstaja $k_y\geq1$, za katerega je
+$f^{k_y}(y_t)\ll_Kf^{k_y}(x)$. Ker $f$ ohranja red in
+$y\leq_Ky_t$, velja
+$f^{k_y}(y)\leq_Kf^{k_y}(y_t)$. Od tod sledi
+$f^{k_y}(y)\ll_Kf^{k_y}(x)$.
+
+Dokaz za pogoj $U$ je analogen.
+\end{dokaz}
+
+Sedaj nas zanima še, kako se obnašajo iteracije preslikave $f$.
+Če je $u\in\operatorname{int}(K)$ enoličen notranji lastni vektor,
+se naravno vprašamo, pod katerimi pogoji normirane iteracije
+$f^k(x)$ konvergirajo proti $u$.
+
+Najprej uvedimo pojem, s katerim bomo opisali limitne točke iteracij.
+
+\begin{definicija}
+\label{def:omega_limitna_mnozica}
+Naj bo $h:\operatorname{int}(K)\longrightarrow\operatorname{int}(K)$
+zvezna preslikava in $x\in\operatorname{int}(K)$. Množico
+\[
+\omega(x;h)
+=
+\{y\in\operatorname{int}(K) ~|~
+h^{k_i}(x)\longrightarrow y
+\text{ za neko zaporedje } k_i\longrightarrow\infty\}
+\]
+imenujemo \emph{$\omega$-limitna množica} točke $x$ glede na
+preslikavo $h$.
+\end{definicija}
+
+Za dano točko $x$ in preslikavo $h$ množica $\omega(x;h)$ torej vsebuje vse možne limitne točke
+zaporedja $x,h(x),h^2(x),h^3(x),\ldots$.
+Za dokaz glavnega rezultata potrebujemo še naslednjo lastnost
+$\omega$-limitne množice.
+
+\begin{lema}\label{lema:omega_homogena}
+Naj bo $K\subseteq V$ strnjen zaprt stožec in
+$h:\operatorname{int}(K)\longrightarrow\operatorname{int}(K)$
+homogena preslikava, ki ohranja red. Naj bo
+$u\in\operatorname{int}(K)$ negibna točka preslikave $h$.
+
+Potem za vsak $x\in\operatorname{int}(K)$ obstajata števili
+$0<\alpha\leq\beta$, tako da za vsak $y\in\omega(x;h)$ velja
+$m(y/u)=\alpha$ in $M(y/u)=\beta$.
+\end{lema}
+
+\begin{dokaz}
+Ker sta $x,u\in\operatorname{int}(K)$, ležita v istem delu stožca,
+zato obstajata $0<a\leq b$, za katera velja
+$au\leq_Kx\leq_Kbu$.
+
+Ker je $h$ homogena, ohranja red in $h(u)=u$, za vsak $k\geq0$ velja
+$au\leq_Kh^k(x)\leq_Kbu$. Zato vsi členi zaporedja
+$(h^k(x))_{k\geq0}$ ležijo v množici
+$\{z\in K ~|~ au\leq_K z\leq_K bu\}$.
+Ta množica je zaprta, zaradi normalnosti stožca $K$ pa tudi omejena.
+Ker je $V$ končnorazsežen, je zato kompaktna. Zaporedje
+$(h^k(x))_{k\geq0}$ ima torej konvergentno podzaporedje, zato je
+$\omega(x;h)$ neprazna.
+
+Za $k\geq0$ definirajmo
+$\alpha_k=m(h^k(x)/u)$ in $\beta_k=M(h^k(x)/u)$. Ker je $K$ zaprt,
+velja
+$\alpha_ku\leq_Kh^k(x)\leq_K\beta_ku$.
+
+Če uporabimo $h$ in upoštevamo homogenost ter $h(u)=u$, dobimo
+$\alpha_ku\leq_Kh^{k+1}(x)\leq_K\beta_ku$. Iz te neenakosti
+in definicij količin $m$ in $M$ sledi
+$\alpha_{k+1}\geq\alpha_k$ in
+$\beta_{k+1}\leq\beta_k$.
+Zato je zaporedje $(\alpha_k)_{k\geq0}$ naraščajoče, zaporedje
+$(\beta_k)_{k\geq0}$ pa padajoče.
+Ker velja $0<a\leq\alpha_k\leq\beta_k\leq b$, obstajata limiti
+$\alpha_k\longrightarrow\alpha$ in
+$\beta_k\longrightarrow\beta$, kjer je $0<\alpha\leq\beta$.
+
+Naj bo $y\in\omega(x;h)$. Tedaj za neko zaporedje
+$k_i\longrightarrow\infty$ velja
+$h^{k_i}(x)\longrightarrow y$. Ker je stožec zaprt, iz
+$\alpha_{k_i}u\leq_Kh^{k_i}(x)\leq_K\beta_{k_i}u$ sledi
+$\alpha u\leq_Ky\leq_K\beta u$. Zato je
+$m(y/u)\geq\alpha$ in $M(y/u)\leq\beta$.
+
+Če bi bilo $m(y/u)>\alpha$, bi lahko izbrali
+$\gamma$ z $\alpha<\gamma<m(y/u)$. Tedaj je
+$y-\gamma u\in\operatorname{int}(K)$, zato bi za dovolj velike $i$
+veljalo $\gamma u\leq_Kh^{k_i}(x)$. Tako bi bilo
+$\alpha_{k_i}\geq\gamma$, kar je v protislovju z
+$\alpha_{k_i}\longrightarrow\alpha$. Torej je $m(y/u)=\alpha$.
+
+Analogno, če bi bilo $M(y/u)<\beta$, bi izbrali
+$\gamma$ z $M(y/u)<\gamma<\beta$ in dobili
+$h^{k_i}(x)\leq_K\gamma u$ za dovolj velike $i$. Od tod bi sledilo
+$\beta_{k_i}\leq\gamma$, kar je v protislovju z
+$\beta_{k_i}\longrightarrow\beta$. Zato je $M(y/u)=\beta$.
+\end{dokaz}
+
+Sedaj imamo vse potrebno za glavni rezultat o konvergenci normiranih
+iteracij.
+
+\begin{izrek}
+\label{izr:konvergenca_notranji_lastni_vektor}
+Naj bo $K\subseteq V$ strnjen zaprt stožec in
+$f:\operatorname{int}(K)\longrightarrow\operatorname{int}(K)$
+homogena preslikava, ki ohranja red. Naj bo
+$u\in\operatorname{int}(K)$ lastni vektor preslikave $f$ z lastno
+vrednostjo $r>0$, torej $f(u)=ru$.
+
+Če $f$ zadošča pogoju $L$ ali pogoju $U$ v $u$, potem za vsak
+$x\in\operatorname{int}(K)$ in vsak $\varphi\in K^*$, za katerega
+velja $\varphi(u)=1$, velja
+\begin{align*}
+\lim_{k\to\infty}
+\frac{f^k(x)}{\varphi(f^k(x))}
+=
+u.
+\end{align*}
+\end{izrek}
+
+\begin{dokaz}
+Definirajmo
+$h:\operatorname{int}(K)\longrightarrow\operatorname{int}(K)$ s
+predpisom $h(x)=r^{-1}f(x)$. Preslikava $h$ je homogena, ohranja red
+in velja $h(u)=u$. Zaradi homogenosti je
+$h^k(x)=r^{-k}f^k(x)$ za vsak $k\geq0$.
+
+Naj bo $x\in\operatorname{int}(K)$. Po
+lemi~\ref{lema:omega_homogena} obstajata
+$0<\alpha\leq\beta$, tako da za vsak
+$z\in\omega(x;h)$ velja
+$m(z/u)=\alpha$ in $M(z/u)=\beta$.
+
+Predpostavimo najprej, da $f$ zadošča pogoju $U$ v $u$. Ker se
+$f^k$ in $h^k$ razlikujeta le za pozitivni skalarni faktor, tudi
+$h$ zadošča pogoju $U$ v $u$.
+
+Pokažimo, da je $\omega(x;h)=\{\alpha u\}$. Predpostavimo nasprotno,
+da obstaja $z\in\omega(x;h)$ z $z\neq\alpha u$. Ker je
+$m(z/u)=\alpha$, velja $\alpha u\leq_Kz$, zato je
+$\alpha u<_Kz$ in posledično $u<_K\alpha^{-1}z$.
+Po lemi~\ref{lema:pogoja_L_U_globalno} obstaja $j\geq1$, za katerega
+je $h^j(u)\ll_Kh^j(\alpha^{-1}z)$. Ker je $h(u)=u$ in je $h$
+homogena, sledi
+$\alpha u\ll_Kh^j(z)$.
+Ker je $z\in\omega(x;h)$, je tudi $h^j(z)\in\omega(x;h)$. Po
+lemi~\ref{lema:omega_homogena} zato velja
+$m(h^j(z)/u)=\alpha$. Iz
+$\alpha u\ll_Kh^j(z)$ pa sledi
+$m(h^j(z)/u)>\alpha$, kar je protislovje. Torej je
+$\omega(x;h)=\{\alpha u\}$.
+
+Če $f$ zadošča pogoju $L$ v $u$, je dokaz analogen. Če bi obstajal
+$z\in\omega(x;h)$ z $z\neq\beta u$, bi iz
+$M(z/u)=\beta$ sledilo $z<_K\beta u$. Po pogoju $L$ bi za neki
+$j\geq1$ dobili
+$h^j(z)\ll_K\beta u$. Ker je $h^j(z)\in\omega(x;h)$, bi po
+lemi~\ref{lema:omega_homogena} veljalo
+$M(h^j(z)/u)=\beta$, stroga neenakost pa bi dala
+$M(h^j(z)/u)<\beta$. Ponovno dobimo protislovje. Zato je v tem
+primeru $\omega(x;h)=\{\beta u\}$.
+
+V obeh primerih torej obstaja $\lambda_x>0$, tako da je
+$\omega(x;h)=\{\lambda_xu\}$. Ker je zaporedje $(h^k(x))_{k\geq0}$
+vsebovano v kompaktni množici in ima samo eno limitno točko, sledi
+$h^k(x)\longrightarrow\lambda_xu$.
+
+Naj bo $\varphi\in K^*$ in $\varphi(u)=1$. Ker je
+$f^k(x)=r^kh^k(x)$, velja
+\[
+\frac{f^k(x)}{\varphi(f^k(x))}
+=
+\frac{h^k(x)}{\varphi(h^k(x))}.
+\]
+Ker $h^k(x)\longrightarrow\lambda_xu$ in je $\varphi$ zvezen,
+dobimo
+$\varphi(h^k(x))\longrightarrow\lambda_x\varphi(u)=\lambda_x$.
+Zato
+\begin{align*}
+\lim_{k\to\infty}
+\frac{f^k(x)}{\varphi(f^k(x))}
+=
+\frac{\lambda_xu}{\lambda_x}
+=
+u.
+\end{align*}
+\end{dokaz}
+
+Izrek pove, da lahko začnemo s poljubno točko
+$x\in\operatorname{int}(K)$ in zaporedoma računamo
+$f(x),f^2(x),f^3(x),\ldots$. Ker se lahko velikost teh vektorjev pri
+iteriranju spreminja, vsakega normaliziramo s funkcionalom
+$\varphi$. Tako za vsak $k$ velja
+\[
+\varphi\left(
+\frac{f^k(x)}{\varphi(f^k(x))}
+\right)=1.
+\]
+Če je izpolnjen pogoj $L$ ali $U$, normirano zaporedje konvergira
+proti normiranemu lastnemu vektorju $u$.
+
+Pomembno je, da pri tej iteraciji lastne vrednosti $r$ ni treba
+poznati vnaprej. Homogenost namreč omogoči, da faktorje, ki nastanejo
+pri iteriranju preslikave, odstranimo z normalizacijo.
+
+Pogoja $L$ in $U$ sta lahko pri konkretni preslikavi težko
+preverljiva. Če je preslikava Fréchetovo odvedljiva, lahko uporabimo
+pogoj na njenem odvodu. V ta namen uvedimo še naslednji pojem.
+
+\begin{definicija}\label{def:primitiven_operator}
+Naj bo $L:V\longrightarrow V$ linearni operator, ki pusti strnjen
+zaprt stožec $K$ invarianten. Operator $L$ imenujemo
+\emph{primitiven}, če obstaja celo število $m\geq1$, za katero velja
+\[
+L^m(K\setminus\{0\})\subseteq\operatorname{int}(K).
+\]
+\end{definicija}
+
+\begin{posledica}\label{posledica:konvergenca_primitiven_odvod}
+Naj bo $K\subseteq V$ strnjen zaprt stožec in
+$f:\operatorname{int}(K)\longrightarrow\operatorname{int}(K)$
+homogena preslikava, ki ohranja red. Naj bo
+$u\in\operatorname{int}(K)$ lastni vektor preslikave $f$ z lastno
+vrednostjo $r>0$ in predpostavimo, da je $f$ Fréchetovo odvedljiva
+v $u$.
+
+Če je linearni operator $Df(u)$ primitiven, potem za vsak
+$x\in\operatorname{int}(K)$ in vsak $\varphi\in K^*$, za katerega
+velja $\varphi(u)=1$, velja
+\begin{align*}
+\lim_{k\to\infty}
+\frac{f^k(x)}{\varphi(f^k(x))}
+=
+u.
+\end{align*}
+\end{posledica}
+
+Ta posledica dopolni
+trditev~\ref{trd:enolicnost_notranjega_lastnega_vektorja}. Tam smo
+videli, da lahko z lastnostmi odvoda $Df(u)$ zagotovimo enoličnost
+notranjega lastnega vektorja, tukaj pa močnejši pogoj primitivnosti
+zagotovi še konvergenco normiranih iteracij k temu lastnemu
+vektorju.
+
+S tem dobimo tri zaporedne ravni rezultatov o lastnem problemu v
+notranjosti stožca. Najprej smo podali pogoje za obstoj notranjega
+lastnega vektorja, nato pogoje za njegovo enoličnost do pozitivnega
+skalarnega večkratnika, nazadnje pa še pogoje, pri katerih normirane
+iteracije poljubne začetne točke iz $\operatorname{int}(K)$
+konvergirajo k normiranemu notranjemu lastnemu vektorju.
 
 
 \end{document}
